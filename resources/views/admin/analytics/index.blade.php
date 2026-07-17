@@ -111,6 +111,101 @@
             </div>
         </div>
 
+        @php
+            $luckinDemoMetrics = [
+                ['label' => 'GEO内容总量', 'value' => '386', 'icon' => 'files'],
+                ['label' => 'AI爬虫访问量', 'value' => '12,480', 'icon' => 'bot'],
+                ['label' => '内容引用命中率', 'value' => '78.4%', 'icon' => 'scan-search'],
+                ['label' => '高频需求覆盖率', 'value' => '82.1%', 'icon' => 'badge-check'],
+                ['label' => '待补知识数量', 'value' => '19', 'icon' => 'book-dashed'],
+                ['label' => '内容到菜单访问率', 'value' => '14.6%', 'icon' => 'mouse-pointer-click'],
+            ];
+        @endphp
+        <section class="luckin-card mb-8 p-5 sm:p-6" aria-labelledby="luckin-agent-demo-title">
+            <div class="mb-5 flex flex-wrap items-start justify-between gap-3">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h2 id="luckin-agent-demo-title" class="text-xl font-semibold text-gray-900">Agent运营洞察演示</h2>
+                        <span class="luckin-demo-badge">模拟数据</span>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-600">以下指标用于展示未来接入真实 AI 搜索、Agent 请求和菜单访问数据后的分析形态。</p>
+                </div>
+                <a href="{{ route('admin.materials.index') }}" class="luckin-button luckin-button-secondary">查看知识缺口</a>
+            </div>
+            <div class="grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
+                @foreach($luckinDemoMetrics as $metric)
+                    <div class="luckin-kpi">
+                        <i data-lucide="{{ $metric['icon'] }}" class="h-5 w-5 text-blue-700"></i>
+                        <span class="mt-3 text-xs text-gray-500">{{ $metric['label'] }}</span>
+                        <strong class="mt-1 text-2xl text-gray-900">{{ $metric['value'] }}</strong>
+                    </div>
+                @endforeach
+            </div>
+            <div class="mt-5 grid gap-4 xl:grid-cols-3">
+                <div class="rounded-xl border border-gray-200 bg-white p-4">
+                    <h3 class="text-sm font-semibold text-gray-900">高频用户问题排行</h3>
+                    <ol class="mt-3 space-y-3 text-sm text-gray-600">
+                        <li class="flex justify-between gap-3"><span>1. 晚间低甜与非咖选择</span><strong>865</strong></li>
+                        <li class="flex justify-between gap-3"><span>2. 多人预算组合点单</span><strong>742</strong></li>
+                        <li class="flex justify-between gap-3"><span>3. 优惠券适用范围核验</span><strong>618</strong></li>
+                    </ol>
+                </div>
+                <div class="rounded-xl border border-gray-200 bg-white p-4">
+                    <h3 class="text-sm font-semibold text-gray-900">各场景知识覆盖情况</h3>
+                    <div class="mt-3 space-y-3 text-sm">
+                        @foreach([['晚间非咖', 86], ['多人点单', 72], ['门店与履约', 64]] as [$label, $value])
+                            <div><div class="mb-1 flex justify-between"><span>{{ $label }}</span><strong>{{ $value }}%</strong></div><div class="h-2 rounded-full bg-blue-50"><div class="h-2 rounded-full bg-blue-700" style="width: {{ $value }}%"></div></div></div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="rounded-xl border border-gray-200 bg-white p-4">
+                    <h3 class="text-sm font-semibold text-gray-900">内容审核风险分布</h3>
+                    <div class="mt-3 flex flex-wrap gap-2 text-xs">
+                        <span class="rounded-full bg-red-50 px-3 py-1.5 text-red-700">商品事实待核验 7</span>
+                        <span class="rounded-full bg-amber-50 px-3 py-1.5 text-amber-700">实时价格 4</span>
+                        <span class="rounded-full bg-blue-50 px-3 py-1.5 text-blue-700">缺少来源 5</span>
+                        <span class="rounded-full bg-emerald-50 px-3 py-1.5 text-emerald-700">可发布 23</span>
+                    </div>
+                    <p class="mt-4 text-xs leading-5 text-gray-500">演示标签不修改现有审核规则；实际发布状态仍由原有审核流程决定。</p>
+                </div>
+            </div>
+            <div class="mt-4 grid gap-4 xl:grid-cols-3">
+                <div class="rounded-xl border border-gray-200 bg-white p-4">
+                    <div class="flex items-center justify-between gap-3">
+                        <h3 class="text-sm font-semibold text-gray-900">AI爬虫访问趋势</h3>
+                        <span class="text-xs text-gray-500">近7日</span>
+                    </div>
+                    <div class="mt-5 flex h-28 items-end gap-2" aria-label="AI爬虫访问趋势模拟图">
+                        @foreach([38, 52, 47, 68, 74, 64, 86] as $value)
+                            <div class="flex min-w-0 flex-1 flex-col items-center gap-2">
+                                <div class="w-full rounded-t bg-blue-700/80" style="height: {{ $value }}%" title="{{ $value }}"></div>
+                                <span class="text-[10px] text-gray-400">{{ $loop->iteration }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="rounded-xl border border-gray-200 bg-white p-4">
+                    <h3 class="text-sm font-semibold text-gray-900">内容发布渠道表现</h3>
+                    <div class="mt-4 space-y-4 text-sm">
+                        @foreach([['自有内容站', 86], ['通用 HTTP 渠道', 71], ['WordPress 渠道', 58]] as [$label, $value])
+                            <div>
+                                <div class="mb-1.5 flex justify-between gap-3"><span class="text-gray-600">{{ $label }}</span><strong class="text-gray-900">{{ $value }}%</strong></div>
+                                <div class="h-2 rounded-full bg-blue-50"><div class="h-2 rounded-full bg-blue-700" style="width: {{ $value }}%"></div></div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="rounded-xl border border-gray-200 bg-white p-4">
+                    <h3 class="text-sm font-semibold text-gray-900">未解决需求排行</h3>
+                    <ol class="mt-3 space-y-3 text-sm text-gray-600">
+                        <li class="flex items-start justify-between gap-3"><span>1. 晚间场景的甜度标签不完整</span><strong class="text-amber-700">126</strong></li>
+                        <li class="flex items-start justify-between gap-3"><span>2. 多人点单缺少预算追问规则</span><strong class="text-amber-700">93</strong></li>
+                        <li class="flex items-start justify-between gap-3"><span>3. 门店可售状态需接入实时查询</span><strong class="text-red-700">71</strong></li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
         <section class="mb-8">
             <div class="mb-4 flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
                 <div>

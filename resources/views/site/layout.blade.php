@@ -8,12 +8,14 @@
     <script src="{{ asset('js/tailwindcss.play-cdn.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/luckin-theme.css') }}">
     <script src="{{ asset('js/lucide.min.js') }}"></script>
     @if(!empty($headAnalyticsCode))
         {!! $headAnalyticsCode !!}
     @endif
 </head>
-<body class="bg-white">
+<body class="luckin-site bg-white">
+    <div class="luckin-site-demo">概念验证 Demo · 内容为场景演示，不代表瑞幸正式公告或实时经营信息</div>
     @include('site.partials.header')
     <main>
         @yield('content')

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('themes/toutiao-news-20260426/theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/luckin-theme.css') }}">
     <script src="{{ asset('js/lucide.min.js') }}"></script>
     @if(!empty($headAnalyticsCode))
         {!! $headAnalyticsCode !!}
@@ -19,7 +20,7 @@
         $websiteSchema = [
             $schemaAtContext => 'https://schema.org',
             $schemaAtType => 'WebSite',
-            'name' => $siteName,
+            'name' => '瑞幸 AI 饮品指南',
             'url' => route('site.home'),
             'potentialAction' => [
                 $schemaAtType => 'SearchAction',
@@ -30,7 +31,8 @@
     @endphp
     <x-json-ld :data="$websiteSchema" />
 </head>
-<body class="tt-body">
+<body class="luckin-site tt-body">
+    <div class="luckin-site-demo">概念验证 Demo · 内容为场景演示，不代表瑞幸正式公告或实时经营信息</div>
     @include('theme.toutiao-news-20260426.partials.header')
     <main class="tt-main">
         @yield('content')

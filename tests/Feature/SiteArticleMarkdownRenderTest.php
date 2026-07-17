@@ -42,16 +42,30 @@ MD);
 
     public function test_homepage_renders_before_lead_forms_table_is_migrated(): void
     {
+        SiteSetting::query()->updateOrCreate(
+            ['setting_key' => 'active_theme'],
+            ['setting_value' => 'toutiao-news-20260426']
+        );
+        SiteSettingsBag::forget();
         Schema::dropIfExists('lead_submissions');
         Schema::dropIfExists('lead_forms');
 
         $this->get(route('site.home'))
             ->assertOk()
-            ->assertSee(__('site.home_latest'));
+            ->assertSee(__('site.home_latest'))
+            ->assertSee('瑞幸 AI 饮品指南')
+            ->assertSee('消费者与 AI 共用的品牌知识入口')
+            ->assertSee('概念验证 Demo')
+            ->assertSee('css/luckin-theme.css', false);
     }
 
     public function test_published_article_page_outputs_normalized_image_url(): void
     {
+        SiteSetting::query()->updateOrCreate(
+            ['setting_key' => 'active_theme'],
+            ['setting_value' => 'toutiao-news-20260426']
+        );
+        SiteSettingsBag::forget();
         $category = Category::query()->create([
             'name' => '科技资讯',
             'slug' => 'tech',
@@ -76,7 +90,13 @@ MD);
             ->assertOk()
             ->assertSee('src="/storage/uploads/images/2026/04/demo.png"', false)
             ->assertSee('<table class="article-table">', false)
-            ->assertDontSee('333.png', false);
+            ->assertDontSee('333.png', false)
+            ->assertSee('内容来源')
+            ->assertSee('来源未记录 · 待核验')
+            ->assertDontSee('已核验品牌知识')
+            ->assertSee('更新时间')
+            ->assertSee('适用范围')
+            ->assertSee('概念验证 Demo');
     }
 
     public function test_published_article_page_uses_article_seo_metadata(): void
@@ -463,7 +483,7 @@ MD);
             ->assertSee('data-home-poster-carousel', false)
             ->assertSee('https://example.com/banner-one.jpg', false)
             ->assertSee('Banner One')
-            ->assertSee('GEOFlow Feed')
+            ->assertSee('已核验知识驱动')
             ->assertSee('GEOFlow Demo')
             ->assertSee('Demo homepage description');
     }

@@ -19,20 +19,20 @@
     $notificationUpdateCenterUrl = $isUpdateCenterEnabled && $isSuperAdmin ? \App\Support\AdminWeb::routePath('admin.system-updates.index') : '';
     $notificationStatus = (string) ($updateState['status'] ?? 'disabled');
     $menu = [
-        'dashboard' => ['route' => 'admin.dashboard', 'name' => __('admin.nav.dashboard')],
-        'analytics' => ['route' => 'admin.analytics', 'name' => __('admin.nav.analytics')],
-        'tasks' => ['route' => 'admin.tasks.index', 'name' => __('admin.nav.tasks')],
-        'distribution' => ['route' => 'admin.distribution.index', 'name' => __('admin.nav.distribution')],
-        'articles' => ['route' => 'admin.articles.index', 'name' => __('admin.nav.articles')],
-        'materials' => ['route' => 'admin.materials.index', 'name' => __('admin.nav.materials')],
-        'ai_config' => ['route' => 'admin.ai.configurator', 'name' => __('admin.nav.ai_config')],
-        'site_settings' => ['route' => 'admin.site-settings.index', 'name' => __('admin.nav.site_settings')],
+        'dashboard' => ['route' => 'admin.dashboard', 'name' => __('admin.nav.dashboard'), 'section' => '运营工作台', 'icon' => 'layout-dashboard'],
+        'materials' => ['route' => 'admin.materials.index', 'name' => __('admin.nav.materials'), 'section' => '品牌知识资产', 'icon' => 'database'],
+        'tasks' => ['route' => 'admin.tasks.index', 'name' => __('admin.nav.tasks'), 'section' => 'GEO 内容运营', 'icon' => 'workflow'],
+        'articles' => ['route' => 'admin.articles.index', 'name' => __('admin.nav.articles'), 'section' => 'GEO 内容运营', 'icon' => 'files'],
+        'distribution' => ['route' => 'admin.distribution.index', 'name' => __('admin.nav.distribution'), 'section' => '多端分发', 'icon' => 'radio-tower'],
+        'analytics' => ['route' => 'admin.analytics', 'name' => __('admin.nav.analytics'), 'section' => 'Agent 运营洞察', 'icon' => 'chart-no-axes-combined'],
+        'ai_config' => ['route' => 'admin.ai.configurator', 'name' => __('admin.nav.ai_config'), 'section' => 'AI 能力配置', 'icon' => 'brain-circuit'],
+        'site_settings' => ['route' => 'admin.site-settings.index', 'name' => __('admin.nav.site_settings'), 'section' => '系统设置', 'icon' => 'settings'],
     ];
     if (!$isSuperAdmin) {
         unset($menu['distribution']);
     }
     if ($isSuperAdmin) {
-        $menu['admin_users'] = ['route' => 'admin.admin-users.index', 'name' => __('admin.nav.admin_users')];
+        $menu['admin_users'] = ['route' => 'admin.admin-users.index', 'name' => __('admin.nav.admin_users'), 'section' => '系统设置', 'icon' => 'users'];
     }
     $subMap = [
         'admin.analytics' => 'analytics',
@@ -113,11 +113,45 @@
         $resolvedActive = $subMap[$routeName];
     }
 @endphp
-<nav class="bg-white shadow-sm border-b">
+<aside class="luckin-sidebar" aria-label="后台主导航">
+    <a href="{{ route('admin.dashboard') }}" class="luckin-brand">
+        <span class="luckin-brand-mark" aria-hidden="true"><i data-lucide="coffee" class="h-5 w-5"></i></span>
+        <span class="min-w-0">
+            <span class="luckin-wordmark">luckin coffee</span>
+            <span class="luckin-brand-cn">瑞幸 GEO 中台</span>
+        </span>
+    </a>
+    <div class="luckin-sidebar-context">
+        <span>当前空间</span>
+        <strong>瑞幸咖啡</strong>
+    </div>
+    <nav class="luckin-sidebar-nav">
+        @php $lastSection = null; @endphp
+        @foreach ($menu as $key => $item)
+            @if($lastSection !== $item['section'])
+                <div class="luckin-nav-section">{{ $item['section'] }}</div>
+                @php $lastSection = $item['section']; @endphp
+            @endif
+            <a href="{{ route($item['route']) }}" class="luckin-nav-link @if($resolvedActive === $key) is-active @endif" @if($resolvedActive === $key) aria-current="page" @endif>
+                <i data-lucide="{{ $item['icon'] }}" class="h-4 w-4"></i>
+                <span>{{ $item['name'] }}</span>
+            </a>
+        @endforeach
+    </nav>
+    <div class="luckin-sidebar-footer">
+        <span class="luckin-demo-badge">概念验证 Demo</span>
+        <span>GEOFlow 技术底座</span>
+    </div>
+</aside>
+<nav class="luckin-topbar bg-white shadow-sm border-b">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center gap-3 lg:gap-4 min-w-0">
-            <a href="{{ route('admin.dashboard') }}" class="shrink-0 text-lg sm:text-xl font-semibold text-gray-900">{{ $adminBrandName }}</a>
-            <nav class="hidden md:flex flex-1 min-w-0 items-center">
+            <div class="luckin-topbar-title min-w-0 flex-1">
+                <span class="text-xs text-gray-500">当前空间：瑞幸咖啡</span>
+                <strong class="block truncate text-sm text-gray-900">{{ $pageTitle ?: '瑞幸 GEO 智能内容运营中台' }}</strong>
+            </div>
+            <span class="luckin-demo-badge hidden sm:inline-flex">概念验证 Demo</span>
+            <nav class="hidden flex-1 min-w-0 items-center" aria-hidden="true">
                 <div class="flex w-full min-w-0 items-center gap-3 lg:gap-5 overflow-x-auto overscroll-x-contain py-2 -my-2 [scrollbar-width:thin]">
                     @foreach ($menu as $key => $item)
                         <a href="{{ route($item['route']) }}"
@@ -128,8 +162,11 @@
                 </div>
             </nav>
             <div class="flex shrink-0 items-center gap-2 sm:gap-3 ml-auto">
+                <a href="https://github.com/yaojingang/GEOFlow/wiki" target="_blank" rel="noopener noreferrer" class="luckin-icon-button hidden sm:inline-flex" aria-label="帮助文档" title="帮助文档">
+                    <i data-lucide="circle-help" class="w-5 h-5"></i>
+                </a>
                 <div class="relative">
-                    <button onclick="toggleAdminNotifications()" class="relative rounded-full p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors duration-200" type="button" aria-label="{{ __('admin.header.notifications.label') }}" title="{{ __('admin.header.notifications.label') }}">
+                    <button onclick="toggleAdminNotifications()" class="relative rounded-full p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-600 transition-colors duration-200" type="button" aria-label="{{ __('admin.header.notifications.label') }}" title="{{ __('admin.header.notifications.label') }}" aria-controls="admin-notification-menu" aria-expanded="false">
                         <i data-lucide="bell" class="w-5 h-5"></i>
                         @if($hasVersionUpdate)
                             <span data-update-indicator class="absolute right-1.5 top-1.5 h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white"></span>
@@ -207,7 +244,7 @@
                     </select>
                 </div>
                 <div class="relative">
-                    <button onclick="toggleUserMenu()" class="flex items-center space-x-1 text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200" type="button">
+                    <button onclick="toggleUserMenu()" class="flex items-center space-x-1 text-sm text-gray-600 hover:text-gray-900 transition-colors duration-200" type="button" aria-label="打开用户菜单" aria-controls="user-menu" aria-expanded="false">
                         <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                             <i data-lucide="user" class="w-4 h-4 text-blue-600"></i>
                         </div>
@@ -255,7 +292,7 @@
         </div>
     </div>
 
-    <div id="mobile-menu" class="hidden md:hidden">
+    <div id="mobile-menu" class="hidden lg:hidden">
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-50 border-t">
             @foreach ($menu as $key => $item)
                 <a href="{{ route($item['route']) }}"
@@ -266,8 +303,8 @@
         </div>
     </div>
 </nav>
-<div class="md:hidden fixed top-4 right-4 z-50">
-    <button onclick="toggleMobileMenu()" class="bg-white p-2 rounded-md shadow-md" type="button">
+<div class="luckin-mobile-menu-trigger lg:hidden fixed top-3 left-4 z-50">
+    <button onclick="toggleMobileMenu()" class="bg-white p-2 rounded-md shadow-md" type="button" aria-label="打开后台导航" aria-controls="mobile-menu" aria-expanded="false">
         <i data-lucide="menu" class="w-5 h-5 text-gray-600"></i>
     </button>
 </div>
@@ -286,6 +323,8 @@
         const menu = document.getElementById('user-menu');
         if (menu) {
             menu.classList.toggle('hidden');
+            const trigger = document.querySelector('[aria-controls="user-menu"]');
+            trigger?.setAttribute('aria-expanded', menu.classList.contains('hidden') ? 'false' : 'true');
         }
     }
 
@@ -293,6 +332,8 @@
         const menu = document.getElementById('admin-notification-menu');
         if (menu) {
             menu.classList.toggle('hidden');
+            const trigger = document.querySelector('[aria-controls="admin-notification-menu"]');
+            trigger?.setAttribute('aria-expanded', menu.classList.contains('hidden') ? 'false' : 'true');
         }
     }
 
@@ -300,6 +341,10 @@
         const menu = document.getElementById('mobile-menu');
         if (menu) {
             menu.classList.toggle('hidden');
+            const trigger = document.querySelector('[aria-controls="mobile-menu"]');
+            if (trigger) {
+                trigger.setAttribute('aria-expanded', menu.classList.contains('hidden') ? 'false' : 'true');
+            }
         }
     }
 
@@ -309,12 +354,15 @@
         const notificationMenu = document.getElementById('admin-notification-menu');
         if (userMenu && !event.target.closest('[onclick="toggleUserMenu()"]') && !userMenu.contains(event.target)) {
             userMenu.classList.add('hidden');
+            document.querySelector('[aria-controls="user-menu"]')?.setAttribute('aria-expanded', 'false');
         }
         if (notificationMenu && !event.target.closest('[onclick="toggleAdminNotifications()"]') && !notificationMenu.contains(event.target)) {
             notificationMenu.classList.add('hidden');
+            document.querySelector('[aria-controls="admin-notification-menu"]')?.setAttribute('aria-expanded', 'false');
         }
         if (mobileMenu && !event.target.closest('[onclick="toggleMobileMenu()"]') && !mobileMenu.contains(event.target)) {
             mobileMenu.classList.add('hidden');
+            document.querySelector('[aria-controls="mobile-menu"]')?.setAttribute('aria-expanded', 'false');
         }
     });
 </script>

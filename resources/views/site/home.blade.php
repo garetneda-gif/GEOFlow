@@ -1,17 +1,30 @@
 @extends('site.layout')
 
+@php
+    if (($search ?? '') === '' && empty($category) && empty($categoryMissing)) {
+        $pageTitle = '瑞幸 AI 饮品指南';
+        $pageDescription = '基于已核验品牌知识，为消费者和AI提供清晰、可追溯的饮品与服务信息。';
+    }
+@endphp
+
 @section('content')
     <div class="site-container px-4 sm:px-6 lg:px-8 py-8">
         @if($search === '' && ! $category && ! $categoryMissing && (int) request('page', 1) === 1)
             <section class="home-hero article-shell mb-10">
                 <div class="px-6 py-7 sm:px-8">
-                    <h1 class="home-hero-title text-gray-900 mb-3">{{ $siteTitle }}</h1>
+                    <span class="luckin-demo-badge mb-4">消费者与 AI 共用的品牌知识入口</span>
+                    <h1 class="home-hero-title text-gray-900 mb-3">瑞幸 AI 饮品指南</h1>
                     <p class="home-hero-copy text-gray-600">
-                        {{ $siteSubtitle !== '' ? $siteSubtitle : ($siteDescription !== '' ? $siteDescription : __('site.home_hero_fallback')) }}
+                        {{ __('site.home_hero_fallback') }}
                     </p>
+                    <div class="mt-5 flex flex-wrap gap-2 text-xs text-gray-600">
+                        @foreach(['饮品选择指南', '非咖场景', '多人点单', '优惠与会员', '门店与履约', '常见问题'] as $topic)
+                            <span class="rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-blue-800">{{ $topic }}</span>
+                        @endforeach
+                    </div>
                     <form method="get" action="{{ route('site.home') }}" class="mt-6 max-w-xl flex flex-wrap gap-2">
                         <input type="search" name="search" value="{{ $search }}" placeholder="{{ __('site.search_placeholder') }}" class="flex-1 min-w-[12rem] border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
-                        <button type="submit" class="px-4 py-2 bg-gray-900 text-white text-sm rounded-lg">{{ __('site.search_button') }}</button>
+                        <button type="submit" class="px-4 py-2 bg-blue-700 text-white text-sm rounded-lg">{{ __('site.search_button') }}</button>
                     </form>
                 </div>
             </section>

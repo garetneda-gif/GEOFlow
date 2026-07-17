@@ -10,6 +10,18 @@ class AdminLoginPageTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_login_page_shows_luckin_product_title_and_keeps_authentication_fields(): void
+    {
+        $this->get(route('admin.login'))
+            ->assertOk()
+            ->assertSee('<h1>瑞幸 GEO 智能内容运营中台</h1>', false)
+            ->assertSee('从用户点击到 Agent 调用')
+            ->assertSee('统一管理品牌知识、AI内容任务、审核发布与Agent可见度。')
+            ->assertSee('name="username"', false)
+            ->assertSee('name="password"', false)
+            ->assertSee('action="'.route('admin.login.attempt').'"', false);
+    }
+
     public function test_login_page_shows_initial_admin_hint_when_default_credentials_are_still_valid(): void
     {
         config([

@@ -36,7 +36,7 @@
 
 @section('content')
     <div class="tt-shell tt-article-layout">
-        <nav class="tt-breadcrumb tt-article-module" aria-label="Breadcrumb">
+        <nav class="tt-breadcrumb tt-article-module" aria-label="面包屑导航">
             <a href="{{ route('site.home') }}">{{ __('front.nav.home') }}</a>
             @if($article->category)
                 <span>/</span>
@@ -57,7 +57,7 @@
                 @if($article->author)
                     <span>{{ $article->author->name }}</span>
                 @endif
-                <span>{{ (int) $article->view_count }} views</span>
+                <span>{{ (int) $article->view_count }} 次阅读</span>
             </div>
 
             <h1 class="tt-article-h1 mt-4">{{ $article->title }}</h1>
@@ -65,6 +65,12 @@
             @if($excerptPlain !== '')
                 <p class="mt-5 rounded-2xl bg-gray-50 p-5 text-lg leading-8 text-gray-600">{{ $excerptPlain }}</p>
             @endif
+
+            <dl class="luckin-source-panel" aria-label="内容来源与适用范围">
+                <div><dt>内容来源</dt><dd>来源未记录 · 待核验</dd></div>
+                <div><dt>更新时间</dt><dd>{{ ($article->updated_at ?? $article->published_at ?? $article->created_at)?->format('Y-m-d H:i') }}</dd></div>
+                <div><dt>适用范围</dt><dd>{{ $article->category?->name ?? '通用饮品与服务信息' }}</dd></div>
+            </dl>
 
             <div class="tt-prose">
                 {!! $contentHtml !!}
@@ -124,7 +130,7 @@
 
     @if($stickyAd)
         <div id="stickyAd" class="fixed bottom-4 right-4 z-50 max-w-xs rounded-2xl border border-gray-200 bg-white p-4 shadow-xl">
-            <button type="button" class="absolute right-2 top-2 text-gray-400 hover:text-gray-700" onclick="document.getElementById('stickyAd')?.remove()" aria-label="Close">×</button>
+            <button type="button" class="absolute right-2 top-2 text-gray-400 hover:text-gray-700" onclick="document.getElementById('stickyAd')?.remove()" aria-label="关闭">×</button>
             @php
                 $stickyAdTitle = is_array($stickyAd) ? trim((string) ($stickyAd['title'] ?? '')) : trim((string) ($stickyAd->title ?? ''));
             @endphp

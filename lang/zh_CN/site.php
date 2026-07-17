@@ -1,12 +1,12 @@
 <?php
 
 return [
-    'home_hero_fallback' => '基于 AI 的智能内容生成与发布。',
-    'home_featured' => '精选文章',
+    'home_hero_fallback' => '基于已核验品牌知识，为消费者和AI提供清晰、可追溯的饮品与服务信息。',
+    'home_featured' => '推荐指南',
     'home_featured_badge' => '精选',
     'home_hot' => '热门文章',
     'home_hot_badge' => '热点',
-    'home_latest' => '最新文章',
+    'home_latest' => '最新饮品与服务指南',
     'home_read_more' => '阅读全文',
     'home_empty_title' => '暂无文章',
     'home_empty_desc' => '请稍后再来，或从管理后台发布内容。',
@@ -24,7 +24,7 @@ return [
     'archive_empty' => '该时段暂无文章。',
     'pagination_prev' => '上一页',
     'pagination_next' => '下一页',
-    'search_placeholder' => '搜索文章标题或摘要…',
+    'search_placeholder' => '搜索饮品选择、点单场景或常见问题…',
     'search_button' => '搜索',
     'lead_forms' => [
         'success' => '提交成功，我们会尽快处理。',

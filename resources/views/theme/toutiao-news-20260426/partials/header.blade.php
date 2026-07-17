@@ -5,15 +5,16 @@
 <header class="tt-header">
     <div class="tt-shell">
         <div class="tt-header-row">
-            <a href="{{ route('site.home') }}" class="tt-brand" aria-label="{{ $siteName }}">
+            <a href="{{ route('site.home') }}" class="tt-brand" aria-label="瑞幸 AI 饮品指南">
                 @if(!empty($siteLogo))
                     <img src="{{ $siteLogo }}" alt="{{ $siteName }}" class="h-9 w-auto max-w-48 object-contain">
                 @else
-                    <span>{{ $siteName }}</span>
+                    <span class="luckin-site-brand"><span class="luckin-brand-mark" aria-hidden="true"><i data-lucide="coffee" class="h-5 w-5"></i></span><span><strong>luckin coffee</strong><small>瑞幸 AI 饮品指南</small></span></span>
                 @endif
             </a>
+            <span class="luckin-demo-badge hidden lg:inline-flex">已核验知识驱动</span>
 
-            <nav class="tt-topnav" aria-label="Primary">
+            <nav class="tt-topnav" aria-label="主导航">
                 <a href="{{ route('site.home') }}" data-nav-item="home" class="{{ $isHome ? 'is-active' : '' }}">{{ __('front.nav.home') }}</a>
                 @foreach($navCategories->take(5) as $categoryItem)
                     <a href="{{ route('site.category', $categoryItem->slug) }}">{{ $categoryItem->name }}</a>

@@ -1,5 +1,12 @@
 @extends('theme.toutiao-news-20260426.layout')
 
+@php
+    if (($search ?? '') === '' && empty($category) && empty($categoryMissing)) {
+        $pageTitle = '瑞幸 AI 饮品指南';
+        $pageDescription = '基于已核验品牌知识，为消费者和AI提供清晰、可追溯的饮品与服务信息。';
+    }
+@endphp
+
 @push('head')
     @php
         $schemaAtContext = chr(64).'context';
@@ -36,6 +43,24 @@
         $homepageSlides = collect($homepageCarouselSlides ?? [])->take(3);
         $isDefaultHome = $search === '' && !$category && !$categoryMissing;
     @endphp
+    @if($isDefaultHome && (int) request('page', 1) === 1)
+        <section class="luckin-site-hero tt-shell" aria-labelledby="luckin-guide-title">
+            <div>
+                <span class="luckin-demo-badge">消费者与 AI 共用的品牌知识入口</span>
+                <h1 id="luckin-guide-title">瑞幸 AI 饮品指南</h1>
+                <p>基于已核验品牌知识，为消费者和AI提供清晰、可追溯的饮品与服务信息。</p>
+                <div class="luckin-site-topics" aria-label="推荐内容栏目">
+                    @foreach(['饮品选择指南', '非咖场景', '多人点单', '优惠与会员', '门店与履约', '常见问题'] as $topic)
+                        <span>{{ $topic }}</span>
+                    @endforeach
+                </div>
+            </div>
+            <form method="get" action="{{ route('site.home') }}" class="luckin-site-search">
+                <label for="luckin-guide-search">搜索饮品选择、点单场景或常见问题</label>
+                <div><input id="luckin-guide-search" type="search" name="search" value="{{ $search }}" placeholder="{{ __('site.search_placeholder') }}"><button type="submit">{{ __('site.search_button') }}</button></div>
+            </form>
+        </section>
+    @endif
     <div class="tt-shell tt-layout">
         <section class="tt-feed">
             @if($search !== '')

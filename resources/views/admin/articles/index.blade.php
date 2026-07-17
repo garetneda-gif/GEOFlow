@@ -118,6 +118,25 @@
             </div>
         </div>
 
+        @unless($isTrashView)
+            <section class="luckin-card mb-6 p-4" aria-label="品牌内容审核风险提示">
+                <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                    <div>
+                        <p class="text-xs font-semibold uppercase tracking-wide text-blue-700">品牌内容审核</p>
+                        <p class="mt-1 text-sm text-gray-600">风险标签仅增强现有审核界面，不改变文章状态、发布逻辑或后端规则。</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs font-medium">
+                        <span class="rounded-full bg-red-50 px-3 py-1.5 text-red-700">商品事实待核验</span>
+                        <span class="rounded-full bg-amber-50 px-3 py-1.5 text-amber-700">价格信息需实时查询</span>
+                        <span class="rounded-full bg-red-50 px-3 py-1.5 text-red-700">健康表达风险</span>
+                        <span class="rounded-full bg-amber-50 px-3 py-1.5 text-amber-700">优惠规则可能过期</span>
+                        <span class="rounded-full bg-blue-50 px-3 py-1.5 text-blue-700">缺少来源</span>
+                        <span class="rounded-full bg-emerald-50 px-3 py-1.5 text-emerald-700">可发布</span>
+                    </div>
+                </div>
+            </section>
+        @endunless
+
         @if($isTrashView)
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-white overflow-hidden shadow rounded-lg md:col-span-1">

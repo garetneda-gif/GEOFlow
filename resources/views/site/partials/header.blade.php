@@ -6,13 +6,14 @@
     <div class="site-container px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <div class="flex items-center">
-                <a href="{{ route('site.home') }}" class="flex items-center">
+                <a href="{{ route('site.home') }}" class="flex items-center" aria-label="瑞幸 AI 饮品指南">
                     @if(!empty($siteLogo))
                         <img src="{{ $siteLogo }}" alt="{{ $siteName }}" class="h-9 w-auto max-w-48 object-contain">
                     @else
-                        <span class="text-lg sm:text-xl font-bold text-gray-900">{{ $siteName }}</span>
+                        <span class="luckin-site-brand"><i data-lucide="coffee" class="h-5 w-5"></i><span>瑞幸 AI 饮品指南</span></span>
                     @endif
                 </a>
+                <span class="luckin-demo-badge ml-3 hidden sm:inline-flex">已核验知识驱动</span>
             </div>
 
             <nav class="hidden md:flex items-center space-x-6">

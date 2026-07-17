@@ -44,6 +44,7 @@ class DashboardController extends Controller
             'dashboardStats' => $this->buildStats(),
             'dashboardTodayStats' => $this->buildTodayStats(),
             'taskHealth' => $this->buildTaskHealth(),
+            'recentTasks' => $this->buildRecentTasks(),
             'materialHealth' => $this->buildMaterialHealth(),
             'aiHealth' => $this->buildAiHealth(),
             'canManageProtectedWorkflows' => $canManageProtectedWorkflows,
@@ -214,6 +215,29 @@ class DashboardController extends Controller
         }
 
         return $out;
+    }
+
+    /**
+     * @return list<Task>
+     */
+    private function buildRecentTasks(): array
+    {
+        try {
+            return Task::query()
+                ->with([
+                    'fixedCategory:id,name',
+                    'knowledgeBase:id,name',
+                    'knowledgeBases:id,name',
+                ])
+                ->withCount('articles')
+                ->orderByDesc('updated_at')
+                ->orderByDesc('id')
+                ->limit(5)
+                ->get()
+                ->all();
+        } catch (\Throwable) {
+            return [];
+        }
     }
 
     /**

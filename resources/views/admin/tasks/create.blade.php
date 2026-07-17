@@ -76,6 +76,32 @@
             </div>
         </section>
 
+        <section class="luckin-card mb-6 p-5" aria-labelledby="luckin-preflight-title">
+            <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                <div>
+                    <p class="text-xs font-semibold uppercase tracking-wide text-blue-700">GEO 任务质量门禁</p>
+                    <h2 id="luckin-preflight-title" class="mt-1 text-lg font-semibold text-gray-900">内容生成前检查</h2>
+                    <p class="mt-1 text-sm text-gray-600">这些提示用于现场演示检查流程，不替代现有审核规则或实时交易系统。</p>
+                </div>
+                <div class="luckin-flow luckin-flow-compact">
+                    <span>用户需求</span><i data-lucide="arrow-right"></i><span>可信知识</span><i data-lucide="arrow-right"></i><span>AI生成</span><i data-lucide="arrow-right"></i><span>人工审核</span><i data-lucide="arrow-right"></i><span>多端发布</span>
+                </div>
+            </div>
+            <div class="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
+                @foreach ([
+                    ['知识来源是否完整', 'database'],
+                    ['商品信息是否已核验', 'badge-check'],
+                    ['是否包含实时价格', 'scan-search'],
+                    ['是否存在健康功效表述', 'shield-alert'],
+                    ['是否需要法务审核', 'scale'],
+                ] as [$label, $icon])
+                    <div class="flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-3 py-3 text-sm text-gray-700">
+                        <i data-lucide="{{ $icon }}" class="h-4 w-4 shrink-0 text-blue-700"></i><span>{{ $label }}</span>
+                    </div>
+                @endforeach
+            </div>
+        </section>
+
         <div data-task-form-shell class="w-full">
             @if (! $hasCategories)
                 <div class="bg-amber-50 border border-amber-200 rounded-lg p-5">
@@ -594,7 +620,7 @@
             const knowledgeBaseCount = document.querySelector('[data-knowledge-base-count]');
             const knowledgeBaseToggle = document.querySelector('[data-knowledge-base-toggle]');
             const collapsedKnowledgeBaseCards = document.querySelectorAll('[data-knowledge-base-collapsed="true"]');
-            const form = document.querySelector('form');
+            const form = document.querySelector('[data-task-form-shell] form');
             let distributionChannelsExpanded = false;
             let knowledgeBaseExpanded = false;
 

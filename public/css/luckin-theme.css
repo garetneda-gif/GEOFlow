@@ -1,0 +1,1478 @@
+body.luckin-admin,
+body.luckin-login,
+body.luckin-site {
+    --luckin-primary: #174A97;
+    --luckin-primary-dark: #10366F;
+    --luckin-primary-light: #EAF2FF;
+    --luckin-accent: #E5484D;
+    --luckin-bg: #F5F7FA;
+    --luckin-card: #FFFFFF;
+    --luckin-text: #1F2937;
+    --luckin-text-secondary: #667085;
+    --luckin-text-muted: #7B8798;
+    --luckin-border: #E5EAF0;
+    --luckin-success: #1F9D70;
+    --luckin-warning: #D98B18;
+    --luckin-font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+    --luckin-radius-sm: 8px;
+    --luckin-radius-md: 10px;
+    --luckin-radius-lg: 14px;
+    --luckin-shadow-sm: 0 2px 10px rgba(16, 54, 111, 0.06);
+    --luckin-shadow-md: 0 10px 30px rgba(16, 54, 111, 0.09);
+    --luckin-shadow-focus: 0 0 0 3px rgba(23, 74, 151, 0.18);
+    background: var(--luckin-bg);
+    color: var(--luckin-text);
+    font-family: var(--luckin-font-family);
+    min-height: 100vh;
+}
+
+body.luckin-admin {
+    background: var(--luckin-bg);
+}
+
+body.luckin-login {
+    background:
+        radial-gradient(circle at 12% 8%, rgba(234, 242, 255, 0.95), rgba(234, 242, 255, 0) 35%),
+        radial-gradient(circle at 90% 92%, rgba(229, 72, 77, 0.08), rgba(229, 72, 77, 0) 32%),
+        var(--luckin-bg);
+}
+
+body.luckin-admin a,
+body.luckin-login a,
+body.luckin-site a {
+    text-underline-offset: 3px;
+}
+
+body.luckin-admin .luckin-page-shell,
+body.luckin-site .luckin-page-shell {
+    width: min(100%, 1440px);
+    margin-inline: auto;
+    padding: 28px 36px 48px;
+}
+
+body.luckin-login .luckin-page-shell {
+    width: min(100%, 480px);
+    margin-inline: auto;
+    padding: 24px;
+}
+
+body.luckin-login .luckin-login-shell {
+    display: grid;
+    width: min(100%, 1180px);
+    min-height: 100vh;
+    grid-template-columns: minmax(0, 1fr) minmax(390px, 500px);
+    gap: clamp(36px, 7vw, 104px);
+    align-items: center;
+    margin-inline: auto;
+    padding: 48px 40px;
+}
+
+body.luckin-login .luckin-login-story {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 430px;
+    padding-block: 28px;
+}
+
+body.luckin-login .luckin-login-wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--luckin-primary-dark);
+    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+    font-weight: 750;
+    letter-spacing: -0.02em;
+}
+
+body.luckin-login .luckin-login-story h1 {
+    max-width: 620px;
+    margin-top: 30px;
+    color: var(--luckin-primary-dark);
+    font-size: clamp(2.35rem, 5vw, 4.6rem);
+    font-weight: 780;
+    letter-spacing: -0.055em;
+    line-height: 1.05;
+}
+
+body.luckin-login .luckin-login-story p {
+    max-width: 560px;
+    margin-top: 20px;
+    color: var(--luckin-text-secondary);
+    font-size: clamp(0.92rem, 1.3vw, 1.04rem);
+    line-height: 1.8;
+}
+
+body.luckin-login .luckin-login-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    color: var(--luckin-primary);
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+body.luckin-login .luckin-login-flow span {
+    padding: 7px 11px;
+    border: 1px solid rgba(23, 74, 151, 0.16);
+    border-radius: 999px;
+    background: rgba(234, 242, 255, 0.72);
+}
+
+body.luckin-login .luckin-login-flow i {
+    width: 16px;
+    color: #9aabc2;
+}
+
+body.luckin-login .luckin-login-panel {
+    min-width: 0;
+}
+
+body.luckin-login .login-form {
+    border: 1px solid rgba(229, 234, 240, 0.95);
+    border-radius: var(--luckin-radius-lg);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 24px 70px rgba(16, 54, 111, 0.12);
+}
+
+body.luckin-login .login-badge {
+    background: linear-gradient(145deg, var(--luckin-primary) 0%, var(--luckin-primary-dark) 100%);
+    box-shadow: 0 12px 24px rgba(23, 74, 151, 0.23);
+}
+
+body.luckin-admin > main {
+    width: auto;
+    max-width: none;
+    padding: 0;
+}
+
+body.luckin-admin .luckin-nav,
+body.luckin-admin .luckin-sidebar {
+    background: var(--luckin-primary-dark);
+    color: #fff;
+}
+
+body.luckin-admin .luckin-nav {
+    min-height: 64px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 16px rgba(16, 54, 111, 0.16);
+}
+
+body.luckin-admin .luckin-sidebar {
+    width: 252px;
+    min-height: 100vh;
+    padding: 20px 14px;
+}
+
+body.luckin-admin .luckin-sidebar a,
+body.luckin-admin .luckin-nav a {
+    color: rgba(255, 255, 255, 0.78);
+    transition: background-color 160ms ease, color 160ms ease;
+}
+
+body.luckin-admin .luckin-sidebar a:hover,
+body.luckin-admin .luckin-sidebar a[aria-current="page"],
+body.luckin-admin .luckin-nav a:hover,
+body.luckin-admin .luckin-nav a[aria-current="page"] {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.luckin-admin .luckin-nav .bg-white,
+body.luckin-admin .luckin-sidebar .bg-white {
+    color: var(--luckin-text);
+}
+
+body.luckin-admin > nav {
+    background: var(--luckin-primary-dark);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(16, 54, 111, 0.16);
+}
+
+body.luckin-admin > nav > div > div > a,
+body.luckin-admin > nav > div > div > nav a {
+    color: rgba(255, 255, 255, 0.78);
+}
+
+body.luckin-admin > nav > div > div > a:hover,
+body.luckin-admin > nav > div > div > nav a:hover,
+body.luckin-admin > nav > div > div > nav a.text-blue-600 {
+    color: #fff;
+}
+
+body.luckin-admin > nav .hover\:bg-gray-100:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.luckin-admin > nav .bg-blue-100 {
+    background: rgba(255, 255, 255, 0.13);
+    color: #fff;
+}
+
+body.luckin-admin .luckin-brand,
+body.luckin-login .luckin-brand,
+body.luckin-site .luckin-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--luckin-primary-dark);
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+body.luckin-admin .luckin-brand-on-dark,
+body.luckin-site .luckin-brand-on-dark {
+    color: #fff;
+}
+
+body.luckin-admin .luckin-wordmark,
+body.luckin-login .luckin-wordmark,
+body.luckin-site .luckin-wordmark {
+    color: inherit;
+    font-size: clamp(1.15rem, 1.4vw, 1.45rem);
+    font-weight: 750;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+}
+
+body.luckin-admin .luckin-brand-mark,
+body.luckin-login .luckin-brand-mark,
+body.luckin-site .luckin-brand-mark {
+    display: inline-grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    flex: 0 0 auto;
+    border-radius: 10px;
+    background: var(--luckin-primary);
+    color: #fff;
+    box-shadow: 0 5px 12px rgba(23, 74, 151, 0.24);
+}
+
+body.luckin-admin .luckin-demo-badge,
+body.luckin-login .luckin-demo-badge,
+body.luckin-site .luckin-demo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 24px;
+    padding: 3px 9px;
+    border: 1px solid rgba(229, 72, 77, 0.22);
+    border-radius: 999px;
+    background: rgba(229, 72, 77, 0.08);
+    color: var(--luckin-accent);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+body.luckin-admin .luckin-card,
+body.luckin-login .luckin-card,
+body.luckin-site .luckin-card {
+    background: var(--luckin-card);
+    border: 1px solid var(--luckin-border);
+    border-radius: var(--luckin-radius-lg);
+    box-shadow: var(--luckin-shadow-sm);
+}
+
+body.luckin-admin .luckin-card-interactive,
+body.luckin-site .luckin-card-interactive {
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+body.luckin-admin .luckin-card-interactive:hover,
+body.luckin-site .luckin-card-interactive:hover {
+    border-color: #c9d8ee;
+    box-shadow: var(--luckin-shadow-md);
+    transform: translateY(-1px);
+}
+
+body.luckin-admin .luckin-flow,
+body.luckin-site .luckin-flow {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+    align-items: stretch;
+}
+
+body.luckin-admin .luckin-flow.luckin-flow-seven {
+    grid-template-columns: repeat(7, minmax(132px, 1fr));
+}
+
+body.luckin-admin .luckin-flow.luckin-flow-compact {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+body.luckin-admin .luckin-flow.luckin-flow-compact svg {
+    width: 16px;
+    height: 16px;
+    color: var(--luckin-text-muted);
+}
+
+body.luckin-admin .luckin-flow-item,
+body.luckin-site .luckin-flow-item {
+    position: relative;
+    min-width: 0;
+}
+
+body.luckin-admin .luckin-flow-item:not(:last-child)::after,
+body.luckin-site .luckin-flow-item:not(:last-child)::after {
+    position: absolute;
+    top: 28px;
+    right: -12px;
+    width: 8px;
+    height: 1px;
+    background: #c7d5e8;
+    content: "";
+}
+
+body.luckin-admin .luckin-kpi,
+body.luckin-site .luckin-kpi {
+    min-width: 0;
+    padding: 18px 20px;
+    background: var(--luckin-card);
+    border: 1px solid var(--luckin-border);
+    border-radius: var(--luckin-radius-lg);
+    box-shadow: var(--luckin-shadow-sm);
+}
+
+body.luckin-admin .luckin-kpi-label,
+body.luckin-site .luckin-kpi-label {
+    color: var(--luckin-text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+body.luckin-admin .luckin-kpi-value,
+body.luckin-site .luckin-kpi-value {
+    margin-top: 6px;
+    color: var(--luckin-text);
+    font-size: clamp(1.45rem, 2vw, 2rem);
+    font-weight: 750;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+}
+
+body.luckin-admin .luckin-kpi-trend,
+body.luckin-site .luckin-kpi-trend {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 10px;
+    color: var(--luckin-success);
+    font-size: 0.75rem;
+    font-weight: 650;
+}
+
+body.luckin-admin .luckin-kpi-trend.is-negative,
+body.luckin-site .luckin-kpi-trend.is-negative {
+    color: var(--luckin-accent);
+}
+
+body.luckin-admin .luckin-button,
+body.luckin-login .luckin-button,
+body.luckin-site .luckin-button {
+    display: inline-flex;
+    min-height: 40px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 15px;
+    border: 1px solid transparent;
+    border-radius: var(--luckin-radius-md);
+    background: var(--luckin-primary);
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 650;
+    line-height: 1.25;
+    text-decoration: none;
+    transition: background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+body.luckin-admin .luckin-button:hover,
+body.luckin-login .luckin-button:hover,
+body.luckin-site .luckin-button:hover {
+    background: var(--luckin-primary-dark);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+body.luckin-admin .luckin-button:active,
+body.luckin-login .luckin-button:active,
+body.luckin-site .luckin-button:active {
+    transform: translateY(0);
+}
+
+body.luckin-admin .luckin-button-secondary,
+body.luckin-login .luckin-button-secondary,
+body.luckin-site .luckin-button-secondary {
+    border-color: var(--luckin-border);
+    background: var(--luckin-card);
+    color: var(--luckin-primary-dark);
+}
+
+body.luckin-admin .luckin-button-secondary:hover,
+body.luckin-login .luckin-button-secondary:hover,
+body.luckin-site .luckin-button-secondary:hover {
+    border-color: #b8cbe5;
+    background: var(--luckin-primary-light);
+    color: var(--luckin-primary-dark);
+}
+
+body.luckin-admin .luckin-button-danger,
+body.luckin-login .luckin-button-danger,
+body.luckin-site .luckin-button-danger {
+    background: var(--luckin-accent);
+}
+
+body.luckin-admin .luckin-button-danger:hover,
+body.luckin-login .luckin-button-danger:hover,
+body.luckin-site .luckin-button-danger:hover {
+    background: #bd3037;
+}
+
+body.luckin-admin .luckin-button-ghost,
+body.luckin-login .luckin-button-ghost,
+body.luckin-site .luckin-button-ghost {
+    background: transparent;
+    color: var(--luckin-primary);
+}
+
+body.luckin-admin .luckin-button-ghost:hover,
+body.luckin-login .luckin-button-ghost:hover,
+body.luckin-site .luckin-button-ghost:hover {
+    background: var(--luckin-primary-light);
+    color: var(--luckin-primary-dark);
+}
+
+body.luckin-admin .luckin-button-sm,
+body.luckin-login .luckin-button-sm,
+body.luckin-site .luckin-button-sm {
+    min-height: 32px;
+    padding: 6px 10px;
+    border-radius: var(--luckin-radius-sm);
+    font-size: 0.78rem;
+}
+
+body.luckin-admin .luckin-button:disabled,
+body.luckin-admin .luckin-button[aria-disabled="true"],
+body.luckin-login .luckin-button:disabled,
+body.luckin-login .luckin-button[aria-disabled="true"],
+body.luckin-site .luckin-button:disabled,
+body.luckin-site .luckin-button[aria-disabled="true"] {
+    cursor: not-allowed;
+    opacity: 0.52;
+    pointer-events: none;
+    transform: none;
+}
+
+body.luckin-admin .luckin-field,
+body.luckin-login .luckin-field,
+body.luckin-site .luckin-field {
+    display: grid;
+    gap: 7px;
+}
+
+body.luckin-admin .luckin-label,
+body.luckin-login .luckin-label,
+body.luckin-site .luckin-label {
+    color: var(--luckin-text);
+    font-size: 0.825rem;
+    font-weight: 650;
+}
+
+body.luckin-admin .luckin-input,
+body.luckin-admin .luckin-select,
+body.luckin-admin .luckin-textarea,
+body.luckin-login .luckin-input,
+body.luckin-login .luckin-select,
+body.luckin-login .luckin-textarea,
+body.luckin-site .luckin-input,
+body.luckin-site .luckin-select,
+body.luckin-site .luckin-textarea {
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 12px;
+    border: 1px solid var(--luckin-border);
+    border-radius: var(--luckin-radius-md);
+    background: var(--luckin-card);
+    color: var(--luckin-text);
+    font: inherit;
+    line-height: 1.4;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+body.luckin-admin .luckin-textarea,
+body.luckin-login .luckin-textarea,
+body.luckin-site .luckin-textarea {
+    min-height: 112px;
+    resize: vertical;
+}
+
+body.luckin-admin .luckin-input::placeholder,
+body.luckin-admin .luckin-textarea::placeholder,
+body.luckin-login .luckin-input::placeholder,
+body.luckin-login .luckin-textarea::placeholder,
+body.luckin-site .luckin-input::placeholder,
+body.luckin-site .luckin-textarea::placeholder {
+    color: #98a2b3;
+}
+
+body.luckin-admin .luckin-input:hover,
+body.luckin-admin .luckin-select:hover,
+body.luckin-admin .luckin-textarea:hover,
+body.luckin-login .luckin-input:hover,
+body.luckin-login .luckin-select:hover,
+body.luckin-login .luckin-textarea:hover,
+body.luckin-site .luckin-input:hover,
+body.luckin-site .luckin-select:hover,
+body.luckin-site .luckin-textarea:hover {
+    border-color: #b8cbe5;
+}
+
+body.luckin-admin .luckin-input:focus,
+body.luckin-admin .luckin-select:focus,
+body.luckin-admin .luckin-textarea:focus,
+body.luckin-login .luckin-input:focus,
+body.luckin-login .luckin-select:focus,
+body.luckin-login .luckin-textarea:focus,
+body.luckin-site .luckin-input:focus,
+body.luckin-site .luckin-select:focus,
+body.luckin-site .luckin-textarea:focus {
+    border-color: var(--luckin-primary);
+    box-shadow: var(--luckin-shadow-focus);
+    outline: 0;
+}
+
+body.luckin-admin .luckin-input:disabled,
+body.luckin-admin .luckin-select:disabled,
+body.luckin-admin .luckin-textarea:disabled,
+body.luckin-login .luckin-input:disabled,
+body.luckin-login .luckin-select:disabled,
+body.luckin-login .luckin-textarea:disabled,
+body.luckin-site .luckin-input:disabled,
+body.luckin-site .luckin-select:disabled,
+body.luckin-site .luckin-textarea:disabled {
+    cursor: not-allowed;
+    background: #f1f4f8;
+    color: #98a2b3;
+}
+
+body.luckin-admin .luckin-table-wrap,
+body.luckin-site .luckin-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--luckin-border);
+    border-radius: var(--luckin-radius-lg);
+    background: var(--luckin-card);
+    box-shadow: var(--luckin-shadow-sm);
+    -webkit-overflow-scrolling: touch;
+}
+
+body.luckin-admin .luckin-table,
+body.luckin-site .luckin-table {
+    width: 100%;
+    min-width: 680px;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--luckin-text);
+    font-size: 0.825rem;
+}
+
+body.luckin-admin .luckin-table th,
+body.luckin-site .luckin-table th {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--luckin-border);
+    background: #f8fafc;
+    color: var(--luckin-text-secondary);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.045em;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+body.luckin-admin .luckin-table td,
+body.luckin-site .luckin-table td {
+    padding: 13px 16px;
+    border-bottom: 1px solid #edf1f5;
+    vertical-align: middle;
+}
+
+body.luckin-admin .luckin-table tbody tr:last-child td,
+body.luckin-site .luckin-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+body.luckin-admin .luckin-table tbody tr:hover td,
+body.luckin-site .luckin-table tbody tr:hover td {
+    background: #fbfcfe;
+}
+
+body.luckin-admin .luckin-pagination,
+body.luckin-site .luckin-pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+}
+
+body.luckin-admin .luckin-pagination a,
+body.luckin-admin .luckin-pagination button,
+body.luckin-admin .luckin-pagination span,
+body.luckin-site .luckin-pagination a,
+body.luckin-site .luckin-pagination button,
+body.luckin-site .luckin-pagination span {
+    display: inline-flex;
+    min-width: 34px;
+    min-height: 34px;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
+    border: 1px solid var(--luckin-border);
+    border-radius: var(--luckin-radius-sm);
+    background: var(--luckin-card);
+    color: var(--luckin-text-secondary);
+    font-size: 0.78rem;
+    line-height: 1;
+    text-decoration: none;
+}
+
+body.luckin-admin .luckin-pagination a:hover,
+body.luckin-admin .luckin-pagination button:hover,
+body.luckin-admin .luckin-pagination .is-active,
+body.luckin-site .luckin-pagination a:hover,
+body.luckin-site .luckin-pagination button:hover,
+body.luckin-site .luckin-pagination .is-active {
+    border-color: var(--luckin-primary);
+    background: var(--luckin-primary-light);
+    color: var(--luckin-primary-dark);
+}
+
+body.luckin-admin .luckin-pagination [aria-current="page"],
+body.luckin-site .luckin-pagination [aria-current="page"] {
+    border-color: var(--luckin-primary);
+    background: var(--luckin-primary);
+    color: #fff;
+}
+
+body.luckin-admin .luckin-status,
+body.luckin-site .luckin-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 24px;
+    padding: 3px 9px;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+body.luckin-admin .luckin-status::before,
+body.luckin-site .luckin-status::before {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: currentColor;
+    content: "";
+}
+
+body.luckin-admin .luckin-status-success,
+body.luckin-site .luckin-status-success {
+    border-color: rgba(31, 157, 112, 0.2);
+    background: rgba(31, 157, 112, 0.1);
+    color: var(--luckin-success);
+}
+
+body.luckin-admin .luckin-status-warning,
+body.luckin-site .luckin-status-warning {
+    border-color: rgba(217, 139, 24, 0.2);
+    background: rgba(217, 139, 24, 0.1);
+    color: var(--luckin-warning);
+}
+
+body.luckin-admin .luckin-status-danger,
+body.luckin-site .luckin-status-danger {
+    border-color: rgba(229, 72, 77, 0.2);
+    background: rgba(229, 72, 77, 0.1);
+    color: var(--luckin-accent);
+}
+
+body.luckin-admin .luckin-status-info,
+body.luckin-site .luckin-status-info {
+    border-color: rgba(23, 74, 151, 0.18);
+    background: var(--luckin-primary-light);
+    color: var(--luckin-primary);
+}
+
+body.luckin-admin .luckin-toast,
+body.luckin-login .luckin-toast,
+body.luckin-site .luckin-toast {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 11px;
+    width: min(100%, 390px);
+    padding: 14px 16px;
+    border: 1px solid var(--luckin-border);
+    border-radius: var(--luckin-radius-md);
+    background: var(--luckin-card);
+    box-shadow: var(--luckin-shadow-md);
+    color: var(--luckin-text);
+}
+
+body.luckin-admin .luckin-toast-success,
+body.luckin-login .luckin-toast-success,
+body.luckin-site .luckin-toast-success {
+    border-left: 3px solid var(--luckin-success);
+}
+
+body.luckin-admin .luckin-toast-error {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+body.luckin-admin .luckin-toast-warning,
+body.luckin-login .luckin-toast-warning,
+body.luckin-site .luckin-toast-warning {
+    border-left: 3px solid var(--luckin-warning);
+}
+
+body.luckin-admin .luckin-toast-danger,
+body.luckin-login .luckin-toast-danger,
+body.luckin-site .luckin-toast-danger {
+    border-left: 3px solid var(--luckin-accent);
+}
+
+body.luckin-admin .luckin-toast-error,
+body.luckin-login .luckin-toast-error,
+body.luckin-site .luckin-toast-error {
+    border-left: 3px solid var(--luckin-accent);
+}
+
+body.luckin-admin .luckin-chart,
+body.luckin-admin .luckin-chart-container,
+body.luckin-site .luckin-chart,
+body.luckin-site .luckin-chart-container {
+    position: relative;
+    min-height: 260px;
+    padding: 18px;
+    overflow: hidden;
+    border: 1px solid var(--luckin-border);
+    border-radius: var(--luckin-radius-lg);
+    background: var(--luckin-card);
+    box-shadow: var(--luckin-shadow-sm);
+}
+
+body.luckin-admin .luckin-chart canvas,
+body.luckin-admin .luckin-chart-container canvas,
+body.luckin-site .luckin-chart canvas,
+body.luckin-site .luckin-chart-container canvas {
+    max-width: 100%;
+}
+
+body.luckin-admin .bg-gray-50,
+body.luckin-site .bg-gray-50 {
+    background-color: var(--luckin-bg);
+}
+
+body.luckin-admin .bg-white,
+body.luckin-site .bg-white {
+    background-color: var(--luckin-card);
+}
+
+body.luckin-admin .text-gray-900,
+body.luckin-site .text-gray-900 {
+    color: var(--luckin-text);
+}
+
+body.luckin-admin .text-gray-700,
+body.luckin-admin .text-gray-600,
+body.luckin-site .text-gray-700,
+body.luckin-site .text-gray-600 {
+    color: var(--luckin-text-secondary);
+}
+
+body.luckin-admin .text-gray-500,
+body.luckin-admin .text-gray-400,
+body.luckin-site .text-gray-500,
+body.luckin-site .text-gray-400 {
+    color: #7b8798;
+}
+
+body.luckin-admin .border-gray-100,
+body.luckin-admin .border-gray-200,
+body.luckin-admin .border-gray-300,
+body.luckin-site .border-gray-100,
+body.luckin-site .border-gray-200,
+body.luckin-site .border-gray-300 {
+    border-color: var(--luckin-border);
+}
+
+body.luckin-admin .bg-blue-600,
+body.luckin-login .bg-blue-600,
+body.luckin-site .bg-blue-600 {
+    background-color: var(--luckin-primary);
+}
+
+body.luckin-admin .hover\:bg-blue-700:hover,
+body.luckin-login .hover\:bg-blue-700:hover,
+body.luckin-site .hover\:bg-blue-700:hover {
+    background-color: var(--luckin-primary-dark);
+}
+
+body.luckin-admin .text-blue-600,
+body.luckin-login .text-blue-600,
+body.luckin-site .text-blue-600 {
+    color: var(--luckin-primary);
+}
+
+body.luckin-admin .bg-blue-50,
+body.luckin-login .bg-blue-50,
+body.luckin-site .bg-blue-50 {
+    background-color: var(--luckin-primary-light);
+}
+
+body.luckin-admin .focus\:border-blue-500:focus,
+body.luckin-login .focus\:border-blue-500:focus,
+body.luckin-site .focus\:border-blue-500:focus {
+    border-color: var(--luckin-primary);
+}
+
+body.luckin-admin .focus\:ring-blue-500:focus,
+body.luckin-login .focus\:ring-blue-500:focus,
+body.luckin-site .focus\:ring-blue-500:focus {
+    --tw-ring-color: rgba(23, 74, 151, 0.25);
+}
+
+body.luckin-admin :is(.rounded, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl),
+body.luckin-login :is(.rounded, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl),
+body.luckin-site :is(.rounded, .rounded-md, .rounded-lg, .rounded-xl, .rounded-2xl) {
+    border-radius: var(--luckin-radius-md);
+}
+
+body.luckin-admin :is(a, button, input, select, textarea):focus-visible,
+body.luckin-login :is(a, button, input, select, textarea):focus-visible,
+body.luckin-site :is(a, button, input, select, textarea):focus-visible {
+    outline: 3px solid rgba(23, 74, 151, 0.24);
+    outline-offset: 2px;
+}
+
+@media (min-width: 1440px) {
+    body.luckin-admin .luckin-page-shell,
+    body.luckin-site .luckin-page-shell {
+        padding-inline: 48px;
+    }
+}
+
+@media (max-width: 1279px) {
+    body.luckin-admin .luckin-page-shell,
+    body.luckin-site .luckin-page-shell {
+        padding-inline: 28px;
+    }
+
+    body.luckin-admin .luckin-flow,
+    body.luckin-site .luckin-flow {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    body.luckin-admin .luckin-flow-item:nth-child(3n)::after,
+    body.luckin-site .luckin-flow-item:nth-child(3n)::after {
+        display: none;
+    }
+}
+
+@media (max-width: 63.999rem) {
+    body.luckin-admin .luckin-page-shell,
+    body.luckin-site .luckin-page-shell {
+        padding: 24px 20px 40px;
+    }
+
+    body.luckin-admin .luckin-sidebar {
+        width: 220px;
+    }
+
+    body.luckin-admin .luckin-flow,
+    body.luckin-site .luckin-flow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    body.luckin-admin .luckin-flow-item:nth-child(3n)::after,
+    body.luckin-site .luckin-flow-item:nth-child(3n)::after {
+        display: block;
+    }
+
+    body.luckin-admin .luckin-flow-item:nth-child(2n)::after,
+    body.luckin-site .luckin-flow-item:nth-child(2n)::after {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    body.luckin-admin .luckin-page-shell,
+    body.luckin-site .luckin-page-shell {
+        padding: 18px 14px 32px;
+    }
+
+    body.luckin-login .luckin-page-shell {
+        padding: 16px;
+    }
+
+    body.luckin-admin .luckin-nav {
+        min-height: 56px;
+    }
+
+    body.luckin-admin .luckin-sidebar {
+        width: 100%;
+        min-height: auto;
+    }
+
+    body.luckin-admin .luckin-flow,
+    body.luckin-site .luckin-flow {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    body.luckin-admin .luckin-flow-item:nth-child(n)::after,
+    body.luckin-site .luckin-flow-item:nth-child(n)::after {
+        display: none;
+    }
+
+    body.luckin-admin .luckin-kpi,
+    body.luckin-site .luckin-kpi {
+        padding: 15px 16px;
+    }
+
+    body.luckin-admin .luckin-card,
+    body.luckin-login .luckin-card,
+    body.luckin-site .luckin-card,
+    body.luckin-admin .luckin-chart,
+    body.luckin-admin .luckin-chart-container,
+    body.luckin-site .luckin-chart,
+    body.luckin-site .luckin-chart-container {
+        border-radius: 10px;
+    }
+
+    body.luckin-admin .luckin-table-wrap,
+    body.luckin-site .luckin-table-wrap {
+        border-radius: 10px;
+    }
+
+    body.luckin-admin .luckin-pagination,
+    body.luckin-site .luckin-pagination {
+        justify-content: flex-start;
+    }
+
+    body.luckin-admin .luckin-toast,
+    body.luckin-login .luckin-toast,
+    body.luckin-site .luckin-toast {
+        width: calc(100vw - 28px);
+    }
+}
+
+body.luckin-admin .luckin-sidebar {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 40;
+    inset: 0 auto 0 0;
+    width: 264px;
+    min-height: 100vh;
+    overflow-y: auto;
+    padding: 22px 14px 18px;
+    background: var(--luckin-primary-dark);
+    color: #fff;
+}
+
+body.luckin-admin .luckin-sidebar .luckin-brand,
+body.luckin-admin .luckin-sidebar .luckin-wordmark,
+body.luckin-admin .luckin-sidebar .luckin-brand-cn {
+    color: #fff;
+}
+
+body.luckin-admin .luckin-brand-cn {
+    display: block;
+    margin-top: 4px;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+}
+
+body.luckin-admin .luckin-sidebar-context {
+    margin: 26px 10px 12px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.69rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+body.luckin-admin .luckin-sidebar-nav {
+    display: grid;
+    gap: 4px;
+}
+
+body.luckin-admin .luckin-nav-section {
+    margin: 18px 10px 7px;
+    color: rgba(255, 255, 255, 0.42);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+body.luckin-admin .luckin-nav-link {
+    display: flex;
+    min-height: 42px;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 11px;
+    border: 1px solid transparent;
+    border-radius: var(--luckin-radius-md);
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.86rem;
+    font-weight: 560;
+    text-decoration: none;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+body.luckin-admin .luckin-nav-link:hover,
+body.luckin-admin .luckin-nav-link.is-active,
+body.luckin-admin .luckin-nav-link[aria-current="page"] {
+    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+body.luckin-admin .luckin-nav-link.is-active::before,
+body.luckin-admin .luckin-nav-link[aria-current="page"]::before {
+    width: 3px;
+    height: 20px;
+    margin-left: -11px;
+    border-radius: 0 4px 4px 0;
+    background: #fff;
+    content: "";
+}
+
+body.luckin-admin .luckin-sidebar-footer {
+    margin-top: auto;
+    padding: 16px 10px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.74rem;
+}
+
+body.luckin-admin .luckin-topbar {
+    position: sticky;
+    z-index: 30;
+    top: 0;
+    min-height: 68px;
+    margin-left: 264px;
+    border-bottom: 1px solid var(--luckin-border);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 1px 8px rgba(16, 54, 111, 0.05);
+    backdrop-filter: blur(12px);
+}
+
+body.luckin-admin .luckin-topbar-title {
+    color: var(--luckin-text);
+    font-size: 1.02rem;
+    font-weight: 700;
+}
+
+body.luckin-admin .luckin-icon-button {
+    display: inline-grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border: 1px solid var(--luckin-border);
+    border-radius: 10px;
+    background: var(--luckin-card);
+    color: var(--luckin-text-secondary);
+    cursor: pointer;
+    transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+body.luckin-admin .luckin-icon-button:hover {
+    border-color: #b8cbe5;
+    background: var(--luckin-primary-light);
+    color: var(--luckin-primary);
+}
+
+body.luckin-admin .luckin-main {
+    min-width: 0;
+    min-height: calc(100vh - 68px);
+    margin-left: 264px;
+}
+
+body.luckin-admin .luckin-footer {
+    margin-left: 264px;
+}
+
+body.luckin-admin .luckin-main > .luckin-page-shell {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+}
+
+body.luckin-admin .luckin-dashboard > .grid > * {
+    min-width: 0;
+}
+
+@media (min-width: 1024px) {
+    body.luckin-admin .luckin-mobile-menu-trigger {
+        display: none;
+    }
+}
+
+@media (max-width: 63.999rem) {
+    body.luckin-admin .luckin-sidebar {
+        display: none;
+    }
+
+    body.luckin-admin .luckin-sidebar.is-open,
+    body.luckin-admin .luckin-sidebar[data-open="true"] {
+        display: block;
+        box-shadow: 12px 0 32px rgba(16, 54, 111, 0.22);
+    }
+
+    body.luckin-admin .luckin-topbar,
+    body.luckin-admin .luckin-main,
+    body.luckin-admin .luckin-footer {
+        margin-left: 0;
+    }
+
+    body.luckin-admin .luckin-topbar {
+        min-height: 60px;
+    }
+
+    body.luckin-admin .luckin-topbar-title {
+        padding-left: 44px;
+    }
+}
+
+@media (max-width: 767px) {
+    body.luckin-admin .luckin-sidebar {
+        width: min(86vw, 300px);
+    }
+
+    body.luckin-admin .luckin-topbar-title {
+        font-size: 0.95rem;
+    }
+
+    body.luckin-login .luckin-login-shell {
+        display: block;
+        width: 100%;
+        padding: 72px 16px 28px;
+    }
+
+    body.luckin-login .luckin-login-story {
+        min-height: auto;
+        padding-block: 20px 28px;
+    }
+
+    body.luckin-login .luckin-login-story h1 {
+        margin-top: 24px;
+        font-size: clamp(2.25rem, 12vw, 3.5rem);
+    }
+
+    body.luckin-login .luckin-login-story p {
+        margin-top: 16px;
+    }
+
+    body.luckin-login .luckin-login-flow {
+        margin-top: 28px;
+    }
+
+    body.luckin-login .luckin-login-panel {
+        width: 100%;
+    }
+}
+
+body.luckin-site.tt-body {
+    --tt-red: var(--luckin-primary);
+    --tt-red-dark: var(--luckin-primary-dark);
+    --tt-ink: var(--luckin-text);
+    --tt-muted: var(--luckin-text-secondary);
+    --tt-line: var(--luckin-border);
+    --tt-bg: var(--luckin-bg);
+    --tt-card: var(--luckin-card);
+    --tt-soft: var(--luckin-primary-light);
+    background: var(--luckin-bg);
+}
+
+body.luckin-site .luckin-site-demo {
+    display: flex;
+    min-height: 30px;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 16px;
+    background: var(--luckin-primary-dark);
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-align: center;
+}
+
+body.luckin-site .tt-main {
+    background: var(--luckin-bg);
+}
+
+body.luckin-site .tt-header {
+    border-bottom-color: var(--luckin-border);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 3px 14px rgba(16, 54, 111, 0.05);
+}
+
+body.luckin-site .tt-header-row {
+    min-height: 68px;
+}
+
+body.luckin-site .tt-brand {
+    min-width: 0;
+    color: var(--luckin-primary-dark);
+    font-family: var(--luckin-font-family);
+    font-size: 1rem;
+    letter-spacing: -0.02em;
+}
+
+body.luckin-site .luckin-site-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+body.luckin-site .luckin-site-brand strong,
+body.luckin-site .luckin-site-brand small {
+    display: block;
+}
+
+body.luckin-site .luckin-site-brand strong {
+    font-size: 1rem;
+    line-height: 1.1;
+}
+
+body.luckin-site .luckin-site-brand small {
+    margin-top: 3px;
+    color: var(--luckin-text-secondary);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+body.luckin-site .tt-topnav a:hover,
+body.luckin-site .tt-topnav a.is-active,
+body.luckin-site .tt-article-title a:hover,
+body.luckin-site .tt-card-action,
+body.luckin-site .tt-prose a {
+    color: var(--luckin-primary);
+}
+
+body.luckin-site .tt-topnav a:hover,
+body.luckin-site .tt-topnav a.is-active {
+    border-bottom-color: var(--luckin-primary);
+}
+
+body.luckin-site .tt-channel.is-active {
+    background: var(--luckin-primary);
+    color: #fff;
+}
+
+body.luckin-site .tt-channel:hover {
+    background: var(--luckin-primary-light);
+    color: var(--luckin-primary);
+}
+
+body.luckin-site .tt-section-title::before,
+body.luckin-site .tt-prose h2 {
+    border-color: var(--luckin-primary);
+}
+
+body.luckin-site .tt-section-title::before {
+    background: var(--luckin-primary);
+}
+
+body.luckin-site .tt-thumb {
+    border-color: #d8e3f3;
+    background: linear-gradient(135deg, var(--luckin-primary), #477bc6);
+    color: #fff;
+}
+
+body.luckin-site .tt-hot-item:nth-child(-n+3) .tt-hot-index {
+    background: var(--luckin-primary-light);
+    color: var(--luckin-primary);
+}
+
+body.luckin-site .tt-feed,
+body.luckin-site .tt-feed-card,
+body.luckin-site .tt-panel,
+body.luckin-site .tt-article-card,
+body.luckin-site .tt-article-main {
+    background: var(--luckin-card);
+}
+
+body.luckin-site .luckin-site-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: end;
+    margin-top: 28px;
+    padding: clamp(28px, 5vw, 54px);
+    overflow: hidden;
+    border: 1px solid #d8e3f3;
+    border-radius: var(--luckin-radius-lg);
+    background:
+        radial-gradient(circle at 92% 8%, rgba(71, 123, 198, 0.18), transparent 34%),
+        linear-gradient(145deg, #fff 0%, var(--luckin-primary-light) 100%);
+    box-shadow: var(--luckin-shadow-md);
+}
+
+body.luckin-site .luckin-site-hero h1 {
+    max-width: 700px;
+    margin-top: 18px;
+    color: var(--luckin-primary-dark);
+    font-size: clamp(2.1rem, 5vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -0.055em;
+    line-height: 1.06;
+}
+
+body.luckin-site .luckin-site-hero p {
+    max-width: 680px;
+    margin-top: 18px;
+    color: var(--luckin-text-secondary);
+    font-size: 1rem;
+    line-height: 1.8;
+}
+
+body.luckin-site .luckin-site-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 22px;
+}
+
+body.luckin-site .luckin-site-topics span {
+    padding: 6px 10px;
+    border: 1px solid rgba(23, 74, 151, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--luckin-primary-dark);
+    font-size: 0.76rem;
+    font-weight: 650;
+}
+
+body.luckin-site .luckin-site-search {
+    padding: 20px;
+    border: 1px solid rgba(23, 74, 151, 0.13);
+    border-radius: var(--luckin-radius-lg);
+    background: rgba(255, 255, 255, 0.86);
+    box-shadow: var(--luckin-shadow-sm);
+}
+
+body.luckin-site .luckin-site-search label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--luckin-text-secondary);
+    font-size: 0.78rem;
+    font-weight: 650;
+    line-height: 1.55;
+}
+
+body.luckin-site .luckin-site-search > div {
+    display: flex;
+    overflow: hidden;
+    border: 1px solid var(--luckin-border);
+    border-radius: 10px;
+    background: #fff;
+}
+
+body.luckin-site .luckin-site-search input {
+    min-width: 0;
+    flex: 1;
+    padding: 11px 12px;
+    outline: none;
+}
+
+body.luckin-site .luckin-site-search button {
+    padding: 11px 16px;
+    background: var(--luckin-primary);
+    color: #fff;
+    font-weight: 700;
+}
+
+body.luckin-site .luckin-source-panel {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 24px;
+    padding: 16px;
+    border: 1px solid #d8e3f3;
+    border-radius: 12px;
+    background: var(--luckin-primary-light);
+}
+
+body.luckin-site .luckin-source-panel dt {
+    color: var(--luckin-text-secondary);
+    font-size: 0.72rem;
+    font-weight: 650;
+}
+
+body.luckin-site .luckin-source-panel dd {
+    margin-top: 5px;
+    color: var(--luckin-primary-dark);
+    font-size: 0.84rem;
+    font-weight: 700;
+}
+
+body.luckin-site .tt-footer {
+    border-top-color: var(--luckin-border);
+    background: var(--luckin-card);
+}
+
+body.luckin-site .tt-footer-inner {
+    color: var(--luckin-text-secondary);
+    line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+    body.luckin-site .luckin-site-hero {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    body.luckin-site .luckin-site-demo {
+        min-height: 36px;
+        font-size: 0.64rem;
+    }
+
+    body.luckin-site .luckin-site-hero {
+        margin-top: 16px;
+        padding: 24px 18px;
+    }
+
+    body.luckin-site .luckin-site-hero h1 {
+        font-size: clamp(2rem, 12vw, 3.2rem);
+    }
+
+    body.luckin-site .luckin-source-panel {
+        grid-template-columns: 1fr;
+    }
+}
