@@ -168,3 +168,10 @@
 - 生产页确认 `luckin_admin` 登录提示与页头欢迎文案生效，Dashboard 和网站设置页均无 500，Chrome 控制台 error 为 0。
 - 最终部署 `dpl_6ZzArf6dLbY5cdhnXoLJAo51TKzy` 状态为 Ready，已别名到 `https://luckin-geoflow.vercel.app`；官方原图 SHA-256 为 `494c72e273297020a9e27f7bcde63bbee48441ad455d54d3012b20aa358ff8f7`。
 - 一次性维护入口已从最终代码移除并实测 404，两个临时 Vercel 部署均已删除。
+
+## 2026-07-18 21:19 — 腾讯云登录页演示密码提示上线
+
+- 核实 `luckin_admin` 别名映射正常、管理员启用且环境密码与数据库哈希一致；原登录失败来自访问者不知道部署时生成的随机密码。
+- 腾讯云显式开启受控演示密码展示，应用和 Web 容器均为 healthy，登录页 HTTP 200 且展示节点存在。
+- 真实 Chrome 页面确认提示可见、旧错误提示不存在、控制台 error 为 0；20 项关联测试、88 个断言与 Pint、Blade 缓存检查通过。
+- 生产源码为 `d890084`，GitHub 分支 `feat/luckin-geoflow-theme` 已同步。
