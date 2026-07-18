@@ -10,6 +10,13 @@
 use Illuminate\Support\Str;
 use Pdo\Mysql;
 
+$pgsqlDisablePreparesValue = env('DB_PGSQL_DISABLE_PREPARES');
+$pgsqlDisablePrepares = $pgsqlDisablePreparesValue === null || $pgsqlDisablePreparesValue === ''
+    ? (string) env('DB_PORT', '5432') === '6543'
+    : filter_var($pgsqlDisablePreparesValue, FILTER_VALIDATE_BOOLEAN);
+$pgsqlEmulatePrepares = ! $pgsqlDisablePrepares
+    && filter_var(env('DB_PGSQL_EMULATE_PREPARES', false), FILTER_VALIDATE_BOOLEAN);
+
 return [
 
     /*
@@ -104,10 +111,10 @@ return [
             'prefix_indexes' => true,
             'search_path' => env('DB_SCHEMA', 'public'),
             'sslmode' => env('DB_SSLMODE', 'prefer'),
-            'options' => extension_loaded('pdo_pgsql')
-                && filter_var(env('DB_PGSQL_EMULATE_PREPARES', false), FILTER_VALIDATE_BOOLEAN)
-                    ? [PDO::ATTR_EMULATE_PREPARES => true]
-                    : [],
+            'options' => extension_loaded('pdo_pgsql') ? array_filter([
+                PDO::ATTR_EMULATE_PREPARES => $pgsqlEmulatePrepares ? true : null,
+                PDO::PGSQL_ATTR_DISABLE_PREPARES => $pgsqlDisablePrepares ? true : null,
+            ]) : [],
         ],
 
         'sqlsrv' => [

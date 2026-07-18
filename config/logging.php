@@ -4,6 +4,7 @@
  * 日志通道、级别与单日志文件选项。
  */
 
+use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -105,7 +106,10 @@ return [
             'handler_with' => [
                 'stream' => 'php://stderr',
             ],
-            'formatter' => env('LOG_STDERR_FORMATTER'),
+            'formatter' => env('LOG_STDERR_FORMATTER', LineFormatter::class),
+            'formatter_with' => [
+                'includeStacktraces' => filter_var(env('LOG_STDERR_STACKTRACES', false), FILTER_VALIDATE_BOOLEAN),
+            ],
             'processors' => [PsrLogMessageProcessor::class],
         ],
 

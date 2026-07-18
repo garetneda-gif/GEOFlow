@@ -162,3 +162,21 @@
 - 现象：用 Python 读取 Logo alpha 边界时报 `ModuleNotFoundError: No module named 'PIL'`。
 - 根因：当前项目未安装 Pillow，且该依赖不属于应用运行所需。
 - 处理：不新增项目依赖，改用现有 FFmpeg 的 `alphaextract` 与 `cropdetect` 量取字标边界。
+
+## 2026-07-18 16:01 — 生产 Dashboard 再次间歇性 500
+
+- 现象：部署 `dpl_4f4AFWniFKMo5SHB7d2tTAe7TsYj` 在同一秒记录两次 Dashboard 500；旧日志因堆栈过长仍缺少异常首行。
+- 根因：生产连接到 Supabase 6543 transaction pooler，却使用 PDO 命名 prepared statements；该模式由 Supabase 官方明确标为不支持，符合跨请求偶发失败特征。
+- 处理：禁用命名 prepared statements、保留原生参数绑定并压缩 stderr 异常格式；新部署并发请求和已登录 Dashboard 均无 500。
+
+## 2026-07-18 16:01 — 浏览器直连 Vercel 出现连接重置
+
+- 现象：真实浏览器访问生产 Dashboard 首次返回连接重置，第二次导航超时后最终恢复页面。
+- 根因：Vercel 官方说明 `.vercel.app` 可能在中国大陆被限速或阻断，且没有大陆节点；这属于应用外的网络可达性问题。
+- 处理：不改动用户代理设置；记录自有域名为最低成本缓解方案，稳定大陆交付需独立部署线路。
+
+## 2026-07-18 16:01 — 配置测试未启动 Laravel 应用
+
+- 现象：纯 PHPUnit 测试直接加载配置时缺少 `database_path()` 与 `storage_path()`。
+- 根因：测试继承了 `PHPUnit\\Framework\\TestCase`，未创建 Laravel Application。
+- 处理：改为继承项目 `Tests\\TestCase`，定向测试与完整回归均通过。

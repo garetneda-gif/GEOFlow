@@ -71,3 +71,9 @@
 - **选择**：以官方 PNG 中英文 wordmark 的非透明像素中心为基准，将导航文字设置为 `translateY(5px)`。
 - **备选**：让 Logo 图片盒子与导航行盒机械居中，或继续使用 `translateY(-2px)`。
 - **否决理由**：鹿角图形占据图片上半部，图片盒子中心不等于字标视觉中心；旧方案使导航比字标中心高约 6.5px。
+
+## 2026-07-18 16:01 — 保留 6543 事务池但禁用命名 prepared statements
+
+- **选择**：继续使用 Supabase 为 Serverless 推荐的 6543 transaction pooler，通过 `PDO::PGSQL_ATTR_DISABLE_PREPARES` 单次发送查询和参数。
+- **备选**：切换 5432 session pooler，或开启 `PDO::ATTR_EMULATE_PREPARES`。
+- **否决理由**：session pooler 并发容量更低；PDO 模拟预处理会把 Laravel boolean 绑定展开成整数，已在生产触发 `boolean = integer`。

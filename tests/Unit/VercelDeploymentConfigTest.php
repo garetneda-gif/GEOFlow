@@ -2,7 +2,9 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Monolog\Formatter\LineFormatter;
+use PDO;
+use Tests\TestCase;
 
 class VercelDeploymentConfigTest extends TestCase
 {
@@ -32,5 +34,53 @@ class VercelDeploymentConfigTest extends TestCase
         $this->assertStringContainsString("'VIEW_COMPILED_PATH' => '/tmp/views'", $entrypoint);
         $this->assertStringContainsString("env('TRUSTED_PROXIES', '')", $bootstrap);
         $this->assertStringContainsString('$middleware->trustProxies', $bootstrap);
+    }
+
+    public function test_supabase_transaction_pooler_disables_named_prepared_statements_without_emulation(): void
+    {
+        $originalPort = getenv('DB_PORT');
+        $originalDisablePrepares = getenv('DB_PGSQL_DISABLE_PREPARES');
+        $originalEmulatePrepares = getenv('DB_PGSQL_EMULATE_PREPARES');
+
+        try {
+            putenv('DB_PORT=6543');
+            putenv('DB_PGSQL_DISABLE_PREPARES');
+            putenv('DB_PGSQL_EMULATE_PREPARES=false');
+
+            $config = require dirname(__DIR__, 2).'/config/database.php';
+            $options = $config['connections']['pgsql']['options'];
+
+            $this->assertTrue($options[PDO::PGSQL_ATTR_DISABLE_PREPARES]);
+            $this->assertArrayNotHasKey(PDO::ATTR_EMULATE_PREPARES, $options);
+        } finally {
+            $this->restoreEnvironmentVariable('DB_PORT', $originalPort);
+            $this->restoreEnvironmentVariable('DB_PGSQL_DISABLE_PREPARES', $originalDisablePrepares);
+            $this->restoreEnvironmentVariable('DB_PGSQL_EMULATE_PREPARES', $originalEmulatePrepares);
+        }
+    }
+
+    public function test_stderr_logging_keeps_exception_messages_without_oversized_stack_traces(): void
+    {
+        $originalFormatter = getenv('LOG_STDERR_FORMATTER');
+        $originalStacktraces = getenv('LOG_STDERR_STACKTRACES');
+
+        try {
+            putenv('LOG_STDERR_FORMATTER');
+            putenv('LOG_STDERR_STACKTRACES=false');
+
+            $config = require dirname(__DIR__, 2).'/config/logging.php';
+            $stderr = $config['channels']['stderr'];
+
+            $this->assertSame(LineFormatter::class, $stderr['formatter']);
+            $this->assertFalse($stderr['formatter_with']['includeStacktraces']);
+        } finally {
+            $this->restoreEnvironmentVariable('LOG_STDERR_FORMATTER', $originalFormatter);
+            $this->restoreEnvironmentVariable('LOG_STDERR_STACKTRACES', $originalStacktraces);
+        }
+    }
+
+    private function restoreEnvironmentVariable(string $key, string|false $value): void
+    {
+        putenv($value === false ? $key : $key.'='.$value);
     }
 }

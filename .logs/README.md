@@ -16,3 +16,9 @@
 - 生产数据库：Supabase 项目 `avpjgysjustocrqtzgus`，东京区 PostgreSQL，业务表位于专用 schema `luckin_geoflow`。
 - Vercel 只承载请求与静态资源；队列使用同步模式，本地上传目录在 Serverless 环境不保证持久化。
 - 生产凭据仅在 Supabase/Vercel 环境变量中保存，不进入仓库或 `.logs/`。
+
+## 2026-07-18 16:01 — 生产连接与大陆访问边界
+
+- Supabase 使用 6543 transaction pooler；应用保留 PDO 原生参数绑定，但禁用命名 prepared statements。
+- Vercel stderr 默认保留异常首行并省略超长堆栈，避免平台截断真正根因。
+- Vercel 官方不保证 `.vercel.app` 在中国大陆可用；面向大陆稳定交付需要自有域名，严格保障需另设境内或更可靠线路的部署。

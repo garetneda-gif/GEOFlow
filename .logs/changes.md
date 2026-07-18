@@ -106,3 +106,9 @@
 
 - `public/css/luckin-admin-theme.css` 将后台导航由上移 2px 改为下移 5px，使中文导航与官方 Logo 内的 `luckin coffee` 字标视觉中心对齐。
 - `tests/Feature/AdminDashboardQuickStartTest.php` 增加导航位移回归断言，避免后续再次按透明图片盒子误判对齐。
+
+## 2026-07-18 16:01 — 修复 Supabase 事务池间歇性 500
+
+- `config/database.php` 在 6543 transaction pooler 上自动启用 `PDO::PGSQL_ATTR_DISABLE_PREPARES`，同时保持 `PDO::ATTR_EMULATE_PREPARES` 关闭。
+- `config/logging.php` 将 stderr 异常改为保留首行、默认省略堆栈，避免 Vercel 日志只剩调用栈尾部。
+- `.env.example` 与 `tests/Unit/VercelDeploymentConfigTest.php` 补充连接池和日志配置说明及回归测试。
