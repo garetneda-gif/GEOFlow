@@ -28,6 +28,7 @@ return array_replace_recursive($base, [
         'language_switch_label' => 'Interface',
         'language_switch_hint' => 'Português / English',
         'language_switch_to' => 'Mudar para :language',
+        'mobile_menu' => 'Abrir menu de navegação',
         'notifications' => [
             'label' => 'Notificações',
             'title' => 'Notificações',

@@ -147,7 +147,7 @@
                         @endif
                     </button>
 
-                    <div id="admin-notification-menu" class="hidden absolute right-0 mt-3 w-80 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl z-50">
+                    <div id="admin-notification-menu" class="luckin-admin-notification-menu hidden absolute right-0 mt-3 w-80 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl z-50">
                         <div class="border-b border-gray-100 px-4 py-3">
                             <div class="flex items-center justify-between gap-3">
                                 <div class="text-sm font-semibold text-gray-900">{{ __('admin.header.notifications.title') }}</div>
@@ -262,6 +262,17 @@
                         </form>
                     </div>
                 </div>
+                <button
+                    id="mobile-menu-trigger"
+                    onclick="toggleMobileMenu()"
+                    class="luckin-mobile-menu-trigger md:hidden inline-flex h-9 w-9 items-center justify-center rounded-md bg-white text-gray-600 transition-colors duration-200 hover:bg-gray-100"
+                    type="button"
+                    aria-label="{{ __('admin.header.mobile_menu') }}"
+                    aria-controls="mobile-menu"
+                    aria-expanded="false"
+                >
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
             </div>
         </div>
     </div>
@@ -277,11 +288,6 @@
         </div>
     </div>
 </nav>
-<div class="md:hidden fixed top-4 right-4 z-50">
-    <button onclick="toggleMobileMenu()" class="bg-white p-2 rounded-md shadow-md" type="button">
-        <i data-lucide="menu" class="w-5 h-5 text-gray-600"></i>
-    </button>
-</div>
 
 <style>
     .admin-locale-select {
@@ -309,8 +315,10 @@
 
     function toggleMobileMenu() {
         const menu = document.getElementById('mobile-menu');
+        const trigger = document.getElementById('mobile-menu-trigger');
         if (menu) {
             menu.classList.toggle('hidden');
+            trigger?.setAttribute('aria-expanded', String(!menu.classList.contains('hidden')));
         }
     }
 
@@ -326,6 +334,7 @@
         }
         if (mobileMenu && !event.target.closest('[onclick="toggleMobileMenu()"]') && !mobileMenu.contains(event.target)) {
             mobileMenu.classList.add('hidden');
+            document.getElementById('mobile-menu-trigger')?.setAttribute('aria-expanded', 'false');
         }
     });
 </script>

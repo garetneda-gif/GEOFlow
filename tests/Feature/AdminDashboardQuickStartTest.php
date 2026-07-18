@@ -41,6 +41,22 @@ class AdminDashboardQuickStartTest extends TestCase
         );
     }
 
+    public function test_mobile_admin_navigation_stays_in_header_flow(): void
+    {
+        $header = (string) file_get_contents(resource_path('views/admin/partials/header.blade.php'));
+        $layout = (string) file_get_contents(resource_path('views/admin/layouts/app.blade.php'));
+        $themeCss = (string) file_get_contents(public_path('css/luckin-admin-theme.css'));
+
+        $this->assertStringContainsString('luckin-mobile-menu-trigger', $header);
+        $this->assertStringContainsString('aria-controls="mobile-menu"', $header);
+        $this->assertStringNotContainsString('md:hidden fixed top-4 right-4', $header);
+        $this->assertStringContainsString('px-4 py-6 sm:px-6 lg:px-8', $layout);
+        $this->assertMatchesRegularExpression(
+            '/@media \(max-width: 767px\).*?\.luckin-admin-footer-links\s*\{[^}]*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\);/s',
+            $themeCss
+        );
+    }
+
     public function test_dashboard_shows_scenario_navigation_without_data_widgets(): void
     {
         $admin = Admin::query()->create([

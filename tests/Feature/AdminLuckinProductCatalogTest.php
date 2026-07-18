@@ -82,4 +82,20 @@ class AdminLuckinProductCatalogTest extends TestCase
             $this->assertFileExists(public_path(ltrim($product['image'], '/')));
         }
     }
+
+    public function test_catalog_has_a_compact_mobile_list_layout(): void
+    {
+        $view = (string) file_get_contents(resource_path('views/admin/knowledge-bases/luckin-products.blade.php'));
+        $catalogCss = (string) file_get_contents(public_path('css/luckin-product-catalog.css'));
+
+        $this->assertStringContainsString("filemtime(public_path('css/luckin-product-catalog.css'))", $view);
+        $this->assertMatchesRegularExpression(
+            '/@media \(max-width: 520px\).*?\.luckin-product-item\s*\{[^}]*grid-template-columns:\s*112px minmax\(0, 1fr\);/s',
+            $catalogCss
+        );
+        $this->assertMatchesRegularExpression(
+            '/@media \(max-width: 520px\).*?\.luckin-product-item__description\s*\{[^}]*-webkit-line-clamp:\s*2;/s',
+            $catalogCss
+        );
+    }
 }

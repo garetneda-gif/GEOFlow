@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/luckin-product-catalog.css') }}?v=202607182225">
+    <link rel="stylesheet" href="{{ asset('css/luckin-product-catalog.css') }}?v={{ filemtime(public_path('css/luckin-product-catalog.css')) }}">
 @endpush
 
 @section('content')

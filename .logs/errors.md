@@ -388,3 +388,27 @@
 - 现象：部署前置检查返回 `UPLOAD_MISSING resources/views/co-create/landing.blade.php`，ExitCode 2。
 - 根因：上传目录实际使用 `entry.blade.php` 与 `layout.blade.php`，与首次预期清单不一致。
 - 处理：检查在写入和容器重启前主动终止；读取真实目录后使用 13 个显式文件路径重新部署成功。
+
+## 2026-07-18 23:08 — 隔离工作树测试缺少 Reverb 凭据
+
+- **根因**：复用依赖目录运行测试时默认广播连接为 `reverb`，测试环境没有 Pusher auth key，应用在加载 `routes/channels.php` 时中止。
+- **解决方案**：定向测试显式使用 `BROADCAST_CONNECTION=null`，避免与本次响应式改动无关的外部广播初始化。
+- **复现**：`php artisan test --filter='AdminLuckinProductCatalogTest|AdminDashboardQuickStartTest'`。
+
+## 2026-07-18 23:10 — 复用 Vendor 符号链接读取了旧工作树源码
+
+- **根因**：Composer 优化类映射记录了依赖来源工作树的绝对路径，符号链接复用 `vendor` 后 Laravel 的 `resource_path()` 仍指向旧目录，导致新断言读取旧版 Blade/CSS。
+- **解决方案**：将依赖复制到当前隔离工作树并重新生成 autoload，再运行定向测试；不改写其他会话正在使用的依赖目录。
+- **复现**：定向测试提示当前文件明明含有 `luckin-mobile-menu-trigger`，但 `file_get_contents(resource_path(...))` 读到旧内容。
+
+## 2026-07-18 23:18 — 隔离工作树缺少本地构建产物与测试密钥
+
+- **根因**：新 worktree 不包含被忽略的 `.env`、`public/build` 和前端依赖，Laravel 测试因此先后触发 APP_KEY 与 Vite manifest 检查。
+- **解决方案**：使用示例环境文件与仅限本次测试的临时 APP_KEY，并复用项目依赖执行 `npm run build`；没有修改或提交任何真实凭据。
+- **复现**：首次运行后台 Feature 测试时分别出现 `No application encryption key` 与 `Vite manifest not found`。
+
+## 2026-07-18 23:19 — 全量筛选包含既有版本文案断言
+
+- **根因**：扩大筛选范围后，既有欢迎页测试仍断言 `intro:2.1`，当前环境返回已上线的 `update:2.1.1`；与本次移动端 CSS、导航结构和目录模板无关。
+- **解决方案**：记录该独立基线差异，本次改为运行覆盖所有变更文件的 7 项定向测试；不顺手修改无关欢迎页逻辑。
+- **复现**：`AdminDashboardQuickStartTest` 中欢迎页版本断言失败，其余移动布局与产品目录断言通过。

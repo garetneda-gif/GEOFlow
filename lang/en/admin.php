@@ -26,6 +26,7 @@ return [
         'language_switch_label' => 'Interface',
         'language_switch_hint' => '中文 / English',
         'language_switch_to' => 'Switch interface to :language',
+        'mobile_menu' => 'Open navigation menu',
         'notifications' => [
             'label' => 'Notifications',
             'title' => 'Notifications',
