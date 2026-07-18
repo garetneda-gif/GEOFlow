@@ -10,7 +10,7 @@
     <title>@isset($pageTitle){{ $pageTitle }} — @endisset{{ $adminBrandName }}</title>
     <script src="{{ asset('js/tailwindcss.play-cdn.js') }}"></script>
     <script src="{{ asset('js/lucide.min.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('css/luckin-admin-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/luckin-admin-theme.css') }}?v={{ filemtime(public_path('css/luckin-admin-theme.css')) }}">
     @stack('styles')
 </head>
 <body class="luckin-admin-theme bg-gray-50">

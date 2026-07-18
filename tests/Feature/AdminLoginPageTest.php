@@ -14,7 +14,7 @@ class AdminLoginPageTest extends TestCase
     {
         $this->get(route('admin.login'))
             ->assertOk()
-            ->assertSee('css/luckin-admin-theme.css', false)
+            ->assertSee('css/luckin-admin-theme.css?v=', false)
             ->assertSee('images/luckin-coffee-logo.png', false)
             ->assertSee('luckin-admin-theme luckin-admin-login', false)
             ->assertSee('action="'.route('admin.login.attempt').'"', false)

@@ -6,7 +6,7 @@
     <title>{{ __('admin.login.title') }} — {{ $adminSiteName }}</title>
     <script src="{{ asset('js/tailwindcss.play-cdn.js') }}"></script>
     <script src="{{ asset('js/lucide.min.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('css/luckin-admin-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/luckin-admin-theme.css') }}?v={{ filemtime(public_path('css/luckin-admin-theme.css')) }}">
     <style>
         body {
             background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 32%),

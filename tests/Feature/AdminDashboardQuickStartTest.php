@@ -57,7 +57,7 @@ class AdminDashboardQuickStartTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertSee('css/luckin-admin-theme.css', false)
+            ->assertSee('css/luckin-admin-theme.css?v=', false)
             ->assertSee('images/luckin-coffee-logo.png', false)
             ->assertSee('images/luckin-dashboard-coffee-banner.jpg', false)
             ->assertSee('luckin-admin-theme bg-gray-50', false)
