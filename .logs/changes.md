@@ -156,6 +156,12 @@
 - `resources/data/luckin-products.json` 固化官网 33 款产品快照，`public/images/luckin-products/` 收录对应 33 张官方 480×480 产品图。
 - 知识库首页增加产品视觉库入口；新增独立样式、交互脚本及 4 项功能测试，覆盖权限、入口、产品数量和本地图片完整性。
 
+## 2026-07-18 22:06 — 精简产品视觉库头图区
+
+- `resources/views/admin/knowledge-bases/luckin-products.blade.php` 删除头图下方的产品数量、分类数量、快照日期和官网入口整条信息区。
+- `public/images/luckin-products/catalog-hero.png` 使用用户提供的 2112×474 瑞幸咖啡横幅视觉资产，替换原蓝色几何背景。
+- `public/css/luckin-product-catalog.css` 增加左侧可读性遮罩，并删除已不再使用的统计条样式与响应式规则。
+
 ## 2026-07-18 20:59 — 登录页增加可选演示密码
 
 - `AdminAuthController` 只在显式开关开启、账号启用且环境密码通过数据库哈希校验时向登录页提供密码。
