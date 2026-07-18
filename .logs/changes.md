@@ -192,3 +192,9 @@
 
 - `lang/zh_CN/admin.php` 将后台页脚作者调整为“任济坤、铁晋鸾”，微信号保持不变。
 - `AdminDashboardLuckinMcpTest` 同步更新页脚署名回归断言。
+
+## 2026-07-18 22:55 — 登录用户名改为灰色占位提示
+
+- `resources/views/admin/auth/login.blade.php` 删除用户名框下方的蓝色品牌账号提示，将 `luckin_admin` 改为输入框内灰色占位。
+- 密码继续使用同样的灰色占位交互；生产演示凭据改为更易记的值，页面提示与实际数据库哈希保持一致，明文不进入版本库。
+- `AdminLoginPageTest` 覆盖用户名占位、灰色样式和旧提示节点彻底移除。

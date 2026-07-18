@@ -96,12 +96,8 @@
             <div>
                 <label for="username" class="block text-sm font-medium text-gray-700 mb-2">{{ __('admin.login.username') }}</label>
                 <input type="text" id="username" name="username" required value="{{ old('username') }}"
-                       class="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                       placeholder="{{ __('admin.login.username_placeholder') }}" autocomplete="username">
-                <p data-brand-admin-username class="mt-2 flex items-center gap-1.5 text-xs font-medium text-blue-700">
-                    <i data-lucide="badge-check" class="h-3.5 w-3.5"></i>
-                    <span>{{ __('admin.login.brand_username_hint', ['username' => $brandAdminUsername]) }}</span>
-                </p>
+                       class="block w-full px-3 py-3 border border-gray-300 rounded-lg placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                       placeholder="{{ !empty($brandAdminUsername) ? $brandAdminUsername : __('admin.login.username_placeholder') }}" autocomplete="username">
             </div>
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-700 mb-2">{{ __('admin.login.password') }}</label>

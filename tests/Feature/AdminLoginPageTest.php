@@ -21,8 +21,10 @@ class AdminLoginPageTest extends TestCase
             ->assertSee('action="'.route('admin.login.attempt').'"', false)
             ->assertSee('name="username"', false)
             ->assertSee('name="password"', false)
-            ->assertSee('data-brand-admin-username', false)
-            ->assertSee(__('admin.login.brand_username_hint', ['username' => 'luckin_admin']))
+            ->assertSee('placeholder="luckin_admin"', false)
+            ->assertSee('placeholder:text-gray-400', false)
+            ->assertDontSee('data-brand-admin-username', false)
+            ->assertDontSee(__('admin.login.brand_username_hint', ['username' => 'luckin_admin']))
             ->assertDontSee('data-brand-admin-password', false)
             ->assertDontSee('luckin-login-story', false);
 
