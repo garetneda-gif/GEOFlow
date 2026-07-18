@@ -75,3 +75,9 @@
 - 现象：失败任务建议回归测试返回 500，提示 `admin.tasks.health-check` 未定义。
 - 根因：页面路径是 `/tasks/health-check`，实际命名路由为 `admin.tasks.health`。
 - 处理：改用现有命名路由并同步测试，工作台测试恢复全绿。
+
+## 2026-07-18 09:43 — 旧任务测试文件触发 Pint 历史格式差异
+
+- 现象：定向 `pint --test` 仅报告 `tests/Feature/AdminTasksPageTest.php` 需整文件格式化。
+- 根因：该旧文件存在与当前 Pint 规则不一致的历史写法，本次仅新增两条断言。
+- 处理：不批量改写旧文件；将表单绑定回归移入独立测试，避免扩大无关 diff。

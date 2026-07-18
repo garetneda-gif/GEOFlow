@@ -36,3 +36,10 @@
 
 - 将交付文档与进度日志中的路由数量校准为 `route:list --except-vendor` 实际报告的 243 条。
 - 仅修正文档证据，不改变运行时代码、测试或接口。
+
+## 2026-07-18 09:45 — 恢复 GEOFlow 原版后台并接入瑞幸主题
+
+- 恢复原横向导航、原 Dashboard、原登录卡片及原业务页，删除侧栏重设计、固定模拟数据与品牌故事。
+- 新增 `public/css/luckin-admin-theme.css` 和官方 `public/images/luckin-coffee-logo.png`；主题只在后台 body scope 生效。
+- 保留任务创建页 `[data-task-form-shell] form` 选择器修复，并新增独立回归测试。
+- 相对改动前 HEAD 未修改任何公开前台视图、翻译、默认环境配置或前台主题 CSS。
