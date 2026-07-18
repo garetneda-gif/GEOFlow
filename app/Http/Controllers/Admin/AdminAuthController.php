@@ -31,6 +31,7 @@ class AdminAuthController extends Controller
 
         return view('admin.auth.login', [
             'adminSiteName' => AdminWeb::siteName(),
+            'brandAdminUsername' => $this->brandAdminUsername(),
             'initialAdminHint' => $this->initialAdminHint(),
         ]);
     }
@@ -41,7 +42,8 @@ class AdminAuthController extends Controller
             'username' => ['required', 'string', 'max:50'],
             'password' => ['required', 'string'],
         ]);
-        $username = trim((string) $credentials['username']);
+        $submittedUsername = trim((string) $credentials['username']);
+        $username = $this->resolveLoginUsername($submittedUsername);
         /** @var Admin|null $targetAdmin */
         $targetAdmin = Admin::query()->where('username', $username)->first();
         if ($targetAdmin instanceof Admin && $this->adminLoginLockService->isLocked($targetAdmin)) {
@@ -107,6 +109,23 @@ class AdminAuthController extends Controller
         app()->setLocale($locale);
 
         return redirect()->back();
+    }
+
+    private function resolveLoginUsername(string $username): string
+    {
+        $brandUsername = $this->brandAdminUsername();
+        if ($brandUsername === '' || ! hash_equals($brandUsername, $username)) {
+            return $username;
+        }
+
+        $canonicalUsername = trim((string) config('geoflow.initial_admin_username', 'admin'));
+
+        return $canonicalUsername !== '' ? $canonicalUsername : $username;
+    }
+
+    private function brandAdminUsername(): string
+    {
+        return trim((string) config('luckin.admin_username', 'luckin_admin'));
     }
 
     /**

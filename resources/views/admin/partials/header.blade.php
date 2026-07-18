@@ -2,6 +2,15 @@
     $currentAdmin = auth('admin')->user();
     $adminBrandName = $adminBrandName ?? \App\Support\AdminWeb::siteName();
     $isSuperAdmin = $currentAdmin && method_exists($currentAdmin, 'canManageProtectedWorkflows') && $currentAdmin->canManageProtectedWorkflows();
+    $currentAdminUsername = trim((string) ($currentAdmin->username ?? ''));
+    $canonicalAdminUsername = trim((string) config('geoflow.initial_admin_username', 'admin'));
+    $brandAdminUsername = trim((string) config('luckin.admin_username', 'luckin_admin'));
+    $headerAdminUsername = $isSuperAdmin
+        && $currentAdminUsername !== ''
+        && $canonicalAdminUsername !== ''
+        && hash_equals($canonicalAdminUsername, $currentAdminUsername)
+        ? $brandAdminUsername
+        : $currentAdminUsername;
     $adminRoleLabel = $isSuperAdmin ? __('admin.header.super_admin') : __('admin.header.admin');
     $updateNotification = is_array($adminUpdateNotificationPayload ?? null) ? $adminUpdateNotificationPayload : [];
     $updateState = is_array($updateNotification['state'] ?? null) ? $updateNotification['state'] : [];
@@ -218,7 +227,7 @@
 
                     <div id="user-menu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-50">
                         <div class="px-4 py-2 border-b border-gray-100">
-                            <div class="text-sm text-gray-700">{{ __('admin.header.welcome', ['name' => $currentAdmin->username ?? '']) }}</div>
+                            <div class="text-sm text-gray-700">{{ __('admin.header.welcome', ['name' => $headerAdminUsername]) }}</div>
                             <div class="text-xs text-gray-400">{{ $adminRoleLabel }}</div>
                         </div>
                         <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">

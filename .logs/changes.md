@@ -134,3 +134,11 @@
 - 同步移除“查询官方数据”卡片下的只读/订单能力说明小字。
 - MCP 工作台页头与 Dashboard 入口左侧不再使用组合 Logo，统一改为官网“幸运在握”手持蓝杯视觉资产的裁切背景图。
 - 将“获取 API Key”操作上移 8px，使其与“保存并检测”按钮垂直居中对齐。
+
+## 2026-07-18 17:18 — 恢复咖啡横幅并品牌化网站设置
+
+- `public/css/luckin-admin-theme.css` 与 `resources/views/admin/dashboard.blade.php` 恢复真实咖啡横幅，并叠加自上而下由不透明到半透明的遮罩；继续保持无圆角、无阴影。
+- `resources/views/admin/site-settings/index.blade.php` 使用官网资产包中的 1920×300 咖啡场景原图作为品牌横幅，并统一模块图标为瑞幸蓝；原有网站设置结构与交互保持不变。
+- `config/geoflow.php` 与 `SiteSettingsController` 提供瑞幸名称、描述、关键词和版权默认值；`config/luckin.php` 提供 `luckin_admin` 品牌别名。
+- `config/geoflow.php` 将瑞幸文案放入原有站点配置回退链，显式 `SITE_*` 环境配置和数据库设置仍优先；Logo 字段继续留空，由前台主题使用自身官方资产。
+- `luckin_admin` 设为默认管理员的保留登录别名，管理员创建和改名不可占用；历史同名账号也不会截获该别名。

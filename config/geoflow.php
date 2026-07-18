@@ -20,15 +20,17 @@ $appVersion = $appVersion !== '' ? $appVersion : '2.1.1';
 return [
 
     // 站点展示名称（页眉、标题等）
-    'site_name' => env('SITE_NAME', 'GEOFlow'),
+    'site_name' => env('SITE_NAME', '瑞幸 AI 饮品指南'),
     // 站点完整/副标题文案
-    'site_full_name' => env('SITE_FULL_NAME', 'GEOFlow'),
+    'site_full_name' => env('SITE_FULL_NAME', '瑞幸 GEO 智能内容运营中台'),
+    'site_subtitle' => env('SITE_SUBTITLE', '瑞幸咖啡品牌内容中心'),
     // 站点根 URL，用于生成绝对链接（末尾无斜杠）
     'site_url' => rtrim((string) env('SITE_URL', 'http://localhost'), '/'),
     // SEO 描述
-    'site_description' => env('SITE_DESCRIPTION', ''),
+    'site_description' => env('SITE_DESCRIPTION', '瑞幸咖啡饮品、门店与服务信息内容中心'),
     // SEO 关键词（逗号分隔等，依前端使用方式）
-    'site_keywords' => env('SITE_KEYWORDS', ''),
+    'site_keywords' => env('SITE_KEYWORDS', '瑞幸咖啡,饮品,门店,优惠,品牌知识'),
+    'copyright_info' => env('SITE_COPYRIGHT_INFO', '© 2026 瑞幸咖啡 GEOFlow 演示项目'),
 
     // 后台入口路径前缀，如 /geo_admin（勿与前台路由冲突）
     'admin_base_path' => '/'.$adminBasePath,

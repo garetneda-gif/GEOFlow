@@ -20,7 +20,91 @@ class AdminLoginPageTest extends TestCase
             ->assertSee('action="'.route('admin.login.attempt').'"', false)
             ->assertSee('name="username"', false)
             ->assertSee('name="password"', false)
+            ->assertSee('data-brand-admin-username', false)
+            ->assertSee(__('admin.login.brand_username_hint', ['username' => 'luckin_admin']))
             ->assertDontSee('luckin-login-story', false);
+    }
+
+    public function test_luckin_username_alias_authenticates_the_configured_default_admin(): void
+    {
+        config([
+            'geoflow.initial_admin_username' => 'admin',
+            'luckin.admin_username' => 'luckin_admin',
+        ]);
+
+        $admin = Admin::query()->create([
+            'username' => 'admin',
+            'password' => 'secret-123',
+            'email' => 'admin@example.com',
+            'display_name' => 'Administrator',
+            'role' => 'super_admin',
+            'status' => 'active',
+        ]);
+
+        $this->post(route('admin.login.attempt'), [
+            'username' => 'luckin_admin',
+            'password' => 'secret-123',
+        ])->assertRedirect(route('admin.dashboard'));
+
+        $this->assertAuthenticatedAs($admin, 'admin');
+    }
+
+    public function test_luckin_alias_keeps_resolving_to_default_admin_if_a_legacy_collision_exists(): void
+    {
+        config([
+            'geoflow.initial_admin_username' => 'admin',
+            'luckin.admin_username' => 'luckin_admin',
+        ]);
+
+        $admin = Admin::query()->create([
+            'username' => 'admin',
+            'password' => 'canonical-secret-123',
+            'email' => 'admin@example.com',
+            'display_name' => 'Administrator',
+            'role' => 'super_admin',
+            'status' => 'active',
+        ]);
+        Admin::query()->create([
+            'username' => 'luckin_admin',
+            'password' => 'collision-secret-123',
+            'email' => 'collision@example.com',
+            'display_name' => 'Legacy Collision',
+            'role' => 'admin',
+            'status' => 'active',
+        ]);
+
+        $this->post(route('admin.login.attempt'), [
+            'username' => 'luckin_admin',
+            'password' => 'canonical-secret-123',
+        ])->assertRedirect(route('admin.dashboard'));
+
+        $this->assertAuthenticatedAs($admin, 'admin');
+    }
+
+    public function test_failed_alias_logins_lock_the_real_default_admin_account(): void
+    {
+        config([
+            'geoflow.initial_admin_username' => 'admin',
+            'luckin.admin_username' => 'luckin_admin',
+        ]);
+
+        $admin = Admin::query()->create([
+            'username' => 'admin',
+            'password' => 'secret-123',
+            'email' => 'admin@example.com',
+            'display_name' => 'Administrator',
+            'role' => 'super_admin',
+            'status' => 'active',
+        ]);
+
+        for ($attempt = 0; $attempt < 5; $attempt++) {
+            $this->post(route('admin.login.attempt'), [
+                'username' => 'luckin_admin',
+                'password' => 'wrong-secret',
+            ]);
+        }
+
+        $this->assertSame('locked', $admin->fresh()?->status);
     }
 
     public function test_login_page_shows_initial_admin_hint_when_default_credentials_are_still_valid(): void

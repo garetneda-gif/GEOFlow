@@ -43,7 +43,7 @@ class AdminDashboardQuickStartTest extends TestCase
             ->assertOk()
             ->assertSee('css/luckin-admin-theme.css', false)
             ->assertSee('images/luckin-coffee-logo.png', false)
-            ->assertDontSee('images/luckin-dashboard-coffee-banner.jpg', false)
+            ->assertSee('images/luckin-dashboard-coffee-banner.jpg', false)
             ->assertSee('luckin-admin-theme bg-gray-50', false)
             ->assertSee('luckin-dashboard-hero', false)
             ->assertDontSee('luckin-sidebar', false)
@@ -151,7 +151,7 @@ class AdminDashboardQuickStartTest extends TestCase
         $this->assertStringNotContainsString(__('admin.dashboard.automation.metric_ai_today', ['count' => 74]), $html);
     }
 
-    public function test_dashboard_hero_uses_flat_luckin_gradient_instead_of_card_treatment(): void
+    public function test_dashboard_hero_uses_coffee_image_with_vertical_transparency_gradient_without_card_treatment(): void
     {
         $themeCss = (string) file_get_contents(public_path('css/luckin-admin-theme.css'));
 
@@ -164,9 +164,10 @@ class AdminDashboardQuickStartTest extends TestCase
         $this->assertArrayHasKey(1, $heroStyleMatches);
         $this->assertStringContainsString('border-radius: 0;', $heroStyleMatches[1]);
         $this->assertStringContainsString('box-shadow: none;', $heroStyleMatches[1]);
-        $this->assertStringContainsString('radial-gradient(', $heroStyleMatches[1]);
-        $this->assertStringContainsString('linear-gradient(118deg, #08104f 0%, #172991 48%, #3156d4 100%)', $heroStyleMatches[1]);
-        $this->assertStringNotContainsString('--luckin-dashboard-hero-image', $heroStyleMatches[1]);
+        $this->assertStringContainsString('linear-gradient(to bottom', $heroStyleMatches[1]);
+        $this->assertStringContainsString('rgba(8, 16, 79, 0.94) 0%', $heroStyleMatches[1]);
+        $this->assertStringContainsString('rgba(13, 28, 101, 0.42) 100%', $heroStyleMatches[1]);
+        $this->assertStringContainsString('var(--luckin-dashboard-hero-image)', $heroStyleMatches[1]);
     }
 
     public function test_dashboard_description_copy_does_not_end_with_sentence_periods(): void

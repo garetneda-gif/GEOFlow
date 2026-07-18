@@ -10,6 +10,7 @@ use App\Models\SensitiveWord;
 use App\Models\SiteSetting;
 use App\Services\GeoFlow\ArticleRiskScanner;
 use App\Support\AdminWeb;
+use App\Support\Site\SiteSettingsBag;
 use App\Support\Site\SiteThemeCatalog;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -22,6 +23,65 @@ use Tests\TestCase;
 class AdminSiteSettingsPageTest extends TestCase
 {
     use RefreshDatabase;
+
+    public function test_site_settings_page_uses_luckin_brand_identity_and_defaults(): void
+    {
+        $admin = Admin::query()->create([
+            'username' => 'luckin_site_settings_admin',
+            'password' => 'secret-123',
+            'email' => 'luckin-site-settings@example.com',
+            'display_name' => 'Luckin Site Settings Admin',
+            'role' => 'admin',
+            'status' => 'active',
+        ]);
+
+        $this->actingAs($admin, 'admin')
+            ->get(route('admin.site-settings.index'))
+            ->assertOk()
+            ->assertSee('data-luckin-site-settings-brand', false)
+            ->assertSee('luckin-site-settings-hero', false)
+            ->assertSee('images/luckin-dashboard-coffee-banner.jpg', false)
+            ->assertSee('images/luckin-coffee-logo.png', false)
+            ->assertSee(__('admin.site_settings.page_title'))
+            ->assertSee('value="'.config('geoflow.site_name').'"', false)
+            ->assertSee('name="site_logo"', false)
+            ->assertSee('value=""', false);
+
+        SiteSettingsBag::forget();
+        $publicSettings = SiteSettingsBag::all();
+
+        $this->assertArrayNotHasKey('site_name', $publicSettings);
+        $this->assertArrayNotHasKey('site_logo', $publicSettings);
+    }
+
+    public function test_explicit_site_configuration_wins_when_settings_are_empty(): void
+    {
+        config([
+            'geoflow.site_name' => 'Configured Content Site',
+            'geoflow.site_subtitle' => 'Configured Subtitle',
+            'geoflow.site_description' => 'Configured Description',
+            'geoflow.site_keywords' => 'configured,keywords',
+            'geoflow.copyright_info' => 'Configured Copyright',
+        ]);
+
+        $admin = Admin::query()->create([
+            'username' => 'configured_site_settings_admin',
+            'password' => 'secret-123',
+            'email' => 'configured-site-settings@example.com',
+            'display_name' => 'Configured Site Settings Admin',
+            'role' => 'admin',
+            'status' => 'active',
+        ]);
+
+        $this->actingAs($admin, 'admin')
+            ->get(route('admin.site-settings.index'))
+            ->assertOk()
+            ->assertSee('value="Configured Content Site"', false)
+            ->assertSee('Configured Subtitle')
+            ->assertSee('Configured Description')
+            ->assertSee('configured,keywords')
+            ->assertSee('Configured Copyright');
+    }
 
     public function test_authenticated_admin_can_view_admin_base_path_setting(): void
     {
