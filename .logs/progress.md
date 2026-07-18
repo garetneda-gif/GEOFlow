@@ -121,3 +121,9 @@
 - 登录页 20 次并发请求全部 200，后台入口 20 次全部按预期 302；生产日志另确认已登录 Dashboard 2 次 200。
 - 新部署没有任何 500 或 error 日志；部署 `dpl_Fgb6XvT1iXy3HrASP2zdQ3bAS3a4` 已别名到 `https://luckin-geoflow.vercel.app`。
 - 已确认关闭代理后的不可达属于 Vercel 大陆网络边界，代码修复不能替代自有域名或独立部署线路。
+
+## 2026-07-18 16:11 — 素材页瑞幸蓝品牌化验收通过
+
+- 完整 PHPUnit 977 项、7889 个断言通过；Vite 7.3.2 生产构建、变更范围 Pint 与 `git diff --check` 均通过。
+- 生产素材页计算样式确认主按钮和进度条为 `#172991`、浅底为 `#eef1ff`、边框为 `#cbd3ff`，知识中枢内无橙色类且控制台错误为 0。
+- Vercel 生产部署 `dpl_CFkCRmTSJH9i4AUXCtJxiXCLZiA3` 已就绪并别名到 `https://luckin-geoflow.vercel.app`。

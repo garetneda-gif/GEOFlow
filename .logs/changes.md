@@ -112,3 +112,9 @@
 - `config/database.php` 在 6543 transaction pooler 上自动启用 `PDO::PGSQL_ATTR_DISABLE_PREPARES`，同时保持 `PDO::ATTR_EMULATE_PREPARES` 关闭。
 - `config/logging.php` 将 stderr 异常改为保留首行、默认省略堆栈，避免 Vercel 日志只剩调用栈尾部。
 - `.env.example` 与 `tests/Unit/VercelDeploymentConfigTest.php` 补充连接池和日志配置说明及回归测试。
+
+## 2026-07-18 16:11 — 素材页知识中枢切换为瑞幸主题色
+
+- `resources/views/admin/materials/index.blade.php` 将知识资产中枢的橙色边框、浅底、按钮、进度条与流程图标统一替换为瑞幸蓝色体系。
+- `public/css/luckin-admin-theme.css` 补齐浅蓝按钮悬停态，复用 `#172991`、`#eef1ff` 与 `#cbd3ff` 品牌变量；业务风险和健康状态色保持不变。
+- `tests/Feature/AdminMaterialsPagesTest.php` 增加知识中枢品牌类回归断言。

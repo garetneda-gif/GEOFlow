@@ -99,7 +99,7 @@
                 'desc' => __('admin.materials.evidence_vector_desc'),
                 'value' => $vectorizedChunks.' / '.$knowledgeChunks,
                 'icon' => 'database-zap',
-                'tone' => 'bg-orange-50 text-orange-600',
+                'tone' => 'bg-blue-50 text-blue-600',
             ],
         ];
     @endphp
@@ -110,24 +110,24 @@
             <p class="mt-1 text-sm text-gray-600">{{ __('admin.materials.subtitle') }}</p>
         </div>
 
-        <section class="mb-8 overflow-hidden rounded-lg border border-orange-100 bg-white shadow">
-            <div class="border-b border-orange-100 bg-orange-50/50 px-6 py-5 lg:px-8">
+        <section data-knowledge-hub class="mb-8 overflow-hidden rounded-lg border border-blue-100 bg-white shadow">
+            <div class="border-b border-blue-100 bg-blue-50 px-6 py-5 lg:px-8">
                 <div class="space-y-5">
                     <div class="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
-                        <span class="inline-flex items-center rounded-full bg-white px-3 py-1 text-sm font-semibold text-orange-700 ring-1 ring-orange-200">
+                        <span class="inline-flex items-center rounded-full bg-white px-3 py-1 text-sm font-semibold text-blue-700 ring-1 ring-blue-200">
                             <i data-lucide="brain" class="mr-2 h-4 w-4"></i>
                             {{ __('admin.materials.knowledge_hub_label') }}
                         </span>
                         <div class="grid w-full grid-cols-1 gap-3 sm:w-auto sm:grid-cols-2 lg:grid-cols-4 lg:min-w-[760px]">
-                            <a href="{{ route('admin.knowledge-bases.create') }}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-orange-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-orange-700">
+                            <a href="{{ route('admin.knowledge-bases.create') }}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">
                                 <i data-lucide="plus" class="mr-2 h-4 w-4"></i>
                                 {{ __('admin.materials.knowledge_hub_create') }}
                             </a>
-                            <a href="{{ route('admin.enterprise-knowledge.create') }}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-orange-200 bg-white px-4 py-2 text-sm font-semibold text-orange-700 hover:bg-orange-50">
+                            <a href="{{ route('admin.enterprise-knowledge.create') }}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50">
                                 <i data-lucide="sparkles" class="mr-2 h-4 w-4"></i>
                                 {{ __('admin.materials.knowledge_hub_enterprise') }}
                             </a>
-                            <a href="{{ route('admin.knowledge-bases.index') }}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-orange-200 bg-white px-4 py-2 text-sm font-semibold text-orange-700 hover:bg-orange-50">
+                            <a href="{{ route('admin.knowledge-bases.index') }}" class="inline-flex items-center justify-center whitespace-nowrap rounded-md border border-blue-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50">
                                 <i data-lucide="database" class="mr-2 h-4 w-4"></i>
                                 {{ __('admin.materials.manage_knowledge_bases') }}
                             </a>
@@ -171,7 +171,7 @@
                             <span class="font-semibold text-gray-900">{{ $vectorizedChunks }} / {{ $knowledgeChunks }}</span>
                         </div>
                         <div class="mt-2 h-2 overflow-hidden rounded-full bg-gray-100">
-                            <div class="h-2 rounded-full bg-orange-500" style="width: {{ $vectorProgress }}%"></div>
+                            <div class="h-2 rounded-full bg-blue-500" style="width: {{ $vectorProgress }}%"></div>
                         </div>
                     </div>
 
@@ -185,7 +185,7 @@
                             ['icon' => 'wand-sparkles', 'title' => __('admin.materials.knowledge_flow_generate'), 'desc' => __('admin.materials.knowledge_flow_generate_desc')],
                         ] as $step)
                             <div class="min-w-0">
-                                <div class="flex h-10 w-10 items-center justify-center rounded-md bg-orange-50 text-orange-600">
+                                <div class="flex h-10 w-10 items-center justify-center rounded-md bg-blue-50 text-blue-600">
                                     <i data-lucide="{{ $step['icon'] }}" class="h-5 w-5"></i>
                                 </div>
                                 <div class="mt-3 text-sm font-semibold text-gray-900">{{ $step['title'] }}</div>

@@ -97,6 +97,10 @@ class AdminMaterialsPagesTest extends TestCase
             ->assertSee(__('admin.materials.page_title'))
             ->assertSee(__('admin.materials.knowledge_hub_label'))
             ->assertSee(__('admin.materials.knowledge_hub_vector_progress'))
+            ->assertSee('data-knowledge-hub', false)
+            ->assertSee('border-blue-100 bg-white', false)
+            ->assertSee('bg-blue-600', false)
+            ->assertSee('bg-blue-500', false)
             ->assertSee(__('admin.materials.evidence_layer_title'))
             ->assertSeeInOrder([
                 __('admin.materials.knowledge_hub_create'),
