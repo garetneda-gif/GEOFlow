@@ -371,3 +371,9 @@
 - **现象**：在新建的主题分支 worktree 运行 `php artisan test --filter=LuckinProduct` 时，`vendor/autoload.php` 不存在。
 - **根因**：Git worktree 不复制主工作区未纳入版本控制的 `vendor/`；不是代码或生产依赖故障。
 - **处理**：同一提交内容已在带完整依赖的产品视觉库 worktree 通过 4 项、118 个断言；主题分支仅做无冲突 cherry-pick，并继续使用该验证结果。
+
+## 2026-07-18 22:15 — 产品视觉库线上命中旧样式缓存
+
+- **现象**：新 Blade 已移除统计条，但真实浏览器仍显示旧蓝色头图，计算样式 `background-image: none`。
+- **根因**：独立产品目录 CSS 使用固定 URL，浏览器沿用部署前缓存。
+- **处理**：为 `luckin-product-catalog.css` 增加显式版本查询参数，强制客户端获取新头图样式。
