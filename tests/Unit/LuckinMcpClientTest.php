@@ -3,31 +3,43 @@
 namespace Tests\Unit;
 
 use App\Services\GeoFlow\LuckinMcpClient;
+use App\Services\GeoFlow\LuckinMcpCredentialStore;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Mockery;
 use RuntimeException;
 use Tests\TestCase;
 
 class LuckinMcpClientTest extends TestCase
 {
+    private const ADMIN_ID = 42;
+
+    private string $token;
+
     protected function setUp(): void
     {
         parent::setUp();
 
         Cache::clear();
+        $this->token = 'test-token-never-render';
         config([
             'geoflow.luckin_mcp.enabled' => true,
-            'geoflow.luckin_mcp.token' => 'test-token-never-render',
         ]);
+        $credentials = Mockery::mock(LuckinMcpCredentialStore::class);
+        $credentials->shouldReceive('tokenFor')
+            ->with(self::ADMIN_ID)
+            ->andReturnUsing(fn (): string => $this->token);
+        $this->app->instance(LuckinMcpCredentialStore::class, $credentials);
     }
 
     public function test_missing_token_returns_authorization_state_without_network(): void
     {
-        config(['geoflow.luckin_mcp.token' => '']);
+        $this->token = '';
         Http::fake();
 
-        $state = app(LuckinMcpClient::class)->refreshState();
+        $state = app(LuckinMcpClient::class)->refreshState(self::ADMIN_ID);
 
         $this->assertSame('authorization_required', $state['status']);
         $this->assertFalse($state['configured']);
@@ -56,7 +68,7 @@ class LuckinMcpClientTest extends TestCase
             ]), 200, ['Content-Type' => 'application/json'])
             ->push('', 405);
 
-        $state = app(LuckinMcpClient::class)->refreshState();
+        $state = app(LuckinMcpClient::class)->refreshState(self::ADMIN_ID);
 
         $this->assertSame('connected', $state['status']);
         $this->assertSame('2025-06-18', $state['protocol_version']);
@@ -67,7 +79,7 @@ class LuckinMcpClientTest extends TestCase
             'queryProductDetailInfo' => true,
         ], $state['capabilities']);
         $this->assertStringNotContainsString('test-token-never-render', json_encode($state));
-        $this->assertSame($state, app(LuckinMcpClient::class)->cachedState());
+        $this->assertSame($state, app(LuckinMcpClient::class)->cachedState(self::ADMIN_ID));
 
         $requests = [];
         Http::assertSent(function (Request $request) use (&$requests): bool {
@@ -84,6 +96,25 @@ class LuckinMcpClientTest extends TestCase
         $this->assertSame('2025-06-18', $requests[2]->header('MCP-Protocol-Version')[0] ?? null);
     }
 
+    public function test_cache_write_failure_does_not_change_connection_result(): void
+    {
+        Http::fakeSequence()
+            ->push($this->initializeResponse(1), 200, [
+                'Content-Type' => 'application/json',
+                'Mcp-Session-Id' => 'cache-failure-session',
+            ])
+            ->push('', 202)
+            ->push($this->jsonRpc(2, ['tools' => []]), 200, ['Content-Type' => 'application/json'])
+            ->push('', 405);
+        Log::spy();
+        Cache::shouldReceive('put')->once()->andThrow(new RuntimeException('cache unavailable'));
+
+        $state = app(LuckinMcpClient::class)->refreshState(self::ADMIN_ID);
+
+        $this->assertSame('partial', $state['status']);
+        Log::shouldHaveReceived('warning')->once();
+    }
+
     public function test_session_expiry_reinitializes_once(): void
     {
         Http::fakeSequence()
@@ -95,7 +126,7 @@ class LuckinMcpClientTest extends TestCase
             ->push($this->jsonRpc(2, ['tools' => []]), 200, ['Content-Type' => 'application/json'])
             ->push('', 405);
 
-        $state = app(LuckinMcpClient::class)->refreshState();
+        $state = app(LuckinMcpClient::class)->refreshState(self::ADMIN_ID);
 
         $this->assertSame('partial', $state['status']);
         Http::assertSentCount(7);
@@ -111,7 +142,7 @@ class LuckinMcpClientTest extends TestCase
             ->push($this->jsonRpc(2, ['tools' => []]), 200, ['Content-Type' => 'application/json'])
             ->push('', 405);
 
-        $state = app(LuckinMcpClient::class)->refreshState();
+        $state = app(LuckinMcpClient::class)->refreshState(self::ADMIN_ID);
 
         $this->assertSame('partial', $state['status']);
         Http::assertSentCount(6);
@@ -131,7 +162,7 @@ class LuckinMcpClientTest extends TestCase
             ]), 200, ['Content-Type' => 'application/json'])
             ->push('', 405);
 
-        $state = app(LuckinMcpClient::class)->refreshState();
+        $state = app(LuckinMcpClient::class)->refreshState(self::ADMIN_ID);
 
         $this->assertSame('connected', $state['status']);
         Http::assertSent(function (Request $request): bool {
@@ -152,7 +183,7 @@ class LuckinMcpClientTest extends TestCase
             ->push($this->jsonRpc(3, ['tools' => [], 'nextCursor' => 'same']), 200, ['Content-Type' => 'application/json'])
             ->push('', 405);
 
-        $state = app(LuckinMcpClient::class)->refreshState();
+        $state = app(LuckinMcpClient::class)->refreshState(self::ADMIN_ID);
 
         $this->assertSame('error', $state['status']);
         $this->assertSame('', $state['protocol_version']);
@@ -173,7 +204,7 @@ class LuckinMcpClientTest extends TestCase
             ->push($sse, 200, ['Content-Type' => 'text/event-stream; charset=utf-8'])
             ->push('', 405);
 
-        $result = app(LuckinMcpClient::class)->callProductTool('queryShopList', [
+        $result = app(LuckinMcpClient::class)->callProductTool(self::ADMIN_ID, 'queryShopList', [
             'longitude' => 116.397,
             'latitude' => 39.908,
         ]);
@@ -193,7 +224,7 @@ class LuckinMcpClientTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('remote_error');
 
-        app(LuckinMcpClient::class)->callProductTool('queryShopList', [
+        app(LuckinMcpClient::class)->callProductTool(self::ADMIN_ID, 'queryShopList', [
             'longitude' => 116.397,
             'latitude' => 39.908,
         ]);
@@ -209,7 +240,7 @@ class LuckinMcpClientTest extends TestCase
             ['queryShopList', ['longitude' => 116.397, 'latitude' => 39.908, 'orderId' => 1]],
         ] as [$tool, $arguments]) {
             try {
-                $client->callProductTool($tool, $arguments);
+                $client->callProductTool(self::ADMIN_ID, $tool, $arguments);
                 $this->fail('Unsafe tool call was not rejected.');
             } catch (RuntimeException $exception) {
                 $this->assertContains($exception->getMessage(), ['tool_not_allowed', 'invalid_arguments']);
@@ -227,7 +258,7 @@ class LuckinMcpClientTest extends TestCase
             ['Content-Type' => 'application/json', 'Mcp-Session-Id' => "bad\theader"],
         );
 
-        $state = app(LuckinMcpClient::class)->refreshState();
+        $state = app(LuckinMcpClient::class)->refreshState(self::ADMIN_ID);
 
         $this->assertSame('error', $state['status']);
         $this->assertStringNotContainsString('bad', json_encode($state));
@@ -241,11 +272,11 @@ class LuckinMcpClientTest extends TestCase
             ['Content-Type' => 'text/plain'],
         );
 
-        $state = app(LuckinMcpClient::class)->refreshState();
+        $state = app(LuckinMcpClient::class)->refreshState(self::ADMIN_ID);
 
         $this->assertSame('authorization_required', $state['status']);
         $this->assertStringNotContainsString('remote secret detail', json_encode($state));
-        $this->assertSame($state, app(LuckinMcpClient::class)->cachedState());
+        $this->assertSame($state, app(LuckinMcpClient::class)->cachedState(self::ADMIN_ID));
     }
 
     private function initializeResponse(int $id): string

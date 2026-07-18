@@ -9,6 +9,7 @@ use App\Models\KnowledgeChunk;
 use App\Models\Task;
 use App\Services\GeoFlow\KnowledgeChunkSyncService;
 use App\Services\GeoFlow\KnowledgeRetrievalService;
+use App\Services\GeoFlow\LuckinMcpCredentialStore;
 use App\Services\GeoFlow\LuckinMcpKnowledgeService;
 use App\Services\GeoFlow\WorkerExecutionService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -30,7 +31,6 @@ class AdminLuckinMcpKnowledgeTest extends TestCase
         Cache::clear();
         config([
             'geoflow.luckin_mcp.enabled' => true,
-            'geoflow.luckin_mcp.token' => 'feature-test-token',
         ]);
         if (! Schema::hasTable('admin_activity_logs')) {
             Schema::create('admin_activity_logs', function ($table): void {
@@ -136,10 +136,91 @@ class AdminLuckinMcpKnowledgeTest extends TestCase
         Http::assertSentCount(4);
     }
 
+    public function test_super_admin_can_save_mask_and_clear_a_personal_api_key(): void
+    {
+        $admin = $this->admin('super_admin', 'mcp-key-owner');
+        app(LuckinMcpCredentialStore::class)->forget((int) $admin->id);
+        $apiKey = 'lk-test-user-specific-api-key-1234567890';
+        $this->fakeConnectionCheck();
+
+        $this->actingAs($admin, 'admin')
+            ->get(route('admin.knowledge-bases.luckin-mcp.index'))
+            ->assertOk()
+            ->assertSee('data-luckin-mcp-api-key', false)
+            ->assertSee('luckin-mcp-brand-visual-workspace', false)
+            ->assertSee(__('luckin_mcp.api_key_get'))
+            ->assertDontSee('已配置：')
+            ->assertDontSee('Key 仅加密保存')
+            ->assertDontSee('仅开放门店与商品')
+            ->assertDontSee('class="h-auto w-32"', false)
+            ->assertDontSee('LUCKIN_MCP_TOKEN');
+
+        $this->actingAs($admin, 'admin')
+            ->post(route('admin.knowledge-bases.luckin-mcp.api-key.store'), ['api_key' => $apiKey])
+            ->assertRedirect(route('admin.knowledge-bases.luckin-mcp.index'))
+            ->assertSessionHas('message', __('luckin_mcp.api_key_saved'));
+
+        $stored = (string) $admin->fresh()->getRawOriginal('luckin_mcp_api_key');
+        $this->assertNotSame('', $stored);
+        $this->assertStringNotContainsString($apiKey, $stored);
+
+        $this->actingAs($admin, 'admin')
+            ->get(route('admin.knowledge-bases.luckin-mcp.index'))
+            ->assertOk()
+            ->assertSee('lk-t')
+            ->assertSee('7890')
+            ->assertDontSee($apiKey);
+
+        $details = (string) AdminActivityLog::query()
+            ->where('action', 'admin.knowledge-bases.luckin-mcp.api-key.store:submit')
+            ->value('details');
+        $this->assertStringContainsString('[redacted]', $details);
+        $this->assertStringNotContainsString($apiKey, $details);
+
+        $this->actingAs($admin, 'admin')
+            ->delete(route('admin.knowledge-bases.luckin-mcp.api-key.destroy'))
+            ->assertRedirect(route('admin.knowledge-bases.luckin-mcp.index'));
+        $this->assertSame('', app(LuckinMcpCredentialStore::class)->tokenFor((int) $admin->id));
+    }
+
+    public function test_invalid_api_key_is_not_flashed_and_does_not_replace_existing_key(): void
+    {
+        $admin = $this->admin('super_admin', 'mcp-key-validation');
+        $credentials = app(LuckinMcpCredentialStore::class);
+        $existingKey = $credentials->tokenFor((int) $admin->id);
+
+        $this->actingAs($admin, 'admin')
+            ->from(route('admin.knowledge-bases.luckin-mcp.index'))
+            ->post(route('admin.knowledge-bases.luckin-mcp.api-key.store'), ['api_key' => 'too-short'])
+            ->assertRedirect(route('admin.knowledge-bases.luckin-mcp.index'))
+            ->assertSessionHasErrors('api_key');
+
+        $this->assertArrayNotHasKey('api_key', session('_old_input', []));
+        $this->assertSame($existingKey, $credentials->tokenFor((int) $admin->id));
+
+        Http::fake(['*' => Http::response('', 401)]);
+        $replacement = 'lk-invalid-replacement-api-key-1234567890';
+        $this->actingAs($admin, 'admin')
+            ->post(route('admin.knowledge-bases.luckin-mcp.api-key.store'), ['api_key' => $replacement])
+            ->assertSessionHasErrors('api_key');
+
+        $this->assertSame($existingKey, $credentials->tokenFor((int) $admin->id));
+        $this->assertStringNotContainsString($replacement, (string) $admin->fresh()->getRawOriginal('luckin_mcp_api_key'));
+
+        Http::fake(['*' => Http::response('', 500)]);
+        $networkFailure = 'lk-network-failure-api-key-1234567890';
+        $this->actingAs($admin, 'admin')
+            ->post(route('admin.knowledge-bases.luckin-mcp.api-key.store'), ['api_key' => $networkFailure])
+            ->assertSessionHasErrors('api_key');
+
+        $this->assertSame($existingKey, $credentials->tokenFor((int) $admin->id));
+        $this->assertStringNotContainsString($networkFailure, (string) $admin->fresh()->getRawOriginal('luckin_mcp_api_key'));
+    }
+
     public function test_missing_token_and_unsupported_tool_never_call_network_or_create_knowledge(): void
     {
         $admin = $this->admin('super_admin', 'mcp-no-token');
-        config(['geoflow.luckin_mcp.token' => '']);
+        app(LuckinMcpCredentialStore::class)->forget((int) $admin->id);
         Http::fake();
 
         $this->actingAs($admin, 'admin')->post(route('admin.knowledge-bases.luckin-mcp.query'), [
@@ -313,7 +394,12 @@ class AdminLuckinMcpKnowledgeTest extends TestCase
 
     public function test_connector_routes_declare_super_admin_throttle_and_redacted_activity_defaults(): void
     {
-        foreach (['admin.knowledge-bases.luckin-mcp.query', 'admin.knowledge-bases.luckin-mcp.import'] as $name) {
+        foreach ([
+            'admin.knowledge-bases.luckin-mcp.api-key.store',
+            'admin.knowledge-bases.luckin-mcp.api-key.destroy',
+            'admin.knowledge-bases.luckin-mcp.query',
+            'admin.knowledge-bases.luckin-mcp.import',
+        ] as $name) {
             $route = app('router')->getRoutes()->getByName($name);
             $this->assertNotNull($route);
             $middleware = $route->gatherMiddleware();
@@ -408,7 +494,7 @@ class AdminLuckinMcpKnowledgeTest extends TestCase
 
     private function admin(string $role, string $username): Admin
     {
-        return Admin::query()->create([
+        $admin = Admin::query()->create([
             'username' => $username,
             'password' => 'secret-123',
             'email' => $username.'@example.com',
@@ -416,6 +502,11 @@ class AdminLuckinMcpKnowledgeTest extends TestCase
             'role' => $role,
             'status' => 'active',
         ]);
+        if ($admin->isSuperAdmin()) {
+            app(LuckinMcpCredentialStore::class)->put((int) $admin->id, 'feature-test-token');
+        }
+
+        return $admin;
     }
 
     private function fakeProductQuery(array $product): void
@@ -431,6 +522,28 @@ class AdminLuckinMcpKnowledgeTest extends TestCase
                 ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
             ]],
         ]);
+    }
+
+    private function fakeConnectionCheck(): void
+    {
+        Http::fakeSequence()
+            ->push($this->jsonRpc(1, [
+                'protocolVersion' => '2025-06-18',
+                'capabilities' => ['tools' => new \stdClass],
+            ]), 200, [
+                'Content-Type' => 'application/json',
+                'Mcp-Session-Id' => 'credential-session',
+            ])
+            ->push('', 202)
+            ->push($this->jsonRpc(2, [
+                'tools' => [
+                    ['name' => 'queryShopList'],
+                    ['name' => 'searchProductForMcp'],
+                    ['name' => 'switchProduct'],
+                    ['name' => 'queryProductDetailInfo'],
+                ],
+            ]), 200, ['Content-Type' => 'application/json'])
+            ->push('', 405);
     }
 
     private function fakeShopQuery(): void

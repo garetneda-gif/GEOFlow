@@ -16,12 +16,12 @@
 
     <div class="luckin-mcp-workspace px-4 sm:px-0">
         <div class="mb-8 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-            <div class="flex items-center gap-4">
+            <div class="flex min-w-0 flex-1 flex-wrap items-center gap-4">
                 <a href="{{ route('admin.knowledge-bases.index') }}" class="text-gray-400 hover:text-gray-600" aria-label="{{ __('luckin_mcp.back') }}">
                     <i data-lucide="arrow-left" class="h-5 w-5"></i>
                 </a>
-                <img src="{{ asset('images/luckin-coffee-logo.png') }}" alt="luckin coffee 瑞幸咖啡" class="h-auto w-32">
-                <div class="border-l border-gray-200 pl-4">
+                <div class="luckin-mcp-brand-visual luckin-mcp-brand-visual-workspace" role="img" aria-label="luckin coffee 幸运在握"></div>
+                <div class="min-w-0 flex-1 border-l border-gray-200 pl-4">
                     <h1 class="text-2xl font-bold text-gray-900">{{ __('luckin_mcp.heading') }}</h1>
                     <p class="mt-1 text-sm text-gray-600">{{ __('luckin_mcp.subtitle') }}</p>
                 </div>
@@ -31,10 +31,6 @@
                     <span class="h-2 w-2 rounded-full bg-current"></span>
                     {{ __('luckin_mcp.status.'.$status) }}
                 </span>
-                <a href="https://open.lkcoffee.com/mcp" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900">
-                    {{ __('luckin_mcp.official_docs') }}
-                    <i data-lucide="external-link" class="h-4 w-4"></i>
-                </a>
             </div>
         </div>
 
@@ -51,21 +47,45 @@
             </div>
         @endif
 
-        @if ($status === 'authorization_required')
-            <div class="mb-6 flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 px-5 py-4 text-sm text-amber-900">
-                <i data-lucide="key-round" class="mt-0.5 h-5 w-5 shrink-0"></i>
-                <div>
-                    <p class="font-semibold">{{ __('luckin_mcp.authorization_title') }}</p>
-                    <p class="mt-1">{{ __('luckin_mcp.authorization_desc') }}</p>
+        <section class="mb-6 rounded-lg border border-blue-100 bg-white px-5 py-5 shadow-sm" data-luckin-mcp-api-key>
+            <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+                <div class="min-w-0 flex-1">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <h2 class="text-base font-semibold text-gray-900">{{ __('luckin_mcp.api_key_title') }}</h2>
+                        @if ($apiKeyMask !== '')
+                            <span class="text-xs font-medium text-emerald-700">{{ __('luckin_mcp.api_key_configured', ['mask' => $apiKeyMask]) }}</span>
+                        @endif
+                    </div>
+                    <form method="POST" action="{{ route('admin.knowledge-bases.luckin-mcp.api-key.store') }}" class="mt-4 flex flex-col gap-3 sm:flex-row" data-luckin-mcp-api-key-form>
+                        @csrf
+                        <label for="luckin-mcp-api-key" class="sr-only">{{ __('luckin_mcp.field.api_key') }}</label>
+                        <input id="luckin-mcp-api-key" type="password" name="api_key" required minlength="20" maxlength="4096" autocomplete="off" class="block min-w-0 flex-1 rounded-md border-gray-300 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="{{ __('luckin_mcp.api_key_placeholder') }}">
+                        <button type="submit" class="inline-flex shrink-0 items-center justify-center rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            <i data-lucide="shield-check" class="mr-2 h-4 w-4"></i>
+                            {{ __('luckin_mcp.api_key_save') }}
+                        </button>
+                    </form>
+                </div>
+                <div class="flex shrink-0 flex-wrap items-center gap-3">
+                    <a href="https://open.lkcoffee.com/mcp" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900">
+                        {{ __('luckin_mcp.api_key_get') }}
+                        <i data-lucide="external-link" class="h-4 w-4"></i>
+                    </a>
+                    @if ($apiKeyMask !== '')
+                        <form method="POST" action="{{ route('admin.knowledge-bases.luckin-mcp.api-key.destroy') }}">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="text-sm font-medium text-gray-500 hover:text-red-600">{{ __('luckin_mcp.api_key_clear') }}</button>
+                        </form>
+                    @endif
                 </div>
             </div>
-        @endif
+        </section>
 
         <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)]">
             <section class="rounded-lg bg-white shadow-sm ring-1 ring-gray-200">
                 <div class="border-b border-gray-100 px-6 py-5">
                     <h2 class="text-lg font-semibold text-gray-900">{{ __('luckin_mcp.query_title') }}</h2>
-                    <p class="mt-1 text-sm text-gray-600">{{ __('luckin_mcp.query_desc') }}</p>
                 </div>
                 <form method="POST" action="{{ route('admin.knowledge-bases.luckin-mcp.query') }}" class="space-y-5 p-6" data-luckin-mcp-query-form>
                     @csrf
@@ -140,7 +160,7 @@
 
                     <div class="flex items-center justify-between gap-4 border-t border-gray-100 pt-5">
                         <p class="text-xs leading-5 text-gray-500">{{ __('luckin_mcp.query_privacy') }}</p>
-                        <button type="submit" class="inline-flex shrink-0 items-center rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        <button type="submit" @disabled(!($mcpState['configured'] ?? false)) class="inline-flex shrink-0 items-center rounded-md bg-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-300">
                             <i data-lucide="search" class="mr-2 h-4 w-4"></i>
                             {{ __('luckin_mcp.query_action') }}
                         </button>

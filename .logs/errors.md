@@ -180,3 +180,45 @@
 - 现象：纯 PHPUnit 测试直接加载配置时缺少 `database_path()` 与 `storage_path()`。
 - 根因：测试继承了 `PHPUnit\\Framework\\TestCase`，未创建 Laravel Application。
 - 处理：改为继承项目 `Tests\\TestCase`，定向测试与完整回归均通过。
+## 2026-07-18 16:14 — route:list 参数不兼容
+
+- `php artisan route:list --columns=...` 在当前 Laravel 版本不支持 `--columns`，命令退出非零。
+- 改用 `php artisan route:list --name=admin.knowledge-bases.luckin-mcp` 验证，5 条 MCP 路由均已注册。
+## 2026-07-18 16:17 — rg 模式被解析为参数
+
+- 搜索模式以 `->` 开头时，`rg` 将其误判为命令参数并报 `unrecognized flag`。
+- 后续在模式前加入 `--`，以明确结束命令参数解析。
+## 2026-07-18 16:18 — rg 的 glob 参数位置错误
+
+- 在 `--` 后继续传 `-g '*.php'` 导致 glob 被当作路径，出现文件不存在错误。
+- 正确顺序为先写 `-g '*.php'`，再写 `--` 和搜索模式；目标测试不受影响，29 项均通过。
+## 2026-07-18 16:20 — composer 不在 PATH
+
+- `composer test` 退出 127，当前 shell 未安装或未暴露 `composer` 命令。
+- 改用等价的项目测试入口 `php artisan config:clear` 与 `php artisan test`；前端 `npm run build` 已成功。
+## 2026-07-18 16:24 — 浏览器校验探针调用受限
+
+- Browser 插件的页面执行环境不允许直接调用 `HTMLInputElement.checkValidity()`，返回 `not a function`。
+- 改读标准 `validity.valid` 与 `validationMessage` 属性验证原生最小长度校验，不影响表单本身。
+## 2026-07-18 16:25 — Tab 不提供 setViewportSize
+
+- Browser 插件的 Tab 对象没有直接的 `setViewportSize` 方法，移动端 QA 首次调用失败。
+- 改按已加载的 Browser 文档使用 Playwright 子接口调整视口后继续验证。
+
+## 2026-07-18 16:42 — zsh 保留变量名导致状态采集失败
+
+- 现象：完整测试完成后，汇总脚本给 `status` 赋值时被 zsh 以只读变量拒绝。
+- 根因：`status` 是 zsh 的特殊只读参数，不能用作普通退出码变量。
+- 处理：直接读取已生成的测试日志确认 982 项通过，后续脚本改用任务专用变量名。
+
+## 2026-07-18 16:56 — 视觉资产断言误扫全局页头
+
+- 现象：移除 MCP 区域小 Logo 后，两个负向测试仍命中后台全局导航中的同名 Logo 路径。
+- 根因：断言扫描整页 HTML，没有限定 MCP 区域旧元素的尺寸与类名。
+- 处理：改为断言 MCP 旧图片独有的尺寸和类名消失，保留全局页头品牌标识。
+
+## 2026-07-18 17:02 — Browser 截图写入误用 Promise API
+
+- 现象：将 Browser 截图保存到临时文件时，直接调用 `fs.writeFile` 未传回调而报错。
+- 根因：当前持久 Node 会话加载的是回调版 `fs`，不是 `fs/promises`。
+- 处理：用 `Promise` 包装回调式 `writeFile` 后保存截图，页面与截图内容不受影响。

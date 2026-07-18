@@ -6,6 +6,7 @@ use App\Services\Outbound\SafeOutboundHttpClient;
 use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use JsonException;
 use RuntimeException;
 use stdClass;
@@ -31,16 +32,18 @@ final class LuckinMcpClient
     public function __construct(
         private readonly SafeOutboundHttpClient $safeHttp,
         private readonly Factory $http,
+        private readonly LuckinMcpCredentialStore $credentials,
     ) {}
 
-    public function cachedState(): array
+    public function cachedState(int $adminId): array
     {
-        $base = $this->baseState();
+        $token = $this->credentials->tokenFor($adminId);
+        $base = $this->baseState($token);
         if (! $base['enabled'] || ! $base['configured']) {
             return $base;
         }
 
-        $cached = Cache::get($this->cacheKey());
+        $cached = $this->cacheGet($this->cacheKey($token));
         if (! is_array($cached)) {
             return $base;
         }
@@ -48,16 +51,25 @@ final class LuckinMcpClient
         return $this->sanitizeState($cached, $base);
     }
 
-    public function refreshState(): array
+    public function refreshState(int $adminId): array
     {
-        $base = $this->baseState();
+        $token = $this->credentials->tokenFor($adminId);
+        $state = $this->probeToken($token);
+
+        return $state;
+    }
+
+    public function probeToken(string $token): array
+    {
+        $token = trim($token);
+        $base = $this->baseState($token);
         if (! $base['enabled'] || ! $base['configured']) {
             return $base;
         }
 
         try {
-            $available = $this->withSession(function (array &$session): array {
-                return $this->listTools($session);
+            $available = $this->withSession($token, function (array &$session) use ($token): array {
+                return $this->listTools($session, $token);
             });
             $capabilities = [];
             foreach (self::PRODUCT_TOOLS as $tool) {
@@ -86,21 +98,22 @@ final class LuckinMcpClient
         }
 
         $state = $this->sanitizeState($state, $base);
-        Cache::put($this->cacheKey(), $state, $this->stateTtlSeconds());
+        $this->cachePut($this->cacheKey($token), $state);
 
         return $state;
     }
 
-    public function callProductTool(string $name, array $arguments): array
+    public function callProductTool(int $adminId, string $name, array $arguments): array
     {
         $this->assertToolArguments($name, $arguments);
-        $base = $this->baseState();
+        $token = $this->credentials->tokenFor($adminId);
+        $base = $this->baseState($token);
         if (! $base['enabled'] || ! $base['configured']) {
             throw new RuntimeException('authorization_required');
         }
 
-        return $this->withSession(function (array &$session) use ($name, $arguments): array {
-            $result = $this->request($session, 'tools/call', [
+        return $this->withSession($token, function (array &$session) use ($token, $name, $arguments): array {
+            $result = $this->request($session, $token, 'tools/call', [
                 'name' => $name,
                 'arguments' => $arguments,
             ]);
@@ -112,14 +125,58 @@ final class LuckinMcpClient
         });
     }
 
-    private function withSession(callable $operation): array
+    public function forgetCachedState(int $adminId): void
+    {
+        $this->forgetCachedToken($this->credentials->tokenFor($adminId));
+    }
+
+    public function forgetCachedToken(string $token): void
+    {
+        if ($token !== '') {
+            try {
+                Cache::forget($this->cacheKey($token));
+            } catch (\Throwable $exception) {
+                $this->logCacheFailure('forget', $exception);
+            }
+        }
+    }
+
+    private function cacheGet(string $key): mixed
+    {
+        try {
+            return Cache::get($key);
+        } catch (\Throwable $exception) {
+            $this->logCacheFailure('get', $exception);
+
+            return null;
+        }
+    }
+
+    private function cachePut(string $key, array $state): void
+    {
+        try {
+            Cache::put($key, $state, $this->stateTtlSeconds());
+        } catch (\Throwable $exception) {
+            $this->logCacheFailure('put', $exception);
+        }
+    }
+
+    private function logCacheFailure(string $operation, \Throwable $exception): void
+    {
+        Log::warning('Luckin MCP state cache operation failed.', [
+            'operation' => $operation,
+            'exception' => $exception::class,
+        ]);
+    }
+
+    private function withSession(string $token, callable $operation): array
     {
         for ($attempt = 0; $attempt < 2; $attempt++) {
             $session = null;
             try {
-                $session = $this->initializeSession();
+                $session = $this->initializeSession($token);
                 $result = $operation($session);
-                $this->closeSession($session);
+                $this->closeSession($session, $token);
 
                 return $result;
             } catch (LuckinMcpSessionExpiredException) {
@@ -128,7 +185,7 @@ final class LuckinMcpClient
                 }
             } catch (\Throwable $exception) {
                 if ($session !== null) {
-                    $this->closeSession($session);
+                    $this->closeSession($session, $token);
                 }
 
                 throw $exception;
@@ -138,7 +195,7 @@ final class LuckinMcpClient
         throw new RuntimeException('protocol_error');
     }
 
-    private function initializeSession(): array
+    private function initializeSession(string $token): array
     {
         $response = $this->post([
             'jsonrpc' => '2.0',
@@ -152,7 +209,7 @@ final class LuckinMcpClient
                     'version' => (string) config('geoflow.app_version', '2.1.1'),
                 ],
             ],
-        ], null, self::SUPPORTED_PROTOCOL_VERSION);
+        ], null, self::SUPPORTED_PROTOCOL_VERSION, $token);
         $result = $this->responseResult($response, 1);
         if (($result['protocolVersion'] ?? null) !== self::SUPPORTED_PROTOCOL_VERSION) {
             throw new RuntimeException('protocol_error');
@@ -176,7 +233,7 @@ final class LuckinMcpClient
             'jsonrpc' => '2.0',
             'method' => 'notifications/initialized',
             'params' => new stdClass,
-        ], $session, self::SUPPORTED_PROTOCOL_VERSION);
+        ], $session, self::SUPPORTED_PROTOCOL_VERSION, $token);
         if (! $initialized->successful()) {
             throw new RuntimeException('protocol_error');
         }
@@ -184,7 +241,7 @@ final class LuckinMcpClient
         return $session;
     }
 
-    private function listTools(array &$session): array
+    private function listTools(array &$session, string $token): array
     {
         $tools = [];
         $cursor = null;
@@ -192,7 +249,7 @@ final class LuckinMcpClient
 
         for ($page = 0; $page < 4; $page++) {
             $params = $cursor === null ? new stdClass : ['cursor' => $cursor];
-            $result = $this->request($session, 'tools/list', $params);
+            $result = $this->request($session, $token, 'tools/list', $params);
             $rows = $result['tools'] ?? null;
             if (! is_array($rows)) {
                 throw new RuntimeException('protocol_error');
@@ -222,7 +279,7 @@ final class LuckinMcpClient
         throw new RuntimeException('protocol_error');
     }
 
-    private function request(array &$session, string $method, array|stdClass $params): array
+    private function request(array &$session, string $token, string $method, array|stdClass $params): array
     {
         $id = $session['next_id']++;
         $response = $this->post([
@@ -230,12 +287,12 @@ final class LuckinMcpClient
             'id' => $id,
             'method' => $method,
             'params' => $params,
-        ], $session, $session['protocol_version']);
+        ], $session, $session['protocol_version'], $token);
 
         return $this->responseResult($response, $id);
     }
 
-    private function post(array $payload, ?array $session, string $protocolVersion): Response
+    private function post(array $payload, ?array $session, string $protocolVersion, string $token): Response
     {
         $headers = [
             'Accept' => 'application/json, text/event-stream',
@@ -248,7 +305,7 @@ final class LuckinMcpClient
         $request = $this->http
             ->timeout($this->timeoutSeconds())
             ->connectTimeout($this->connectTimeoutSeconds())
-            ->withToken($this->token())
+            ->withToken($token)
             ->withHeaders($headers)
             ->asJson();
         $response = $this->safeHttp->post(
@@ -271,7 +328,7 @@ final class LuckinMcpClient
         return $response;
     }
 
-    private function closeSession(array $session): void
+    private function closeSession(array $session, string $token): void
     {
         if ($session['id'] === '') {
             return;
@@ -281,7 +338,7 @@ final class LuckinMcpClient
             $request = $this->http
                 ->timeout($this->timeoutSeconds())
                 ->connectTimeout($this->connectTimeoutSeconds())
-                ->withToken($this->token())
+                ->withToken($token)
                 ->withHeaders([
                     'Accept' => 'application/json, text/event-stream',
                     'MCP-Protocol-Version' => $session['protocol_version'],
@@ -493,10 +550,10 @@ final class LuckinMcpClient
         return strlen($sessionId) <= 512 && preg_match('/^[\x21-\x7E]+$/', $sessionId) === 1;
     }
 
-    private function baseState(): array
+    private function baseState(string $token): array
     {
         $enabled = (bool) config('geoflow.luckin_mcp.enabled', true);
-        $configured = $this->token() !== '';
+        $configured = $token !== '';
 
         return [
             'enabled' => $enabled,
@@ -535,10 +592,10 @@ final class LuckinMcpClient
         ];
     }
 
-    private function cacheKey(): string
+    private function cacheKey(string $token): string
     {
         $key = (string) config('app.key', '');
-        $fingerprint = hash_hmac('sha256', $this->token(), $key !== '' ? $key : 'geoflow-luckin-mcp');
+        $fingerprint = hash_hmac('sha256', $token, $key !== '' ? $key : 'geoflow-luckin-mcp');
 
         return 'geoflow:luckin-mcp:state:'.$fingerprint;
     }
@@ -546,11 +603,6 @@ final class LuckinMcpClient
     private function endpoint(): string
     {
         return 'https://gwmcp.lkcoffee.com/order/user/mcp';
-    }
-
-    private function token(): string
-    {
-        return trim((string) config('geoflow.luckin_mcp.token', ''));
     }
 
     private function timeoutSeconds(): int

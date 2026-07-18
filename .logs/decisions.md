@@ -77,3 +77,9 @@
 - **选择**：继续使用 Supabase 为 Serverless 推荐的 6543 transaction pooler，通过 `PDO::PGSQL_ATTR_DISABLE_PREPARES` 单次发送查询和参数。
 - **备选**：切换 5432 session pooler，或开启 `PDO::ATTR_EMULATE_PREPARES`。
 - **否决理由**：session pooler 并发容量更低；PDO 模拟预处理会把 Laravel boolean 绑定展开成整数，已在生产触发 `boolean = integer`。
+
+## 2026-07-18 16:28 — 瑞幸 MCP 凭据改为管理员独立配置
+
+- **选择**：超级管理员在 MCP 工作台自行粘贴官方 API Key，使用 Laravel Encrypter 加密后存入该管理员记录；页面只显示掩码，保存与清除请求全部审计脱敏。
+- **备选**：继续使用全站统一 `LUCKIN_MCP_TOKEN`，或把密文按管理员数字 ID 存入通用设置表。
+- **否决理由**：全站变量无法支持用户自行授权；通用设置表会在管理员删除且 ID 复用时留下凭据继承风险，凭据随管理员记录保存可自然消除该风险。

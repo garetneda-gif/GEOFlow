@@ -380,7 +380,7 @@
     @endphp
 
     <div class="luckin-dashboard px-4 sm:px-0">
-        <section class="luckin-dashboard-hero mb-8">
+        <section class="luckin-dashboard-hero mb-8" style="--luckin-dashboard-hero-image: url('{{ asset('images/luckin-dashboard-coffee-banner.jpg') }}')">
             <div class="luckin-dashboard-hero-content">
                 <div>
                     <h1 class="text-3xl font-bold text-white">{{ __('admin.dashboard.navigation.heading') }}</h1>
@@ -400,7 +400,7 @@
         </section>
 
         <section class="luckin-mcp-source-strip mb-8" data-status="{{ $luckinMcpStatus }}" aria-labelledby="luckin-mcp-source-title">
-            <img src="{{ asset('images/luckin-coffee-logo.png') }}" alt="luckin coffee 瑞幸咖啡" width="360" height="100">
+            <div class="luckin-mcp-brand-visual luckin-mcp-brand-visual-dashboard" role="img" aria-label="luckin coffee 幸运在握"></div>
             <div class="min-w-0 flex-1">
                 <div class="flex flex-wrap items-center gap-2">
                     <h2 id="luckin-mcp-source-title">{{ __('luckin_mcp.heading') }}</h2>

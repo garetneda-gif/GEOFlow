@@ -95,7 +95,6 @@ return [
     'outbound_metadata_max_bytes' => max(1, (int) env('GEOFLOW_OUTBOUND_METADATA_MAX_BYTES', 1024 * 1024)),
     'luckin_mcp' => [
         'enabled' => filter_var(env('LUCKIN_MCP_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
-        'token' => trim((string) env('LUCKIN_MCP_TOKEN', '')),
         'timeout_seconds' => max(1, min(15, (int) env('LUCKIN_MCP_TIMEOUT_SECONDS', 5))),
         'connect_timeout_seconds' => max(1, min(10, (int) env('LUCKIN_MCP_CONNECT_TIMEOUT_SECONDS', 3))),
         'max_response_bytes' => max(1024, min(2 * 1024 * 1024, (int) env('LUCKIN_MCP_MAX_RESPONSE_BYTES', 1024 * 1024))),

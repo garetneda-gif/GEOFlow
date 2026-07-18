@@ -251,6 +251,14 @@ Route::prefix($adminPrefix)->name('admin.')->middleware(['admin.locale'])->group
             Route::post('create', [KnowledgeBaseController::class, 'store'])->name('store');
             Route::middleware('admin.super')->prefix('luckin-mcp')->name('luckin-mcp.')->group(function () {
                 Route::get('/', [LuckinMcpKnowledgeController::class, 'index'])->name('index');
+                Route::post('api-key', [LuckinMcpKnowledgeController::class, 'saveApiKey'])
+                    ->middleware('throttle:10,1')
+                    ->defaults('activity_input_redacted', true)
+                    ->name('api-key.store');
+                Route::delete('api-key', [LuckinMcpKnowledgeController::class, 'clearApiKey'])
+                    ->middleware('throttle:10,1')
+                    ->defaults('activity_input_redacted', true)
+                    ->name('api-key.destroy');
                 Route::post('query', [LuckinMcpKnowledgeController::class, 'query'])
                     ->middleware('throttle:20,1')
                     ->defaults('activity_input_redacted', true)

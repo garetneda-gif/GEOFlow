@@ -69,6 +69,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectUsersTo(fn () => route('admin.dashboard'));
     })
     ->withExceptions(function (Exceptions $exceptions): void {
+        // 凭据类输入绝不能随校验错误写入 Session 的 _old_input。
+        $exceptions->dontFlash(['api_key']);
+
         /**
          * 后台 firstOrFail 友好错误页：
          * Laravel 渲染流程里 ModelNotFoundException 可能会先包装为 NotFoundHttpException，

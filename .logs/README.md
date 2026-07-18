@@ -7,7 +7,7 @@
 - 技术栈：PHP 8.3 / Laravel 12 / Blade / Tailwind 本地运行脚本 / Vite；数据库默认 PostgreSQL，测试使用 SQLite。
 - 启动入口：`php artisan serve --host=127.0.0.1 --port=18080`；前台 `/`，后台 `/geo_admin/login`。
 - 外部依赖按 `composer.json` / `package.json` 安装；凭据只保存在本机 `.env`，不进入仓库。
-- 瑞幸官方数据入口：`/geo_admin/knowledge-bases/luckin-mcp`；凭据为服务端 `LUCKIN_MCP_TOKEN`，只开放门店与商品四项工具。
+- 瑞幸官方数据入口：`/geo_admin/knowledge-bases/luckin-mcp`；每位超级管理员从官方平台获取 API Key 后在工作台独立配置，密文保存在管理员记录中，只开放门店与商品四项工具。
 
 ## 2026-07-18 14:52 — 生产部署快照
 

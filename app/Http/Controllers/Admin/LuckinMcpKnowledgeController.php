@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\KnowledgeBase;
 use App\Services\GeoFlow\LuckinMcpClient;
+use App\Services\GeoFlow\LuckinMcpCredentialStore;
 use App\Services\GeoFlow\LuckinMcpKnowledgeService;
 use App\Support\AdminWeb;
 use Illuminate\Http\RedirectResponse;
@@ -18,11 +19,51 @@ final class LuckinMcpKnowledgeController extends Controller
     public function __construct(
         private readonly LuckinMcpKnowledgeService $knowledgeService,
         private readonly LuckinMcpClient $client,
+        private readonly LuckinMcpCredentialStore $credentials,
     ) {}
 
     public function index(): View
     {
         return $this->workspace();
+    }
+
+    public function saveApiKey(Request $request): RedirectResponse
+    {
+        $payload = $request->validate([
+            'api_key' => ['required', 'string', 'min:20', 'max:4096'],
+        ]);
+        $adminId = (int) auth('admin')->id();
+        $apiKey = trim((string) $payload['api_key']);
+        $state = $this->client->probeToken($apiKey);
+
+        if ($state['status'] === 'authorization_required') {
+            return back()->withErrors(['api_key' => __('luckin_mcp.errors.invalid_api_key')]);
+        }
+        if (! in_array($state['status'], ['connected', 'partial'], true)) {
+            return back()->withErrors(['api_key' => __('luckin_mcp.errors.unavailable')]);
+        }
+
+        $previousToken = $this->credentials->tokenFor($adminId);
+        $this->credentials->put($adminId, $apiKey);
+        if ($previousToken !== '' && ! hash_equals($previousToken, $apiKey)) {
+            $this->client->forgetCachedToken($previousToken);
+        }
+
+        return redirect()
+            ->route('admin.knowledge-bases.luckin-mcp.index')
+            ->with('message', __('luckin_mcp.api_key_saved'));
+    }
+
+    public function clearApiKey(): RedirectResponse
+    {
+        $adminId = (int) auth('admin')->id();
+        $previousToken = $this->credentials->tokenFor($adminId);
+        $this->credentials->forget($adminId);
+        $this->client->forgetCachedToken($previousToken);
+
+        return redirect()
+            ->route('admin.knowledge-bases.luckin-mcp.index')
+            ->with('message', __('luckin_mcp.api_key_cleared'));
     }
 
     public function query(Request $request): View|RedirectResponse
@@ -82,11 +123,14 @@ final class LuckinMcpKnowledgeController extends Controller
 
     private function workspace(?array $preview = null): View
     {
+        $adminId = (int) auth('admin')->id();
+
         return view('admin.knowledge-bases.luckin-mcp', [
             'pageTitle' => __('luckin_mcp.page_title'),
             'activeMenu' => 'materials',
             'adminSiteName' => AdminWeb::siteName(),
-            'mcpState' => $this->client->cachedState(),
+            'mcpState' => $this->client->cachedState($adminId),
+            'apiKeyMask' => $this->credentials->maskFor($adminId),
             'tools' => $this->knowledgeService->tools(),
             'preview' => $preview,
             'recentImports' => KnowledgeBase::query()

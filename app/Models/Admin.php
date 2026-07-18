@@ -21,6 +21,7 @@ class Admin extends Authenticatable
 
     protected $hidden = [
         'password',
+        'luckin_mcp_api_key',
         'remember_token',
     ];
 

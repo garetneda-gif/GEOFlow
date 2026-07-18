@@ -50,7 +50,7 @@ class DashboardController extends Controller
             'canManageProtectedWorkflows' => $canManageProtectedWorkflows,
             'distributionHealth' => $canManageProtectedWorkflows ? $this->buildDistributionHealth() : [],
             'urlImportHealth' => $canManageProtectedWorkflows ? $this->buildUrlImportHealth() : [],
-            'luckinMcpState' => $luckinMcp->cachedState(),
+            'luckinMcpState' => $luckinMcp->cachedState((int) auth('admin')->id()),
         ]);
     }
 

@@ -60,7 +60,7 @@ final class LuckinMcpKnowledgeService
         }
 
         $normalized = $this->normalizeArguments($tool, $arguments);
-        $result = $this->client->callProductTool($tool, $normalized);
+        $result = $this->client->callProductTool($adminId, $tool, $normalized);
         $projected = $this->projectResult($tool, $result);
         $retrievedAt = now()->toIso8601String();
         $token = bin2hex(random_bytes(32));

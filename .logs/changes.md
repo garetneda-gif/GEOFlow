@@ -124,3 +124,12 @@
 - `public/css/luckin-admin-theme.css` 移除首页横幅的 18px 圆角、悬浮阴影和咖啡图背景，改为瑞幸深蓝至亮蓝的双层渐变。
 - `resources/views/admin/dashboard.blade.php` 停止渲染旧横幅图变量，保留原有标题、说明和操作入口。
 - `tests/Feature/AdminDashboardQuickStartTest.php` 增加无卡片边界、渐变背景和旧横幅不再渲染的回归断言。
+## 2026-07-18 16:31 — 瑞幸 MCP 改为用户 API Key
+
+- `LuckinMcpKnowledgeController` 新增 API Key 保存与清除入口，工作台移除服务端环境变量提示，改为密码输入框和官方获取链接。
+- `LuckinMcpCredentialStore` 使用现有 `ApiKeyCrypto` 加密，并将密文绑定到 `admins.luckin_mcp_api_key`；客户端按当前管理员凭据查询和缓存。
+- 新增管理员凭据迁移、审计脱敏路由和回归测试；移除 `LUCKIN_MCP_TOKEN` 配置入口。
+- 瑞幸 MCP 新字段使用 Laravel Encrypter（含完整性校验与历史 APP Key 支持），不改动 GEOFlow 既有凭据格式；校验失败不写 Session，候选 Key 验证失败不会覆盖旧值。
+- 根据页面验收移除 API Key 输入区的说明小字，仅保留标题、输入框、保存按钮和官方获取入口。
+- 同步移除“查询官方数据”卡片下的只读/订单能力说明小字。
+- MCP 工作台页头与 Dashboard 入口左侧不再使用组合 Logo，统一改为官网“幸运在握”手持蓝杯视觉资产的裁切背景图。

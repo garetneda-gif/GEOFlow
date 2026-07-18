@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Admin;
+use App\Services\GeoFlow\LuckinMcpCredentialStore;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
@@ -15,7 +16,6 @@ class AdminDashboardLuckinMcpTest extends TestCase
     {
         config([
             'geoflow.luckin_mcp.enabled' => true,
-            'geoflow.luckin_mcp.token' => '',
         ]);
         Http::fake();
 
@@ -33,6 +33,8 @@ class AdminDashboardLuckinMcpTest extends TestCase
         $response
             ->assertOk()
             ->assertSee('luckin-mcp-source-strip', false)
+            ->assertSee('luckin-mcp-brand-visual-dashboard', false)
+            ->assertDontSee('width="360" height="100"', false)
             ->assertSee(__('luckin_mcp.heading'))
             ->assertSee(__('luckin_mcp.status.authorization_required'))
             ->assertSee(route('admin.knowledge-bases.luckin-mcp.index'), false)
@@ -52,7 +54,6 @@ class AdminDashboardLuckinMcpTest extends TestCase
 
     public function test_dashboard_with_configured_token_and_empty_cache_still_makes_no_external_request(): void
     {
-        config(['geoflow.luckin_mcp.token' => 'configured-but-not-probed']);
         Http::fake();
 
         $admin = Admin::query()->create([
@@ -63,6 +64,7 @@ class AdminDashboardLuckinMcpTest extends TestCase
             'role' => 'super_admin',
             'status' => 'active',
         ]);
+        app(LuckinMcpCredentialStore::class)->put((int) $admin->id, 'configured-but-not-probed');
 
         $this->actingAs($admin, 'admin')
             ->get(route('admin.dashboard'))
@@ -75,13 +77,30 @@ class AdminDashboardLuckinMcpTest extends TestCase
 
     public function test_check_command_with_missing_token_emits_sanitized_state_without_network(): void
     {
-        config(['geoflow.luckin_mcp.token' => '']);
         Http::fake();
 
         $this->artisan('geoflow:luckin-mcp:check', ['--json' => true])
-            ->expectsOutputToContain('"status":"authorization_required"')
+            ->expectsOutputToContain('"admins":[]')
             ->assertSuccessful();
 
         Http::assertNothingSent();
+    }
+
+    public function test_check_command_fails_when_a_configured_key_is_revoked(): void
+    {
+        $admin = Admin::query()->create([
+            'username' => 'luckin_mcp_revoked_admin',
+            'password' => 'secret-123',
+            'email' => 'luckin-mcp-revoked@example.com',
+            'display_name' => 'Luckin MCP Revoked Admin',
+            'role' => 'super_admin',
+            'status' => 'active',
+        ]);
+        app(LuckinMcpCredentialStore::class)->put((int) $admin->id, 'revoked-token-never-render');
+        Http::fake(['*' => Http::response('', 401)]);
+
+        $this->artisan('geoflow:luckin-mcp:check', ['--admin' => [(int) $admin->id], '--json' => true])
+            ->expectsOutputToContain('"status":"authorization_required"')
+            ->assertFailed();
     }
 }
