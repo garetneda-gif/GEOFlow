@@ -156,3 +156,9 @@
 - 现象：旧部署在 `/geo_admin/dashboard`、`/geo_admin/analytics` 与 `/geo_admin/tasks` 均记录 500，并非任务管理页单点故障。
 - 根因：Vercel 保存的错误消息从 Laravel 调用栈中段开始，异常首行已被平台截断，现有日志无法可靠还原具体异常；禁止据此猜测修改业务代码。
 - 处理：重新部署相同应用运行时后，用生产管理员会话连续打开并刷新任务页，页面与控制台均正常；新部署 `dpl_qqtjEdTSd1L2qggotDczLTzizoSa` 未记录新的 500。
+
+## 2026-07-18 15:43 — 本机缺少 Pillow 无法直接量取透明像素
+
+- 现象：用 Python 读取 Logo alpha 边界时报 `ModuleNotFoundError: No module named 'PIL'`。
+- 根因：当前项目未安装 Pillow，且该依赖不属于应用运行所需。
+- 处理：不新增项目依赖，改用现有 FFmpeg 的 `alphaextract` 与 `cropdetect` 量取字标边界。

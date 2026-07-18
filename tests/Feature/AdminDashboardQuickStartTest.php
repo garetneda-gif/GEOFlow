@@ -11,6 +11,20 @@ class AdminDashboardQuickStartTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_admin_navigation_uses_wordmark_alignment_offset(): void
+    {
+        $themeCss = (string) file_get_contents(public_path('css/luckin-admin-theme.css'));
+
+        preg_match(
+            '/body\.luckin-admin-theme \.luckin-admin-nav-link\s*\{([^}]*)\}/s',
+            $themeCss,
+            $navLinkStyleMatches
+        );
+
+        $this->assertArrayHasKey(1, $navLinkStyleMatches);
+        $this->assertStringContainsString('transform: translateY(5px);', $navLinkStyleMatches[1]);
+    }
+
     public function test_dashboard_shows_scenario_navigation_without_data_widgets(): void
     {
         $admin = Admin::query()->create([

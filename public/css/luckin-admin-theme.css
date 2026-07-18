@@ -26,7 +26,7 @@ body.luckin-admin-theme .luckin-admin-nav-link {
     display: inline-flex;
     align-items: center;
     line-height: 1;
-    transform: translateY(-2px);
+    transform: translateY(5px);
 }
 
 body.luckin-admin-theme .luckin-login-logo {

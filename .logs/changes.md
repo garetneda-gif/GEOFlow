@@ -101,3 +101,8 @@
 
 - `public/css/luckin-admin-theme.css` 将页脚四个入口由两列卡片改为右对齐、自动换行的文字链接，移除边框、圆角与底色。
 - `tests/Feature/AdminDashboardQuickStartTest.php` 增加页脚链接无卡片样式回归，防止品牌包装再次退回按钮卡片。
+
+## 2026-07-18 15:43 — 按官方字标视觉中心校准页头
+
+- `public/css/luckin-admin-theme.css` 将后台导航由上移 2px 改为下移 5px，使中文导航与官方 Logo 内的 `luckin coffee` 字标视觉中心对齐。
+- `tests/Feature/AdminDashboardQuickStartTest.php` 增加导航位移回归断言，避免后续再次按透明图片盒子误判对齐。

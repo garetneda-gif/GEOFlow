@@ -107,3 +107,10 @@
 - 线上计算样式确认页脚入口为 flex 文字链接：透明背景、无边框、无圆角；四个链接均保留。
 - 完整 PHPUnit 974 项、7879 个断言通过；Vite 7.3.2 生产构建、变更范围 Pint 与 `git diff --check` 通过。
 - Vercel 生产部署 `dpl_qqtjEdTSd1L2qggotDczLTzizoSa` 已别名到 `https://luckin-geoflow.vercel.app`。
+
+## 2026-07-18 15:43 — 页头字标与导航完成光学对齐
+
+- 官方 Logo 原图为 360×100，英文 wordmark alpha 边界为 y=44..79；按线上 140px 显示宽度换算后，字标视觉中心为 36.47px。
+- 生产导航文字中心为 37px，与字标中心仅差 0.53px；任务页截图和控制台检查通过。
+- 完整 PHPUnit 975 项、7881 个断言通过；Vite 7.3.2 生产构建、变更范围 Pint 与 `git diff --check` 通过。
+- Vercel 生产部署 `dpl_4f4AFWniFKMo5SHB7d2tTAe7TsYj` 已别名到 `https://luckin-geoflow.vercel.app`。
