@@ -299,9 +299,19 @@ class AdminDashboardQuickStartTest extends TestCase
             ->assertOk()
             ->getContent();
 
+        $footerLogoPath = public_path('images/luckin-coffee-footer-logo.png');
+
+        $this->assertFileExists($footerLogoPath);
+        $this->assertSame(
+            '565f9e3b2f3644479dfb69f6ee367802534c9f95500282ff9613bbb0863ee130',
+            hash_file('sha256', $footerLogoPath)
+        );
+        $this->assertStringContainsString('luckin-admin-footer', $zhHtml);
+        $this->assertStringContainsString('images/luckin-coffee-footer-logo.png', $zhHtml);
         $this->assertStringContainsString(__('admin.footer.help_docs_link'), $zhHtml);
         $this->assertStringContainsString('https://github.com/yaojingang/GEOFlow/wiki', $zhHtml);
         $this->assertStringNotContainsString('https://github.com/yaojingang/GEOFlow/wiki/Home-English', $zhHtml);
+        $this->assertStringContainsString('data-open-admin-welcome', $zhHtml);
 
         session(['locale' => 'en']);
 
@@ -312,5 +322,9 @@ class AdminDashboardQuickStartTest extends TestCase
 
         $this->assertStringContainsString('Help docs', $enHtml);
         $this->assertStringContainsString('https://github.com/yaojingang/GEOFlow/wiki/Home-English', $enHtml);
+
+        $this->get('/')
+            ->assertOk()
+            ->assertDontSee('images/luckin-coffee-footer-logo.png', false);
     }
 }
