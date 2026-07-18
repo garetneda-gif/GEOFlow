@@ -119,13 +119,22 @@ return Application::configure(basePath: dirname(__DIR__))
                 return null;
             }
 
+            $rid = (string) ($request->attributes->get('request_id') ?? Str::uuid()->toString());
+
+            if ($e instanceof NotFoundHttpException) {
+                return ApiResponse::error(
+                    'not_found',
+                    '资源不存在',
+                    $rid,
+                    404
+                )->withHeaders(['X-Request-Id' => $rid]);
+            }
+
             Log::error($e->getMessage(), [
                 'exception' => $e::class,
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
             ]);
-
-            $rid = (string) ($request->attributes->get('request_id') ?? Str::uuid()->toString());
 
             return ApiResponse::error(
                 'internal_error',

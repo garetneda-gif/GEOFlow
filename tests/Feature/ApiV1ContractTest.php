@@ -72,6 +72,16 @@ class ApiV1ContractTest extends TestCase
             ->assertJsonStructure(['meta' => ['request_id', 'timestamp']]);
     }
 
+    public function test_unknown_api_route_returns_not_found_envelope(): void
+    {
+        $this->getJson('/api/auth/session')
+            ->assertNotFound()
+            ->assertHeader('X-Request-Id')
+            ->assertJsonPath('success', false)
+            ->assertJsonPath('error.code', 'not_found')
+            ->assertJsonStructure(['meta' => ['request_id', 'timestamp']]);
+    }
+
     public function test_login_invalid_credentials_returns_401(): void
     {
         $this->createActiveAdmin('u1', 'right-pass');
