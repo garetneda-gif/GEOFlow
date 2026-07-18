@@ -570,7 +570,7 @@ return [
     'footer' => [
         'copyright' => '© 2026 GEOFlow',
         'version' => '版本 :version',
-        'author' => '作者：任济坤',
+        'author' => '作者：任济坤、铁晋鸾',
         'wechat' => '微信：rjk-2006',
         'project_github_link' => '项目GitHub地址',
         'changelog_link' => '更新日志',

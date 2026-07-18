@@ -38,7 +38,7 @@ class AdminDashboardLuckinMcpTest extends TestCase
             ->assertSee(__('luckin_mcp.heading'))
             ->assertSee(__('luckin_mcp.status.authorization_required'))
             ->assertSee(route('admin.knowledge-bases.luckin-mcp.index'), false)
-            ->assertSee('作者：任济坤')
+            ->assertSee('作者：任济坤、铁晋鸾')
             ->assertSee('微信：rjk-2006')
             ->assertDontSee('test-token-never-render');
         Http::assertNothingSent();

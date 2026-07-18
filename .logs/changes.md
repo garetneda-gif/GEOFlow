@@ -187,3 +187,8 @@
 - `public/css/luckin-admin-theme.css` 隐藏原生横向滚动条，但继续保留 `overflow-x-auto`、触控板和触摸滑动能力。
 - `AdminDashboardQuickStartTest` 增加导航仍可滚动且三类原生滚动条均隐藏的回归断言。
 - 后台布局与登录页为主题 CSS 增加基于文件修改时间的版本参数，避免 Nginx 一周 immutable 缓存阻止样式更新。
+
+## 2026-07-18 22:11 — 补充后台页脚联合作者署名
+
+- `lang/zh_CN/admin.php` 将后台页脚作者调整为“任济坤、铁晋鸾”，微信号保持不变。
+- `AdminDashboardLuckinMcpTest` 同步更新页脚署名回归断言。
