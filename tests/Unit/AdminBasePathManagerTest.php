@@ -27,4 +27,11 @@ class AdminBasePathManagerTest extends TestCase
 
         AdminBasePathManager::normalize('api');
     }
+
+    public function test_reserves_the_co_creation_public_path_from_admin_prefixes(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        AdminBasePathManager::normalize('co-create');
+    }
 }

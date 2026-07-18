@@ -39,6 +39,7 @@ use App\Http\Controllers\Admin\UrlImportController;
 use App\Http\Controllers\Site\ArchiveController;
 use App\Http\Controllers\Site\ArticleController as SiteArticleController;
 use App\Http\Controllers\Site\CategoryController as SiteCategoryController;
+use App\Http\Controllers\Site\CoCreationController;
 use App\Http\Controllers\Site\HomeController;
 use App\Http\Controllers\Site\LeadFormController as SiteLeadFormController;
 use Illuminate\Support\Facades\Auth;
@@ -56,6 +57,25 @@ Route::middleware(['site.locale', 'site.view_log'])->group(function (): void {
     Route::post('/forms/{slug}/submissions', [SiteLeadFormController::class, 'submit'])
         ->middleware('throttle:10,1')
         ->name('site.lead-forms.submit');
+});
+
+// 独立于 GEO 内容站与管理后台的移动端用户共创演示流程。
+Route::prefix('co-create')->name('co-create.')->group(function (): void {
+    Route::get('/', [CoCreationController::class, 'index'])->name('entry');
+    Route::get('profile', [CoCreationController::class, 'profile'])->name('profile');
+    Route::post('profile', [CoCreationController::class, 'storeProfile'])
+        ->middleware('throttle:30,1')
+        ->name('profile.store');
+    Route::get('task', [CoCreationController::class, 'task'])->name('task');
+    Route::post('task/accept', [CoCreationController::class, 'acceptTask'])
+        ->middleware('throttle:30,1')
+        ->name('task.accept');
+    Route::get('publish', [CoCreationController::class, 'publish'])->name('publish');
+    Route::post('verify', [CoCreationController::class, 'verify'])
+        ->middleware('throttle:15,1')
+        ->name('verify');
+    Route::get('reward', [CoCreationController::class, 'reward'])->name('reward');
+    Route::post('restart', [CoCreationController::class, 'restart'])->name('restart');
 });
 
 $adminPrefix = trim((string) config('geoflow.admin_base_path', '/geo_admin'), '/');

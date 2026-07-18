@@ -29,6 +29,7 @@ final class AdminBasePathManager
             'assets',
             'build',
             'category',
+            'co-create',
             'css',
             'favicon.ico',
             'images',

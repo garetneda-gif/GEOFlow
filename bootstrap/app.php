@@ -70,7 +70,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         // 凭据类输入绝不能随校验错误写入 Session 的 _old_input。
-        $exceptions->dontFlash(['api_key']);
+        $exceptions->dontFlash(['api_key', 'post_url']);
 
         /**
          * 后台 firstOrFail 友好错误页：
