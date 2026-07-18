@@ -57,11 +57,23 @@ class AdminLuckinProductCatalogTest extends TestCase
             'status' => 'active',
         ]);
 
-        $this->actingAs($admin, 'admin')
+        $response = $this->actingAs($admin, 'admin')
             ->get(route('admin.knowledge-bases.index'))
             ->assertOk()
             ->assertSee('瑞幸官网产品视觉库')
             ->assertSee(route('admin.knowledge-bases.luckin-products.index'), false);
+
+        $response
+            ->assertSee('mb-8 flex flex-col gap-5 lg:flex-row', false)
+            ->assertSee('grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:flex', false)
+            ->assertDontSee('style="width: 440px;"', false);
+
+        $indexView = (string) file_get_contents(resource_path('views/admin/knowledge-bases/index.blade.php'));
+        $this->assertStringContainsString(
+            'flex w-full flex-wrap items-start justify-start gap-2 lg:w-[440px]',
+            $indexView,
+        );
+        $this->assertStringNotContainsString('style="width: 440px;"', $indexView);
     }
 
     public function test_every_snapshot_product_uses_a_local_official_image(): void

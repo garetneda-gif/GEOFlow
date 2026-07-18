@@ -1,33 +1,33 @@
 @extends('admin.layouts.app')
 
 @section('content')
-    <div class="px-4 sm:px-0">
-        <div class="mb-8 flex items-center justify-between">
-            <div class="flex items-center space-x-4">
-                <a href="{{ route('admin.materials.index') }}" class="text-gray-400 hover:text-gray-600">
+    <div>
+        <div class="mb-8 flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+            <div class="flex min-w-0 items-start gap-4">
+                <a href="{{ route('admin.materials.index') }}" class="mt-1 shrink-0 text-gray-400 hover:text-gray-600">
                     <i data-lucide="arrow-left" class="w-5 h-5"></i>
                 </a>
-                <div>
+                <div class="min-w-0">
                     <h1 class="text-2xl font-bold text-gray-900">{{ __('admin.knowledge_bases.heading') }}</h1>
                     <p class="mt-1 text-sm text-gray-600">{{ __('admin.knowledge_bases.subtitle') }}</p>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
-                <a href="{{ route('admin.knowledge-bases.luckin-products.index') }}" class="inline-flex items-center px-4 py-2 border border-blue-200 text-sm font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100">
+            <div class="grid w-full grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:w-auto lg:flex-wrap lg:items-center lg:justify-end">
+                <a href="{{ route('admin.knowledge-bases.luckin-products.index') }}" class="inline-flex w-full items-center justify-center px-4 py-2 border border-blue-200 text-sm font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 lg:w-auto">
                     <i data-lucide="gallery-vertical-end" class="w-4 h-4 mr-2"></i>
                     瑞幸官网产品视觉库
                 </a>
                 @if (auth('admin')->user()?->canManageProtectedWorkflows())
-                    <a href="{{ route('admin.knowledge-bases.luckin-mcp.index') }}" class="inline-flex items-center px-4 py-2 border border-blue-200 text-sm font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100">
+                    <a href="{{ route('admin.knowledge-bases.luckin-mcp.index') }}" class="inline-flex w-full items-center justify-center px-4 py-2 border border-blue-200 text-sm font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100 lg:w-auto">
                         <i data-lucide="database-zap" class="w-4 h-4 mr-2"></i>
                         {{ __('luckin_mcp.heading') }}
                     </a>
                 @endif
-                <a href="{{ route('admin.knowledge-bases.create') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                <a href="{{ route('admin.knowledge-bases.create') }}" class="inline-flex w-full items-center justify-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 lg:w-auto">
                     <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
                     {{ __('admin.knowledge_bases.create_first') }}
                 </a>
-                <a href="{{ route('admin.knowledge-bases.create', ['mode' => 'upload']) }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">
+                <a href="{{ route('admin.knowledge-bases.create', ['mode' => 'upload']) }}" class="inline-flex w-full items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700 lg:w-auto">
                     <i data-lucide="upload" class="w-4 h-4 mr-2"></i>
                     {{ __('admin.knowledge_bases.import_unified') }}
                 </a>
@@ -106,7 +106,7 @@
                     <i data-lucide="brain" class="w-12 h-12 mx-auto text-gray-400 mb-4"></i>
                     <h3 class="text-lg font-medium text-gray-900 mb-2">{{ __('admin.knowledge_bases.empty') }}</h3>
                     <p class="text-gray-500 mb-4">{{ __('admin.knowledge_bases.empty_desc') }}</p>
-                    <div class="flex justify-center space-x-2">
+                    <div class="flex flex-col justify-center gap-2 sm:flex-row">
                         <a href="{{ route('admin.knowledge-bases.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-orange-600 hover:bg-orange-700">
                             <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
                             {{ __('admin.knowledge_bases.create_first') }}
@@ -118,9 +118,9 @@
                     </div>
                 </div>
             @else
-                <div class="flex items-center justify-between gap-6 px-6 py-3 border-b border-gray-200 bg-gray-50 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <div class="hidden items-center justify-between gap-6 px-6 py-3 border-b border-gray-200 bg-gray-50 text-xs font-semibold uppercase tracking-wide text-gray-500 lg:flex">
                     <div>{{ __('admin.knowledge_bases.column_knowledge_base') }}</div>
-                    <div class="text-right" style="width: 440px;">{{ __('admin.common.actions') }}</div>
+                    <div class="w-[440px] text-right">{{ __('admin.common.actions') }}</div>
                 </div>
                 <div class="divide-y divide-gray-200">
                     @foreach ($knowledgeBases as $item)
@@ -173,7 +173,7 @@
                                     </div>
                                 </div>
 
-                                <div class="flex flex-wrap items-start justify-start gap-2 lg:shrink-0 lg:justify-end lg:pl-8" style="width: 440px;">
+                                <div class="flex w-full flex-wrap items-start justify-start gap-2 lg:w-[440px] lg:shrink-0 lg:justify-end lg:pl-8">
                                     @if ($hasDefaultEmbeddingModel)
                                         <div style="width: 148px;" data-refresh-chunks-action>
                                             <form
