@@ -106,6 +106,13 @@
                 <input type="password" id="password" name="password" required
                        class="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                        placeholder="{{ __('admin.login.password_placeholder') }}" autocomplete="current-password">
+                @if (!empty($brandAdminPassword))
+                    <p data-brand-admin-password class="mt-2 flex items-center gap-1.5 text-xs font-medium text-blue-700">
+                        <i data-lucide="key-round" class="h-3.5 w-3.5"></i>
+                        <span>{{ __('admin.login.first_login_password') }}：</span>
+                        <code class="rounded bg-blue-50 px-1.5 py-0.5 font-mono text-blue-900">{{ $brandAdminPassword }}</code>
+                    </p>
+                @endif
             </div>
             <input type="hidden" name="remember" value="0">
             <label class="flex items-center justify-between rounded-lg border border-gray-200 bg-white/70 px-3 py-3 text-sm text-gray-600">

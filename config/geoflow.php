@@ -48,6 +48,8 @@ return [
     'app_version' => $appVersion,
     // 首次部署登录页初始管理员提示；仅当默认管理员尚未登录且密码可验证时展示一次。
     'initial_admin_hint_enabled' => filter_var(env('GEOFLOW_INITIAL_ADMIN_HINT_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
+    // 公开演示环境可显式展示已验证的初始密码；默认关闭，不应在真实生产环境开启。
+    'login_demo_password_enabled' => filter_var(env('GEOFLOW_LOGIN_DEMO_PASSWORD_ENABLED', false), FILTER_VALIDATE_BOOLEAN),
     'initial_admin_username' => trim((string) env('GEOFLOW_ADMIN_USERNAME', 'admin')) ?: 'admin',
     'initial_admin_email' => trim((string) env('GEOFLOW_ADMIN_EMAIL', 'admin@example.com')) ?: 'admin@example.com',
     'initial_admin_password' => (string) env('GEOFLOW_ADMIN_PASSWORD', ''),

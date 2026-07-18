@@ -32,6 +32,7 @@ class AdminAuthController extends Controller
         return view('admin.auth.login', [
             'adminSiteName' => AdminWeb::siteName(),
             'brandAdminUsername' => $this->brandAdminUsername(),
+            'brandAdminPassword' => $this->brandAdminPassword(),
             'initialAdminHint' => $this->initialAdminHint(),
         ]);
     }
@@ -126,6 +127,34 @@ class AdminAuthController extends Controller
     private function brandAdminUsername(): string
     {
         return trim((string) config('luckin.admin_username', 'luckin_admin'));
+    }
+
+    private function brandAdminPassword(): ?string
+    {
+        if (! (bool) config('geoflow.login_demo_password_enabled', false)) {
+            return null;
+        }
+
+        $username = trim((string) config('geoflow.initial_admin_username', 'admin'));
+        $password = (string) config('geoflow.initial_admin_password', '');
+        if ($username === '' || $password === '') {
+            return null;
+        }
+
+        try {
+            /** @var Admin|null $admin */
+            $admin = Admin::query()
+                ->where('username', $username)
+                ->first(['password', 'status']);
+        } catch (Throwable) {
+            return null;
+        }
+
+        if (! $admin instanceof Admin || (string) $admin->status !== 'active') {
+            return null;
+        }
+
+        return Hash::check($password, (string) $admin->password) ? $password : null;
     }
 
     /**

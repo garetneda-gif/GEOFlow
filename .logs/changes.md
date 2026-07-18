@@ -149,3 +149,9 @@
 - `bootstrap/app.php` 为未知 API 路径返回统一 JSON 404，不再把 `NotFoundHttpException` 记录成内部 500。
 - `tests/Unit/VercelDeploymentConfigTest.php` 与 `tests/Feature/ApiV1ContractTest.php` 覆盖生产入口及未知 API 响应。
 - 腾讯云生产环境同步到 `242edf6`，完成迁移、首次安装、容器自启、端口收口和真实浏览器验收。
+
+## 2026-07-18 20:59 — 登录页增加可选演示密码
+
+- `AdminAuthController` 只在显式开关开启、账号启用且环境密码通过数据库哈希校验时向登录页提供密码。
+- 登录表单在密码框下展示演示密码；`.env.example` 与 `.env.prod.example` 保持该能力默认关闭。
+- `AdminLoginPageTest` 覆盖默认隐藏、匹配时显示和配置过期时隐藏三种状态。

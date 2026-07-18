@@ -22,7 +22,55 @@ class AdminLoginPageTest extends TestCase
             ->assertSee('name="password"', false)
             ->assertSee('data-brand-admin-username', false)
             ->assertSee(__('admin.login.brand_username_hint', ['username' => 'luckin_admin']))
+            ->assertDontSee('data-brand-admin-password', false)
             ->assertDontSee('luckin-login-story', false);
+    }
+
+    public function test_login_page_can_show_verified_demo_password_when_explicitly_enabled(): void
+    {
+        config([
+            'geoflow.login_demo_password_enabled' => true,
+            'geoflow.initial_admin_username' => 'admin',
+            'geoflow.initial_admin_password' => 'demo-secret-123',
+        ]);
+
+        Admin::query()->create([
+            'username' => 'admin',
+            'password' => 'demo-secret-123',
+            'email' => 'admin@example.com',
+            'display_name' => 'Administrator',
+            'role' => 'super_admin',
+            'status' => 'active',
+            'last_login' => now(),
+        ]);
+
+        $this->get(route('admin.login'))
+            ->assertOk()
+            ->assertSee('data-brand-admin-password', false)
+            ->assertSee('demo-secret-123');
+    }
+
+    public function test_login_page_hides_demo_password_when_configured_value_is_stale(): void
+    {
+        config([
+            'geoflow.login_demo_password_enabled' => true,
+            'geoflow.initial_admin_username' => 'admin',
+            'geoflow.initial_admin_password' => 'stale-secret',
+        ]);
+
+        Admin::query()->create([
+            'username' => 'admin',
+            'password' => 'changed-secret-123',
+            'email' => 'admin@example.com',
+            'display_name' => 'Administrator',
+            'role' => 'super_admin',
+            'status' => 'active',
+        ]);
+
+        $this->get(route('admin.login'))
+            ->assertOk()
+            ->assertDontSee('data-brand-admin-password', false)
+            ->assertDontSee('stale-secret');
     }
 
     public function test_luckin_username_alias_authenticates_the_configured_default_admin(): void
