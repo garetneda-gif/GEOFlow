@@ -188,3 +188,10 @@
 - 腾讯云显式开启受控演示密码展示，应用和 Web 容器均为 healthy，登录页 HTTP 200 且展示节点存在。
 - 真实 Chrome 页面确认提示可见、旧错误提示不存在、控制台 error 为 0；20 项关联测试、88 个断言与 Pint、Blade 缓存检查通过。
 - 生产源码为 `d890084`，GitHub 分支 `feat/luckin-geoflow-theme` 已同步。
+
+## 2026-07-18 22:10 — 顶栏滚动条修复完成线上验收
+
+- 1100px 宽度下导航内容保持 669px、可视区 591px，实际横向滑动从 0 到 77.5px；Firefox 与 WebKit 原生滚动条均隐藏。
+- 主题 CSS 使用文件修改时间版本参数，绕过 Nginx 一周 immutable 缓存；后台与登录页均覆盖。
+- 760px 自动切换移动菜单且页面无横向溢出；恢复 1280px 后 `documentScrollWidth` 与视口一致。
+- 23 项关联测试、361 个断言、Pint、Blade 缓存和 Vite 生产构建通过；腾讯云源码为 `c5eff4d`，app/web 健康。
