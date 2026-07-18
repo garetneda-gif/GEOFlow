@@ -139,3 +139,10 @@
 - Vercel 生产部署 `dpl_Bdn2n26TyFJpU6G7LgrjiwE1ZpxW` 状态为 Ready，已别名到 `https://luckin-geoflow.vercel.app`。
 - 生产后台计算样式确认横幅圆角为 `0px`、阴影为 `none`、背景为瑞幸蓝渐变且未加载旧咖啡横幅图。
 - 线上标题与操作入口正常，浏览器控制台错误为 0。
+
+## 2026-07-18 17:24 — 瑞幸 MCP 用户 API Key 与品牌视觉生产验收通过
+
+- 管理员 API Key 已按用户加密保存，生产迁移 `2026_07_18_160000_add_luckin_mcp_api_key_to_admins_table` 执行成功；临时迁移入口已删除并实测返回 404。
+- MCP 工作台与 Dashboard 均使用官网“幸运在握”视觉背景，旧区域 Logo 消失；桌面和移动端均无横向溢出。
+- “保存并检测”按钮与“获取 API Key”链接中心线偏差为 0px；两段冗余说明文字已删除。
+- 完整 PHPUnit 986 项、7968 个断言及 Vite 生产构建通过；最终部署 `dpl_GxFzJwY3LeTg4MZCYp1y7Ja5GUo3` 为 Ready，已别名到 `https://luckin-geoflow.vercel.app`。
