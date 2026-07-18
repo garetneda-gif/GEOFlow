@@ -137,6 +137,37 @@ body.luckin-admin-theme .luckin-dashboard-hero-content {
     padding: 38px 42px 40px;
 }
 
+body.luckin-admin-theme .luckin-site-settings-hero {
+    position: relative;
+    display: flex;
+    min-height: 220px;
+    align-items: center;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0;
+    background-color: #4e2d25;
+    background-image: var(--luckin-site-settings-hero-image);
+    background-position: center;
+    background-size: cover;
+    box-shadow: none;
+    isolation: isolate;
+}
+
+body.luckin-admin-theme .luckin-site-settings-hero::before {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(25, 10, 8, 0.78) 0%, rgba(48, 25, 20, 0.5) 38%, rgba(48, 25, 20, 0.06) 66%, transparent 100%);
+    content: "";
+    pointer-events: none;
+}
+
+body.luckin-admin-theme .luckin-site-settings-hero-content {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 620px);
+    padding: 38px 42px;
+}
+
 body.luckin-admin-theme .luckin-mcp-source-strip {
     display: flex;
     align-items: center;
@@ -402,6 +433,16 @@ body.luckin-admin-theme .luckin-admin-footer-divider {
     body.luckin-admin-theme .luckin-dashboard-hero-content {
         width: 100%;
         padding: 30px 24px 32px;
+    }
+
+    body.luckin-admin-theme .luckin-site-settings-hero {
+        min-height: 210px;
+        background-position: 58% center;
+    }
+
+    body.luckin-admin-theme .luckin-site-settings-hero-content {
+        width: 82%;
+        padding: 28px 24px;
     }
 
     body.luckin-admin-theme .luckin-dashboard-hero-actions {

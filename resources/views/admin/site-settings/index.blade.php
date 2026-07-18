@@ -23,7 +23,7 @@
                         'href' => '#site-settings-theme',
                         'target' => 'site-settings-theme',
                         'icon' => 'layout-template',
-                        'iconClass' => 'bg-indigo-50 text-indigo-600 ring-indigo-100',
+                        'iconClass' => 'bg-blue-50 text-blue-700 ring-blue-100',
                         'action' => __('admin.site_settings.open_section'),
                     ],
                 ],
@@ -41,7 +41,7 @@
                         'href' => '#site-settings-ads',
                         'target' => 'site-settings-ads',
                         'icon' => 'megaphone',
-                        'iconClass' => 'bg-emerald-50 text-emerald-600 ring-emerald-100',
+                        'iconClass' => 'bg-blue-50 text-blue-700 ring-blue-100',
                         'action' => __('admin.site_settings.open_section'),
                     ],
                 ],
@@ -57,7 +57,7 @@
                         'href' => route('admin.site-settings.sensitive-words'),
                         'target' => null,
                         'icon' => 'shield-alert',
-                        'iconClass' => 'bg-red-50 text-red-600 ring-red-100',
+                        'iconClass' => 'bg-blue-50 text-blue-700 ring-blue-100',
                         'action' => __('admin.site_settings.manage_module'),
                     ],
                 ],
@@ -68,9 +68,13 @@
 
 @section('content')
     <div class="px-4 sm:px-0">
-        <div class="mb-8">
-            <h1 class="text-2xl font-bold text-gray-900">{{ __('admin.site_settings.page_title') }}</h1>
-            <p class="mt-1 text-sm text-gray-600">{{ __('admin.site_settings.page_subtitle') }}</p>
+        <div data-luckin-site-settings-brand
+             class="luckin-site-settings-hero mb-8"
+             style="--luckin-site-settings-hero-image: url('{{ asset('images/luckin-dashboard-coffee-banner.jpg') }}')">
+            <div class="luckin-site-settings-hero-content">
+                <h1 class="text-3xl font-bold text-white">{{ __('admin.site_settings.page_title') }}</h1>
+                <p class="mt-2 text-sm leading-6 text-white/80">{{ __('admin.site_settings.page_subtitle') }}</p>
+            </div>
         </div>
 
         <div class="mb-8 space-y-6">

@@ -23,6 +23,35 @@ class AdminHeaderNotificationTest extends TestCase
             ->assertSee('toggleUserMenu()', false);
     }
 
+    public function test_header_uses_luckin_username_for_the_configured_default_admin(): void
+    {
+        config([
+            'geoflow.initial_admin_username' => 'admin',
+            'luckin.admin_username' => 'luckin_admin',
+        ]);
+        $admin = $this->createAdmin('admin');
+
+        $this->actingAs($admin, 'admin')
+            ->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertSee(__('admin.header.welcome', ['name' => 'luckin_admin']));
+    }
+
+    public function test_header_preserves_the_username_of_other_super_admins(): void
+    {
+        config([
+            'geoflow.initial_admin_username' => 'admin',
+            'luckin.admin_username' => 'luckin_admin',
+        ]);
+        $admin = $this->createAdmin('root_admin');
+
+        $this->actingAs($admin, 'admin')
+            ->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertSee(__('admin.header.welcome', ['name' => 'root_admin']))
+            ->assertDontSee(__('admin.header.welcome', ['name' => 'luckin_admin']));
+    }
+
     public function test_admin_header_shows_update_indicator_when_github_version_is_newer(): void
     {
         Cache::flush();

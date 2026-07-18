@@ -65,6 +65,7 @@ class AdminUserController extends Controller
                 'required',
                 'string',
                 'regex:/^[A-Za-z0-9_.-]{3,50}$/',
+                Rule::notIn([$this->brandAdminUsername()]),
                 Rule::unique('admins', 'username')->ignore($targetAdmin->id),
             ],
             'display_name' => ['nullable', 'string', 'max:100'],
@@ -75,6 +76,7 @@ class AdminUserController extends Controller
         ], [
             'username.required' => __('admin.admin_users.error.username_required'),
             'username.regex' => __('admin.admin_users.error.username_invalid'),
+            'username.not_in' => __('admin.admin_users.error.username_exists'),
             'username.unique' => __('admin.admin_users.error.username_exists'),
             'status.required' => __('admin.admin_users.error.status_invalid'),
             'status.in' => __('admin.admin_users.error.status_invalid'),
@@ -109,7 +111,7 @@ class AdminUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $payload = $request->validate([
-            'username' => ['required', 'string', 'regex:/^[A-Za-z0-9_.-]{3,50}$/', 'unique:admins,username'],
+            'username' => ['required', 'string', 'regex:/^[A-Za-z0-9_.-]{3,50}$/', Rule::notIn([$this->brandAdminUsername()]), 'unique:admins,username'],
             'display_name' => ['nullable', 'string', 'max:100'],
             'email' => ['nullable', 'email', 'max:191'],
             'password' => ['required', 'string', 'min:8', 'same:confirm_password'],
@@ -117,6 +119,7 @@ class AdminUserController extends Controller
         ], [
             'username.required' => __('admin.admin_users.error.username_required'),
             'username.regex' => __('admin.admin_users.error.username_invalid'),
+            'username.not_in' => __('admin.admin_users.error.username_exists'),
             'username.unique' => __('admin.admin_users.error.username_exists'),
             'password.required' => __('admin.admin_users.error.password_required'),
             'confirm_password.required' => __('admin.admin_users.error.password_required'),
@@ -140,6 +143,11 @@ class AdminUserController extends Controller
         } catch (Throwable $exception) {
             return back()->withErrors(__('admin.admin_users.message.create_error', ['message' => $exception->getMessage()]))->withInput();
         }
+    }
+
+    private function brandAdminUsername(): string
+    {
+        return trim((string) config('luckin.admin_username', 'luckin_admin'));
     }
 
     /**

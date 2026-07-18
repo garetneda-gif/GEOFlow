@@ -433,11 +433,11 @@ class SiteSettingsController extends Controller
     private function loadSettings(): array
     {
         $defaults = [
-            'site_name' => 'GEOFlow',
-            'site_subtitle' => '',
-            'site_description' => '基于AI的智能内容生成与发布平台',
-            'site_keywords' => 'AI内容生成,GEO优化,智能发布,内容管理',
-            'copyright_info' => '© 2026 GEOFlow. All rights reserved.',
+            'site_name' => (string) config('geoflow.site_name', '瑞幸 AI 饮品指南'),
+            'site_subtitle' => (string) config('geoflow.site_subtitle', ''),
+            'site_description' => (string) config('geoflow.site_description', ''),
+            'site_keywords' => (string) config('geoflow.site_keywords', ''),
+            'copyright_info' => (string) config('geoflow.copyright_info', ''),
             'site_logo' => '',
             'site_favicon' => '',
             'analytics_code' => '',

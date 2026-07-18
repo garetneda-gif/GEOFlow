@@ -84,6 +84,37 @@ class AdminUsersManagementTest extends TestCase
         $this->assertTrue(Hash::check('new-secret-123', $standardAdmin->password));
     }
 
+    public function test_luckin_login_alias_cannot_be_created_or_assigned_to_an_admin(): void
+    {
+        config(['luckin.admin_username' => 'luckin_admin']);
+        $superAdmin = $this->createAdmin('root_admin', 'super_admin');
+        $standardAdmin = $this->createAdmin('editor_admin', 'admin');
+
+        $this->actingAs($superAdmin, 'admin')
+            ->post(route('admin.admin-users.store'), [
+                'username' => 'luckin_admin',
+                'display_name' => 'Reserved Alias',
+                'email' => 'reserved@example.com',
+                'password' => 'new-secret-123',
+                'confirm_password' => 'new-secret-123',
+            ])
+            ->assertSessionHasErrors('username');
+
+        $this->actingAs($superAdmin, 'admin')
+            ->post(route('admin.admin-users.update', ['adminId' => $standardAdmin->id]), [
+                'username' => 'luckin_admin',
+                'display_name' => 'Reserved Alias',
+                'email' => 'reserved@example.com',
+                'status' => 'active',
+                'password' => '',
+                'confirm_password' => '',
+            ])
+            ->assertSessionHasErrors('username');
+
+        $this->assertDatabaseMissing('admins', ['username' => 'luckin_admin']);
+        $this->assertSame('editor_admin', $standardAdmin->fresh()?->username);
+    }
+
     public function test_super_admin_can_delete_standard_admin(): void
     {
         $superAdmin = $this->createAdmin('root_admin', 'super_admin');
