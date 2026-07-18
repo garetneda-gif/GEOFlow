@@ -147,6 +147,7 @@ class AdminLuckinMcpKnowledgeTest extends TestCase
             ->get(route('admin.knowledge-bases.luckin-mcp.index'))
             ->assertOk()
             ->assertSee('data-luckin-mcp-api-key', false)
+            ->assertSee('gap-3 lg:pb-2', false)
             ->assertSee('luckin-mcp-brand-visual-workspace', false)
             ->assertSee(__('luckin_mcp.api_key_get'))
             ->assertDontSee('已配置：')

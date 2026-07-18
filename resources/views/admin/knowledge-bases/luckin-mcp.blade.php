@@ -66,7 +66,7 @@
                         </button>
                     </form>
                 </div>
-                <div class="flex shrink-0 flex-wrap items-center gap-3">
+                <div class="flex shrink-0 flex-wrap items-center gap-3 lg:pb-2">
                     <a href="https://open.lkcoffee.com/mcp" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900">
                         {{ __('luckin_mcp.api_key_get') }}
                         <i data-lucide="external-link" class="h-4 w-4"></i>
