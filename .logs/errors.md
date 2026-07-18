@@ -312,3 +312,21 @@
 - 现象：扩展后台页面测试返回 500，异常为 `Vite manifest not found`。
 - 根因：隔离 worktree 未安装 Node 依赖，也没有生成 `public/build/manifest.json`；登录页专项测试不依赖该布局，因此先行通过。
 - 处理：执行 `npm ci` 与 `npm run build` 后重跑，20 项、88 个断言全部通过。
+
+## 2026-07-18 21:18 — 隔离工作树缺少 Vite 构建清单
+
+- 现象：产品视觉库首轮功能测试有 2 项页面请求返回 500，报错 `Vite manifest not found`。
+- 根因：隔离工作树复制了依赖但尚未执行前端生产构建，`public/build/manifest.json` 不存在。
+- 处理：先执行 `npm run build` 生成清单，再重跑同一组测试；业务代码与路由本身未触发异常。
+
+## 2026-07-18 21:20 — 独立 SQLite 浏览器验收库无法跑完整迁移
+
+- 现象：`migrate:fresh --seed` 在 `2026_07_15_000000_add_risk_metadata_to_sensitive_words_table` 报 `create table __temp__sensitive_words ()`。
+- 根因：该迁移假设完整业务表已存在，而 SQLite 的最小测试结构未创建 `sensitive_words` 全字段；与产品视觉库改动无关。
+- 处理：功能测试继续使用项目既有测试引导；浏览器验收改用隔离工作树连接现有本地开发库，不修改迁移。
+
+## 2026-07-18 21:34 — Codex 提交前审计运行时版本不兼容
+
+- 现象：`/codex:review` 兼容命令启动后返回 400，提示 `gpt-5.6-sol` 需要更新版本的 Codex。
+- 根因：当前本机 Codex CLI 版本低于审计服务所需版本，审计线程未产出 review 结果。
+- 处理：不改动用户全局工具链；本次改以人工逐文件 diff、安全边界检查、目标测试、全量测试及真实浏览器验收完成提交前质量门禁。

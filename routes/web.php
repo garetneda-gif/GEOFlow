@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\LeadFormController;
 use App\Http\Controllers\Admin\LegacyController;
 use App\Http\Controllers\Admin\LuckinMcpKnowledgeController;
+use App\Http\Controllers\Admin\LuckinProductCatalogController;
 use App\Http\Controllers\Admin\MaterialsController;
 use App\Http\Controllers\Admin\SecuritySettingsController;
 use App\Http\Controllers\Admin\SiteSettingsController;
@@ -247,6 +248,7 @@ Route::prefix($adminPrefix)->name('admin.')->middleware(['admin.locale'])->group
         // 素材管理：知识库管理
         Route::prefix('knowledge-bases')->name('knowledge-bases.')->group(function () {
             Route::get('/', [KnowledgeBaseController::class, 'index'])->name('index');
+            Route::get('luckin-products', [LuckinProductCatalogController::class, 'index'])->name('luckin-products.index');
             Route::get('create', [KnowledgeBaseController::class, 'create'])->name('create');
             Route::post('create', [KnowledgeBaseController::class, 'store'])->name('store');
             Route::middleware('admin.super')->prefix('luckin-mcp')->name('luckin-mcp.')->group(function () {

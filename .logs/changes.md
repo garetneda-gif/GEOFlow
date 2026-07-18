@@ -150,6 +150,12 @@
 - `tests/Unit/VercelDeploymentConfigTest.php` 与 `tests/Feature/ApiV1ContractTest.php` 覆盖生产入口及未知 API 响应。
 - 腾讯云生产环境同步到 `242edf6`，完成迁移、首次安装、容器自启、端口收口和真实浏览器验收。
 
+## 2026-07-18 21:39 — 接入瑞幸官网产品视觉库
+
+- 新增 `LuckinProductCatalogController`、知识库路由与产品视觉库页面；支持 6 类筛选、名称/标签/说明搜索和官网详情跳转。
+- `resources/data/luckin-products.json` 固化官网 33 款产品快照，`public/images/luckin-products/` 收录对应 33 张官方 480×480 产品图。
+- 知识库首页增加产品视觉库入口；新增独立样式、交互脚本及 4 项功能测试，覆盖权限、入口、产品数量和本地图片完整性。
+
 ## 2026-07-18 20:59 — 登录页增加可选演示密码
 
 - `AdminAuthController` 只在显式开关开启、账号启用且环境密码通过数据库哈希校验时向登录页提供密码。

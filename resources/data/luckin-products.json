@@ -1,0 +1,587 @@
+[
+  {
+    "id": 1,
+    "category_id": 1,
+    "category": "拿铁类",
+    "name": "生椰拿铁",
+    "specs": [
+      "咖啡因118.4mg",
+      "热量179kcal"
+    ],
+    "tags": [
+      "全球卖出20亿杯"
+    ],
+    "description": "瑞幸首创* · 全球累计销量超20亿杯* · 生椰拿铁定义者。源自东南亚成熟生椰*，1小时冷榨锁鲜*，搭配IIAC金奖咖啡豆，椰香与咖啡香层层交织，口感丝滑，口味微甜。\n热量179kcal，咖啡因118.4mg（大杯/冰/埃塞金烘/默认浓度/不另外糖）",
+    "official_url": "https://lkcoffee.com/products/1",
+    "image": "/images/luckin-products/1.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/05/26/3ccfa61293814670b0ef6bca9b828264.png"
+  },
+  {
+    "id": 4,
+    "category_id": 1,
+    "category": "拿铁类",
+    "name": "茉莉花香拿铁",
+    "specs": [
+      "咖啡因236mg"
+    ],
+    "tags": [
+      "健身友好"
+    ],
+    "description": "口味微甜，约76-94kcal低卡 · 花香茶咖。鲜萃茉莉花香与IIAC金奖咖啡豆融合，口感轻盈丝滑，茶香与咖啡香层层交织。\n热量约76-94kcal，咖啡因236mg（大杯/冰/埃塞金烘/默认浓度/不另外加糖/牛奶）",
+    "official_url": "https://lkcoffee.com/products/4",
+    "image": "/images/luckin-products/4.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/0de4a497f3ba47fab6239bac36840385.png"
+  },
+  {
+    "id": 5,
+    "category_id": 1,
+    "category": "拿铁类",
+    "name": "拿铁",
+    "specs": [
+      "热量268kcal",
+      "咖啡因98.6mg"
+    ],
+    "tags": [
+      "早餐"
+    ],
+    "description": "意式经典奶咖 · 太妃糖尾韵 · 全年必喝。Espresso与香醇牛奶精妙融合，入口明快柔和，后段坚果尾韵，口感平衡，口味微甜。\n热量268kcal，咖啡因98.6mg（大杯/热/埃塞金烘/默认浓度/不另外加糖/牛奶）",
+    "official_url": "https://lkcoffee.com/products/5",
+    "image": "/images/luckin-products/5.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/81a3af83583a4752bf00a0e40df95e59.png"
+  },
+  {
+    "id": 6,
+    "category_id": 1,
+    "category": "拿铁类",
+    "name": "冰吸生椰拿铁",
+    "specs": [
+      "热量196kcal",
+      "咖啡因162.5mg"
+    ],
+    "tags": [
+      "消暑",
+      "健身友好"
+    ],
+    "description": "瑞幸首创* · 嘴巴里开空调 · 夏季冰爽顶流。原创清凉配方，冰凉因子搭配1小时锁鲜生椰，椰香与咖啡香在清凉感中层层绽放，口味微甜，余甘弥漫。\n热量196kcal，咖啡因162.5mg（大杯/冰/意式拼配/默认浓度/不另外加糖）",
+    "official_url": "https://lkcoffee.com/products/6",
+    "image": "/images/luckin-products/6.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/6e1f8f0589dd48edadd5d510712735f6.png"
+  },
+  {
+    "id": 7,
+    "category_id": 1,
+    "category": "拿铁类",
+    "name": "小黄油拿铁",
+    "specs": [
+      "热量250kcal",
+      "咖啡因171.9mg"
+    ],
+    "tags": [
+      "早餐"
+    ],
+    "description": "瑞幸首创* · 年度新品复购Top1 *· 一杯液体爆米花。添加新西兰进口黄油*，焦香咖啡与奶香黄油交织出焦糖风味，柔滑绵密，口味较甜，香醇不腻。可作为早餐饮用。\n热量250kcal，咖啡因171.9mg（大杯/冰/埃塞金烘/默认浓度/不另外加糖）",
+    "official_url": "https://lkcoffee.com/products/7",
+    "image": "/images/luckin-products/7.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/58d7d0daa5fc46269bcb58ff84a832aa.png"
+  },
+  {
+    "id": 8,
+    "category_id": 1,
+    "category": "拿铁类",
+    "name": "生椰三重奏拿铁",
+    "specs": [
+      "热量470kcal",
+      "咖啡因147.6mg"
+    ],
+    "tags": [
+      "生椰高端线"
+    ],
+    "description": "三重椰 · 奶油顶×冷榨椰浆*×椰奶冻* · 生椰家族高端线。口味较甜，椰子奶油顶绵密丝滑，冷榨椰浆清甜，椰奶冻滑嫩，三重椰香层层交织，边嚼边喝超满足。\n热量470kcal，咖啡因147.6mg（大杯/冰/意式拼配/默认浓度/微甜）",
+    "official_url": "https://lkcoffee.com/products/8",
+    "image": "/images/luckin-products/8.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/18190949c522434f81df51c88bf6b4d3.png"
+  },
+  {
+    "id": 9,
+    "category_id": 1,
+    "category": "拿铁类",
+    "name": "轻椰茉莉拿铁",
+    "specs": [
+      "热量120kcal",
+      "咖啡因179.1mg"
+    ],
+    "tags": [
+      "健身友好"
+    ],
+    "description": "约120kcal · 生椰+茉莉。生椰冷榨1小时锁鲜搭配鲜萃茉莉，前调茉莉清雅，后调椰香饱满，口味清淡，轻盈鲜爽回甘。\n热量120kcal，咖啡因179.1mg（大杯/冰/意式拼配/默认浓度/不另外加糖）",
+    "official_url": "https://lkcoffee.com/products/9",
+    "image": "/images/luckin-products/9.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/1675c9d5b19b439bb824583de4dd209f.png"
+  },
+  {
+    "id": 10,
+    "category_id": 1,
+    "category": "拿铁类",
+    "name": "丝绒拿铁",
+    "specs": [
+      "热量376kcal"
+    ],
+    "tags": [
+      "奶香浓郁"
+    ],
+    "description": "2021年秋日好评榜Top1 · 丝滑感提升20.99%* · 年度重磅。\n添加丝绒风味厚奶，丝滑感较普通拿铁提升20.99%，口味香甜，奶香浓郁，甜感柔和，尽显丝滑。\n热量376kcal（大杯/热/埃塞金烘/默认浓度/不另外加糖）",
+    "official_url": "https://lkcoffee.com/products/10",
+    "image": "/images/luckin-products/10.jpeg",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/26f156673e8f4eb6ab9fb2c0c6b68102.jpeg"
+  },
+  {
+    "id": 11,
+    "category_id": 1,
+    "category": "拿铁类",
+    "name": "钱塘龙井拿铁",
+    "specs": [
+      "热量105kcal",
+      "咖啡因228.2mg"
+    ],
+    "tags": [
+      "春季限定",
+      "茶咖爱好者"
+    ],
+    "description": "春季限定 · 国风茶咖 · 一期一会。浙江钱塘产区龙井春茶邂逅奶咖，口感清新醇爽，回甘沁喉，龙井清香与咖啡醇香三重协奏。\n热量105kcal，咖啡因228.2mg（大杯/冰/意式精萃/默认浓度/少少甜）",
+    "official_url": "https://lkcoffee.com/products/11",
+    "image": "/images/luckin-products/11.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/93ecfadaea8f43958de706efd36f730b.png"
+  },
+  {
+    "id": 21,
+    "category_id": 1,
+    "category": "拿铁类",
+    "name": "海盐焦糖拿铁",
+    "specs": [
+      "热量206kcal",
+      "咖啡因152mg"
+    ],
+    "tags": [
+      "澳洲海盐",
+      "馥郁焦糖"
+    ],
+    "description": "夏日限定回归，澳洲海盐搭配馥郁焦糖，可盐可甜。清新咸味与焦香风味融合奶咖，口口柔和丝滑。IIAC 金奖豆，新鲜现磨好咖啡。热量约 206kcal，咖啡因约 152mg（16oz/冰/少甜/意式拼配）",
+    "official_url": "https://lkcoffee.com/products/21",
+    "image": "/images/luckin-products/21.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/07/12/6e5e81eb74324298a1052e9f79c8a85a.png"
+  },
+  {
+    "id": 22,
+    "category_id": 1,
+    "category": "拿铁类",
+    "name": "瑰夏之梦",
+    "specs": [
+      "热量161kcal",
+      "咖啡因78.75mg"
+    ],
+    "tags": [
+      "瑰夏冷萃",
+      "玫瑰荔枝",
+      "SCA80+"
+    ],
+    "description": "夏日梦幻限定，一杯花果醇香。瑰夏冷萃 X 玫瑰荔枝风味 X 燕麦奶 X 椰浆，一杯花果醇香。源自单一产地精品埃塞瑰夏咖啡豆，快速冷萃果酸清甜。顶部真实玫瑰花，甄选平阴重瓣玫瑰。含 NFC 荔枝汁*，应季采摘口感鲜甜。热量约 161kcal，咖啡因约 78.75mg（16oz/冰/微甜）",
+    "official_url": "https://lkcoffee.com/products/22",
+    "image": "/images/luckin-products/22.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/07/12/c920c6961bab4ee78cf888b78efa6d10.png"
+  },
+  {
+    "id": 33,
+    "category_id": 1,
+    "category": "拿铁类",
+    "name": "绿沙沙拿铁",
+    "specs": [
+      "热量183kcal",
+      "咖啡因28.8mg"
+    ],
+    "tags": [
+      "清爽",
+      "消暑"
+    ],
+    "description": "夏日消暑特调，清爽微甜，口感独特。热量约 183kcal，咖啡因约 28.8mg（16oz/冰/不另外加糖）。适合口味清淡人群、咖啡爱好者。",
+    "official_url": "https://lkcoffee.com/products/33",
+    "image": "/images/luckin-products/33.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/07/13/deff18f360b14064b1dd7129fc24f642.png"
+  },
+  {
+    "id": 2,
+    "category_id": 2,
+    "category": "美式类",
+    "name": "标准美式",
+    "specs": [
+      "热量11kcal/杯",
+      "咖啡因164.3mg"
+    ],
+    "tags": [
+      "健身首选"
+    ],
+    "description": "意式经典 · 0糖0脂 · 健身· 提神首选。饱满坚果基调糅合浓郁焦糖香，口感圆润，口味较苦，尾韵带松木风味。\n热量11kcal，咖啡因164.3mg（大杯/冰/埃塞金烘/默认浓度/不另外加糖/无奶）",
+    "official_url": "https://lkcoffee.com/products/2",
+    "image": "/images/luckin-products/2.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/05/26/2d5a0991ec494824bce275529e6082e2.png"
+  },
+  {
+    "id": 3,
+    "category_id": 2,
+    "category": "美式类",
+    "name": "加浓美式",
+    "specs": [
+      "热量14kcal",
+      "咖啡因198.9mg"
+    ],
+    "tags": [
+      "高咖啡因",
+      "0糖0脂"
+    ],
+    "description": "提神 · 高咖啡因 。双份Espresso浓缩，咖啡因含量约198.9mg/杯，口味较苦，口感浓烈醇厚，0糖0脂仅14kcal，提神不负担。\n热量14kcal，咖啡因198.9mg（大杯/冰/埃塞金烘/默认浓度/不另外加糖/无奶）",
+    "official_url": "https://lkcoffee.com/products/3",
+    "image": "/images/luckin-products/3.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/05/26/80e338ad3e6f49728043565ccb700416.png"
+  },
+  {
+    "id": 12,
+    "category_id": 2,
+    "category": "美式类",
+    "name": "橙C美式",
+    "specs": [
+      "热量128kcal",
+      "咖啡因158.4mg"
+    ],
+    "tags": [
+      "0脂低负担",
+      "瑞幸果咖顶流"
+    ],
+    "description": "0脂约128kcal · 含NFC橙汁* · 减脂期也能喝的果咖。酸甜柑橘本味搭配IIAC金奖咖啡豆，清爽鲜爽，口味偏甜，一口吸到液态阳光。\n热量128kcal，咖啡因158.4mg（大杯/冰/埃塞金烘/默认浓度/不另外加糖/无气泡）",
+    "official_url": "https://lkcoffee.com/products/12",
+    "image": "/images/luckin-products/12.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/38087a7050184955978646d8f1cd0680.png"
+  },
+  {
+    "id": 13,
+    "category_id": 2,
+    "category": "美式类",
+    "name": "小黄油美式",
+    "specs": [
+      "热量173kcal",
+      "咖啡因212mg"
+    ],
+    "tags": [
+      "瑞幸原创",
+      "早餐"
+    ],
+    "description": "瑞幸原创 · 爆米花香。黄油与美式创新组合，咖啡焦苦邂逅黄油奶香，满杯爆米花香气，口感柔和丰富，口味偏甜，单杯热量≈0.6个牛油果。\n热量173kcal，咖啡因212mg（大杯/冰/埃塞金烘/默认浓度/不另外加糖）",
+    "official_url": "https://lkcoffee.com/products/13",
+    "image": "/images/luckin-products/13.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/6e250dcc0b7c43c0ac1b4488941305b0.png"
+  },
+  {
+    "id": 14,
+    "category_id": 2,
+    "category": "美式类",
+    "name": "苹果C美式",
+    "specs": [
+      "热量133kcal",
+      "咖啡因171.9mg"
+    ],
+    "tags": [
+      "1杯1.6颗苹果"
+    ],
+    "description": "升级回归 · 含阿克苏苹果 · 国家地理标志产品。精选阿克苏苹果拼配山东红富士，1杯约含1.6颗苹果NFC果汁*，果香饱满，与IIAC金奖咖啡豆融合，口味偏甜，清爽鲜爽。\n热量133kcal，咖啡因171.9mg（大杯/冰/埃塞金烘/默认浓度/不另外加糖/无气泡）",
+    "official_url": "https://lkcoffee.com/products/14",
+    "image": "/images/luckin-products/14.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/4247e6a642f64953a30db94045b9ad4e.png"
+  },
+  {
+    "id": 15,
+    "category_id": 2,
+    "category": "美式类",
+    "name": "柚C美式",
+    "specs": [
+      "热量137kcal",
+      "咖啡因184.1mg"
+    ],
+    "tags": [
+      "0脂"
+    ],
+    "description": "黄金三柚 · 0脂约137kcal · 柚香饱满。三重柚子风味层层铺开，咖啡焦苦穿透酸甜，口味酸甜，回味清新。\n热量137kcal,咖啡因184.1mg（大杯/冰/埃塞金烘/默认浓度/不另外加糖/无气泡）",
+    "official_url": "https://lkcoffee.com/products/15",
+    "image": "/images/luckin-products/15.jpeg",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/1ef4f54328f8414398f171b844315d45.jpeg"
+  },
+  {
+    "id": 23,
+    "category_id": 2,
+    "category": "美式类",
+    "name": "小青桔 C 美式",
+    "specs": [
+      "热量115kcal",
+      "咖啡因154mg"
+    ],
+    "tags": [
+      "海南小青桔",
+      "当季鲜果",
+      "NFC青桔汁"
+    ],
+    "description": "2026 年度重磅·果 C 美式，历时 371 天匠心打造*。含当季海南小青桔鲜果，现捣爆香，清香炸裂。甄选瑞斯奇托®精萃咖啡，获得更明快甜感。含 24 小时鲜榨 NFC 青桔汁*，鲜如初摘。干净配方，0 脂百大卡*，清爽低负担。热量约 115kcal，咖啡因约 154mg（鲜果版/冰/大杯 16oz/不另外加糖）",
+    "official_url": "https://lkcoffee.com/products/23",
+    "image": "/images/luckin-products/23.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/07/12/ccef4bd0ec0a4633a57d187b8f66d6f1.png"
+  },
+  {
+    "id": 24,
+    "category_id": 2,
+    "category": "美式类",
+    "name": "缤纷 C 美式",
+    "specs": [
+      "热量100kcal",
+      "咖啡因37.1mg"
+    ],
+    "tags": [
+      "门店鲜切",
+      "3 种鲜果",
+      "HPP缤纷果汁"
+    ],
+    "description": "每杯含 3 种鲜果，门店鲜切现捣。甄选瑞斯奇托®精萃咖啡，风味更明快酸甜。鲜橙片 + 鲜柠檬片 + 新鲜小青桔+HPP 缤纷果汁饮料，果 C 大爆发。热量约 100kcal，咖啡因约 37.1mg（无鲜果/16oz/冰/不另外加糖/埃塞金烘/意式精萃/青露）",
+    "official_url": "https://lkcoffee.com/products/24",
+    "image": "/images/luckin-products/24.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/07/12/315785d1cd5f42e9aef2767fe25b4de8.png"
+  },
+  {
+    "id": 25,
+    "category_id": 2,
+    "category": "美式类",
+    "name": "大西瓜生椰冷萃",
+    "specs": [
+      "热量102kcal",
+      "咖啡因21.7mg"
+    ],
+    "tags": [
+      "西瓜风味",
+      "生椰",
+      "清爽"
+    ],
+    "description": "大西瓜与生椰冷萃的完美融合，微甜清爽，夏日消暑佳品。热量约 102kcal，咖啡因约 21.7mg（16oz/冰/不另外加糖）。适合风味黑咖爱好者、年轻群体、果咖爱好人群。",
+    "official_url": "https://lkcoffee.com/products/25",
+    "image": "/images/luckin-products/25.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/07/12/923949f5aa9d4ab89b48694a2fc6e1dd.png"
+  },
+  {
+    "id": 26,
+    "category_id": 2,
+    "category": "美式类",
+    "name": "全冰黑巧美式",
+    "specs": [
+      "热量113kcal",
+      "咖啡因21.2mg"
+    ],
+    "tags": [
+      "黑巧克力",
+      "全冰"
+    ],
+    "description": "全冰黑巧美式，口感较苦。热量约 113kcal，咖啡因约 21.2mg（16oz/全冰去水/不另外加糖/意式拼配/短萃浓缩）。",
+    "official_url": "https://lkcoffee.com/products/26",
+    "image": "/images/luckin-products/26.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/07/12/4f760d6b14cd4ccfb6b4881e94211a00.png"
+  },
+  {
+    "id": 27,
+    "category_id": 2,
+    "category": "美式类",
+    "name": "柠 C 气泡美式（鲜果版）",
+    "specs": [
+      "热量77kcal",
+      "咖啡因29.8mg"
+    ],
+    "tags": [
+      "鲜柠檬",
+      "气泡水",
+      "清爽"
+    ],
+    "description": "鲜柠檬与气泡美式的完美融合，清爽微甜，夏日消暑神器。热量约 77kcal，咖啡因约 29.8mg（16oz/冰/不另外加糖）。适合风味美式爱好者。",
+    "official_url": "https://lkcoffee.com/products/27",
+    "image": "/images/luckin-products/27.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/07/12/ecd1bd0597f94c31926ef930f37eb8d0.png"
+  },
+  {
+    "id": 18,
+    "category_id": 3,
+    "category": "冰茶冰奶类",
+    "name": "苹果C冰茶",
+    "specs": [
+      "热量117kcal"
+    ],
+    "tags": [
+      "清爽解腻"
+    ],
+    "description": "阿克苏苹果* · NFC果汁 。1杯约含1.6颗阿克苏苹果NFC果汁*，搭配100%鲜萃横州茉莉花茶，苹果清甜与茉莉花香融合，口味酸甜，清爽解腻。\n热量117kcal（大杯/冰/不另外加糖/茉莉花香）",
+    "official_url": "https://lkcoffee.com/products/18",
+    "image": "/images/luckin-products/18.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/11/3bde78a3705a429ebdc4f7593b6be45f.png"
+  },
+  {
+    "id": 19,
+    "category_id": 3,
+    "category": "冰茶冰奶类",
+    "name": "葡萄冰茶",
+    "specs": [
+      "热量115kcal"
+    ],
+    "tags": [
+      "时令葡萄",
+      "清爽解腻"
+    ],
+    "description": "时令采摘葡萄 · 24小时急速冷藏锁鲜 · 花果香。大颗葡萄果肉搭配100%鲜萃横州茉莉花茶，真实葡萄果汁与茉莉花香交织，清爽明媚，口味酸甜。\n热量115kcal（茉莉花香/冰/大杯 16oz/不另外加糖）",
+    "official_url": "https://lkcoffee.com/products/19",
+    "image": "/images/luckin-products/19.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/11/e9171e26dd21423295a7ac251bdf50bf.png"
+  },
+  {
+    "id": 28,
+    "category_id": 3,
+    "category": "冰茶冰奶类",
+    "name": "Hello 苹果茉莉",
+    "specs": [
+      "热量192kcal",
+      "咖啡因36mg"
+    ],
+    "tags": [
+      "24h 鲜榨",
+      "茉莉花香",
+      "果茶"
+    ],
+    "description": "Hello 苹果茉莉上新，鲜爽好喝轻负担。含 24h 鲜榨 NFC 苹果汁*，急速锁鲜。鲜醇果奶味融合清雅花香，刚刚好的酸甜鲜爽。100% 鲜萃现泡茉莉花茶，0 茶粉口感更鲜灵。热量约 192kcal，咖啡因约 36mg（16oz/冰/不另外加糖/茉莉花香）",
+    "official_url": "https://lkcoffee.com/products/28",
+    "image": "/images/luckin-products/28.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/07/12/df199354f80a4bea943d81f117c619f0.png"
+  },
+  {
+    "id": 29,
+    "category_id": 3,
+    "category": "冰茶冰奶类",
+    "name": "小青桔茉莉冰奶",
+    "specs": [
+      "热量148kcal",
+      "咖啡因30mg"
+    ],
+    "tags": [
+      "海南小青桔",
+      "现捣爆香",
+      "茉莉"
+    ],
+    "description": "果味冰奶夏日上新，鲜爽好喝轻负担。当季海南小青桔鲜果，现捣爆香。清新桔香 x 醇爽花茶 x 顺滑奶底，一口酸甜清爽。100% 鲜萃现泡茉莉花茶，0 茶粉口感更鲜灵。热量约 148kcal，咖啡因约 30mg（16oz/冰/不另外加糖）",
+    "official_url": "https://lkcoffee.com/products/29",
+    "image": "/images/luckin-products/29.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/07/12/e920fcabd7aa4f399e67d27b23918bf9.png"
+  },
+  {
+    "id": 30,
+    "category_id": 3,
+    "category": "冰茶冰奶类",
+    "name": "荔枝茉莉冰奶",
+    "specs": [
+      "热量125kcal",
+      "咖啡因7.37mg"
+    ],
+    "tags": [
+      "荔枝风味",
+      "茉莉花香",
+      "冰爽"
+    ],
+    "description": "荔枝与茉莉花茶的完美融合，清爽微甜，夏日冰爽选择。热量约 125kcal，咖啡因约 7.37mg（16oz/冰/不另外加糖）。",
+    "official_url": "https://lkcoffee.com/products/30",
+    "image": "/images/luckin-products/30.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/07/12/e920fcabd7aa4f399e67d27b23918bf9.png"
+  },
+  {
+    "id": 31,
+    "category_id": 3,
+    "category": "冰茶冰奶类",
+    "name": "弗朗明戈·跳跳冰茶",
+    "specs": [
+      "热量128kcal",
+      "咖啡因4.47mg"
+    ],
+    "tags": [
+      "跳跳糖",
+      "凤梨百香果"
+    ],
+    "description": "弗朗明戈·跳跳冰茶，世界杯主题特调。清爽微甜，跳跳糖增添趣味。热量约 128kcal，咖啡因约 4.47mg（超大杯/24oz/冰/少少甜）。适合口味清淡人群、果茶爱好者。",
+    "official_url": "https://lkcoffee.com/products/31",
+    "image": "/images/luckin-products/31.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/07/13/721c814602674cbc9b057cf7442c46d1.png"
+  },
+  {
+    "id": 16,
+    "category_id": 4,
+    "category": "轻乳茶类",
+    "name": "鲜萃轻轻茉莉",
+    "specs": [
+      "热量100kcal"
+    ],
+    "tags": [
+      "0茶粉",
+      "0植脂末",
+      "100%动物乳脂"
+    ],
+    "description": "100%真茶现泡，0植脂末0植物油，茶香提升约13%，口感清新干净。\n热量100kcal（大杯/冰/不另外加糖/不含轻咖）",
+    "official_url": "https://lkcoffee.com/products/16",
+    "image": "/images/luckin-products/16.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/c26adbd1664148979a965aa7b48ecc34.png"
+  },
+  {
+    "id": 17,
+    "category_id": 5,
+    "category": "果蔬茶类",
+    "name": "羽衣轻体果蔬茶",
+    "specs": [
+      "热量94kcal"
+    ],
+    "tags": [
+      "0脂",
+      "健身友好"
+    ],
+    "description": "4种果蔬 · 约94kcal · 0脂食物。含超级食物羽衣甘蓝，搭配4种新鲜果蔬，190+项原料检测，配方干净，酸甜解腻。\n热量94kcal（大杯/冰/不另外加糖）",
+    "official_url": "https://lkcoffee.com/products/17",
+    "image": "/images/luckin-products/17.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/08/705abce21ae340f4af2b9990eca08cf5.png"
+  },
+  {
+    "id": 20,
+    "category_id": 6,
+    "category": "其他非咖啡类",
+    "name": "生椰杨枝甘露",
+    "specs": [
+      "热量176kcal"
+    ],
+    "tags": [
+      "百色芒果",
+      "层次丰富"
+    ],
+    "description": "超多料 · 芒果×西柚×晶球×椰奶冻 · 生椰家族成员。甄选农产品地理标志百色芒果，搭配进口红西柚果粒、0脂晶球、椰奶冻、冷榨生椰，层次丰富，嚼感十足，口味较甜。\n热量176kcal（大杯/冰/不另外加糖/西柚粒）",
+    "official_url": "https://lkcoffee.com/products/20",
+    "image": "/images/luckin-products/20.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/06/11/18b64d3f2900454490805d02fa40e398.png"
+  },
+  {
+    "id": 32,
+    "category_id": 6,
+    "category": "其他非咖啡类",
+    "name": "牛油果羽衣酸奶昔（仔仔杯）",
+    "specs": [
+      "热量284kcal",
+      "咖啡因<0.2mg"
+    ],
+    "tags": [
+      "牛油果",
+      "羽衣甘蓝"
+    ],
+    "description": "牛油果羽衣酸奶昔，料足。热量约 284kcal，咖啡因<0.2mg（仔仔杯/冰/不另外加糖）。适合学生、酸奶爱好者。",
+    "official_url": "https://lkcoffee.com/products/32",
+    "image": "/images/luckin-products/32.png",
+    "source_image_url": "https://img.luckincoffeecdn.com/luckymediaadmin/2026/07/13/6e887545977e4904b2c9eaf3b34be059.png"
+  }
+]

@@ -13,6 +13,10 @@
                 </div>
             </div>
             <div class="flex items-center gap-3">
+                <a href="{{ route('admin.knowledge-bases.luckin-products.index') }}" class="inline-flex items-center px-4 py-2 border border-blue-200 text-sm font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100">
+                    <i data-lucide="gallery-vertical-end" class="w-4 h-4 mr-2"></i>
+                    瑞幸官网产品视觉库
+                </a>
                 @if (auth('admin')->user()?->canManageProtectedWorkflows())
                     <a href="{{ route('admin.knowledge-bases.luckin-mcp.index') }}" class="inline-flex items-center px-4 py-2 border border-blue-200 text-sm font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100">
                         <i data-lucide="database-zap" class="w-4 h-4 mr-2"></i>
