@@ -162,3 +162,9 @@
 - 登录表单在密码框下展示演示密码；`.env.example` 与 `.env.prod.example` 保持该能力默认关闭。
 - `AdminLoginPageTest` 覆盖默认隐藏、匹配时显示和配置过期时隐藏三种状态。
 - 腾讯云 `.env.prod` 显式开启展示，容器重建后已在真实登录页验收；仓库示例配置仍默认关闭。
+
+## 2026-07-18 21:58 — 顶栏滚动条不再覆盖菜单
+
+- `resources/views/admin/partials/header.blade.php` 为桌面导航滚动区增加专用类并移除 `scrollbar-width: thin`。
+- `public/css/luckin-admin-theme.css` 隐藏原生横向滚动条，但继续保留 `overflow-x-auto`、触控板和触摸滑动能力。
+- `AdminDashboardQuickStartTest` 增加导航仍可滚动且三类原生滚动条均隐藏的回归断言。

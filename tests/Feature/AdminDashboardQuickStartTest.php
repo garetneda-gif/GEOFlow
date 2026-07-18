@@ -25,6 +25,22 @@ class AdminDashboardQuickStartTest extends TestCase
         $this->assertStringContainsString('transform: translateY(5px);', $navLinkStyleMatches[1]);
     }
 
+    public function test_admin_navigation_hides_native_scrollbar_without_disabling_horizontal_scroll(): void
+    {
+        $themeCss = (string) file_get_contents(public_path('css/luckin-admin-theme.css'));
+        $header = (string) file_get_contents(resource_path('views/admin/partials/header.blade.php'));
+
+        $this->assertStringContainsString('luckin-admin-nav-scroll', $header);
+        $this->assertStringContainsString('overflow-x-auto', $header);
+        $this->assertStringNotContainsString('[scrollbar-width:thin]', $header);
+        $this->assertStringContainsString('scrollbar-width: none;', $themeCss);
+        $this->assertStringContainsString('-ms-overflow-style: none;', $themeCss);
+        $this->assertMatchesRegularExpression(
+            '/\.luckin-admin-nav-scroll::\-webkit\-scrollbar\s*\{[^}]*display:\s*none;/s',
+            $themeCss
+        );
+    }
+
     public function test_dashboard_shows_scenario_navigation_without_data_widgets(): void
     {
         $admin = Admin::query()->create([

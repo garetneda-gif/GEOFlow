@@ -22,6 +22,15 @@ body.luckin-admin-theme .luckin-admin-logo {
     height: auto;
 }
 
+body.luckin-admin-theme .luckin-admin-nav-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+body.luckin-admin-theme .luckin-admin-nav-scroll::-webkit-scrollbar {
+    display: none;
+}
+
 body.luckin-admin-theme .luckin-admin-nav-link {
     display: inline-flex;
     align-items: center;

@@ -342,3 +342,9 @@
 - 现象：Web 容器先于 Reverb 完成就绪，既有浏览器在约 1 秒窗口内产生 4 条 upstream connection refused。
 - 根因：五个无状态应用容器同时强制重建，Nginx 已接收旧页面的 WebSocket 自动重连，但 Reverb 尚在监听。
 - 处理：重建完成后 WebSocket 握手复测返回 101 与 `pusher:connection_established`，容器和静态资源均健康，无持续错误。
+
+## 2026-07-18 21:58 — 顶栏横向滚动条覆盖导航文字
+
+- 现象：约 1100px 宽度下，桌面导航需要横向滚动，macOS 原生滚动条会直接叠在菜单文字上。
+- 根因：导航容器同时使用 `overflow-x-auto`、负纵向 margin 和 `scrollbar-width: thin`，滚动条没有独立垂直空间。
+- 处理：保留横向滚动能力，统一隐藏 Firefox、旧 Edge 和 WebKit 的原生滚动条轨道；移动端菜单与顶栏结构不变。

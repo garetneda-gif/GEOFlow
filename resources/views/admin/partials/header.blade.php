@@ -129,7 +129,7 @@
                 <img src="{{ asset('images/luckin-coffee-logo.png') }}" alt="luckin coffee 瑞幸咖啡" class="luckin-admin-logo">
             </a>
             <nav class="hidden md:flex flex-1 min-w-0 items-center">
-                <div class="flex w-full min-w-0 items-center gap-3 lg:gap-5 overflow-x-auto overscroll-x-contain py-2 -my-2 [scrollbar-width:thin]">
+                <div class="luckin-admin-nav-scroll flex w-full min-w-0 items-center gap-3 lg:gap-5 overflow-x-auto overscroll-x-contain py-2 -my-2">
                     @foreach ($menu as $key => $item)
                         <a href="{{ route($item['route']) }}"
                            class="luckin-admin-nav-link @if($resolvedActive === $key) text-blue-600 font-medium @else text-gray-500 hover:text-gray-700 @endif shrink-0 whitespace-nowrap text-[15px] transition-colors duration-200">
