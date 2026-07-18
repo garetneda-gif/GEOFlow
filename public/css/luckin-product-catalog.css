@@ -10,22 +10,19 @@
 .luckin-product-library__header {
     position: relative;
     overflow: hidden;
-    background: #101d72;
+    background: #1a100d url("../images/luckin-products/catalog-hero.png") center / cover no-repeat;
     color: #fff;
 }
 
 .luckin-product-library__header::before {
     position: absolute;
     inset: 0;
-    background:
-        radial-gradient(circle at 84% 16%, rgba(108, 134, 255, 0.58), transparent 28%),
-        linear-gradient(128deg, rgba(255, 255, 255, 0.05) 0 28%, transparent 28% 100%);
+    background: linear-gradient(90deg, rgba(13, 8, 7, 0.88) 0%, rgba(13, 8, 7, 0.68) 48%, rgba(13, 8, 7, 0.16) 100%);
     content: "";
     pointer-events: none;
 }
 
-.luckin-product-library__title-row,
-.luckin-product-library__meta {
+.luckin-product-library__title-row {
     position: relative;
     z-index: 1;
 }
@@ -81,56 +78,6 @@
     color: rgba(255, 255, 255, 0.78);
     font-size: 1rem;
     line-height: 1.85;
-}
-
-.luckin-product-library__meta {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(180px, auto);
-    border-top: 1px solid rgba(255, 255, 255, 0.17);
-}
-
-.luckin-product-library__meta > div,
-.luckin-product-library__meta > a {
-    min-height: 82px;
-    border-right: 1px solid rgba(255, 255, 255, 0.17);
-    padding: 17px 28px;
-}
-
-.luckin-product-library__meta strong,
-.luckin-product-library__meta span {
-    display: block;
-}
-
-.luckin-product-library__meta strong {
-    font-size: 1.08rem;
-    font-weight: 700;
-}
-
-.luckin-product-library__meta span {
-    margin-top: 3px;
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.76rem;
-}
-
-.luckin-product-library__meta > a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    border-right: 0;
-    color: #fff;
-    font-size: 0.86rem;
-    font-weight: 650;
-    transition: background-color 160ms ease;
-}
-
-.luckin-product-library__meta > a:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.luckin-product-library__meta > a svg {
-    width: 15px;
-    height: 15px;
 }
 
 .luckin-product-library__toolbar {
@@ -466,21 +413,6 @@
         padding: 32px 24px 30px;
     }
 
-    .luckin-product-library__meta {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .luckin-product-library__meta > div,
-    .luckin-product-library__meta > a {
-        min-height: 70px;
-        padding: 14px;
-    }
-
-    .luckin-product-library__meta > a {
-        grid-column: 1 / -1;
-        border-top: 1px solid rgba(255, 255, 255, 0.17);
-    }
-
     .luckin-product-library__result-line span:last-child {
         display: none;
     }
@@ -511,14 +443,6 @@
         font-size: 0.85rem;
     }
 
-    .luckin-product-library__meta strong {
-        font-size: 0.88rem;
-    }
-
-    .luckin-product-library__meta span {
-        font-size: 0.66rem;
-    }
-
     .luckin-product-library__toolbar {
         padding: 18px 14px;
     }
@@ -531,7 +455,6 @@
 @media (prefers-reduced-motion: reduce) {
     .luckin-product-item__visual img,
     .luckin-product-library__back,
-    .luckin-product-library__meta > a,
     .luckin-product-library__filters button {
         transition: none;
     }

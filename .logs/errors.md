@@ -360,9 +360,14 @@
 - 现象：线上 DOM 已包含 `luckin-admin-nav-scroll`，但浏览器计算样式仍为 `scrollbar-width: auto`。
 - 根因：Nginx 为独立主题 CSS 返回 `max-age=604800, immutable`，文件 URL 未携带版本，普通刷新继续复用旧响应。
 - 处理：后台布局和登录页均以 CSS 文件修改时间生成 `?v=` 参数，部署后 URL 变化可立即淘汰旧缓存。
-
 ## 2026-07-18 22:09 — 760px 验收截图捕获超时
 
 - 现象：移动端视口页面已加载，但浏览器截图命令超时。
 - 根因：截图通道当次未在时限内返回，页面 DOM、导航和控制台连接仍正常。
 - 处理：不重复消耗截图通道，改以 DOM、计算样式和 `documentScrollWidth === viewportWidth` 完成移动端验收。
+
+## 2026-07-18 22:11 — 临时部署 worktree 缺少 Composer 依赖
+
+- **现象**：在新建的主题分支 worktree 运行 `php artisan test --filter=LuckinProduct` 时，`vendor/autoload.php` 不存在。
+- **根因**：Git worktree 不复制主工作区未纳入版本控制的 `vendor/`；不是代码或生产依赖故障。
+- **处理**：同一提交内容已在带完整依赖的产品视觉库 worktree 通过 4 项、118 个断言；主题分支仅做无冲突 cherry-pick，并继续使用该验证结果。

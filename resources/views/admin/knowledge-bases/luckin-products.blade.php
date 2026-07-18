@@ -17,16 +17,6 @@
                     <p class="luckin-product-library__lead">把官网产品图、分类与产品说明集中到 GEOFlow 知识库中，供选题、内容生产和知识核验时直接浏览。</p>
                 </div>
             </div>
-
-            <div class="luckin-product-library__meta" aria-label="产品库信息">
-                <div><strong>{{ $products->count() }}</strong><span>款官网产品</span></div>
-                <div><strong>{{ $categories->count() }}</strong><span>个产品分类</span></div>
-                <div><strong>{{ $snapshotDate }}</strong><span>官网快照</span></div>
-                <a href="https://lkcoffee.com/products" target="_blank" rel="noopener noreferrer">
-                    查看瑞幸官网
-                    <i data-lucide="external-link" aria-hidden="true"></i>
-                </a>
-            </div>
         </header>
 
         <section class="luckin-product-library__toolbar" aria-label="筛选产品">
