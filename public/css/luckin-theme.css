@@ -1252,6 +1252,12 @@ body.luckin-site .tt-brand {
     letter-spacing: -0.02em;
 }
 
+body.luckin-site .luckin-official-logo {
+    display: block;
+    width: 160px;
+    height: auto;
+}
+
 body.luckin-site .luckin-site-brand {
     display: inline-flex;
     align-items: center;
@@ -1337,15 +1343,13 @@ body.luckin-site .luckin-site-hero {
     overflow: hidden;
     border: 1px solid #d8e3f3;
     border-radius: var(--luckin-radius-lg);
-    background:
-        radial-gradient(circle at 92% 8%, rgba(71, 123, 198, 0.18), transparent 34%),
-        linear-gradient(145deg, #fff 0%, var(--luckin-primary-light) 100%);
-    box-shadow: var(--luckin-shadow-md);
+    background: #fff;
+    box-shadow: var(--luckin-shadow-sm);
 }
 
 body.luckin-site .luckin-site-hero h1 {
     max-width: 700px;
-    margin-top: 18px;
+    margin-top: 0;
     color: var(--luckin-primary-dark);
     font-size: clamp(2.1rem, 5vw, 4.2rem);
     font-weight: 800;

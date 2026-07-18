@@ -54,7 +54,9 @@ MD);
             ->assertOk()
             ->assertSee(__('site.home_latest'))
             ->assertSee('瑞幸 AI 饮品指南')
-            ->assertSee('消费者与 AI 共用的品牌知识入口')
+            ->assertSee('themes/toutiao-news-20260426/luckin-coffee-logo.png', false)
+            ->assertDontSee('消费者与 AI 共用的品牌知识入口')
+            ->assertDontSee('内容基于已核验知识展示')
             ->assertSee('概念验证 Demo')
             ->assertSee('css/luckin-theme.css', false);
     }
@@ -483,7 +485,7 @@ MD);
             ->assertSee('data-home-poster-carousel', false)
             ->assertSee('https://example.com/banner-one.jpg', false)
             ->assertSee('Banner One')
-            ->assertSee('已核验知识驱动')
+            ->assertDontSee('已核验知识驱动')
             ->assertSee('GEOFlow Demo')
             ->assertSee('Demo homepage description');
     }

@@ -9,10 +9,9 @@
                 @if(!empty($siteLogo))
                     <img src="{{ $siteLogo }}" alt="{{ $siteName }}" class="h-9 w-auto max-w-48 object-contain">
                 @else
-                    <span class="luckin-site-brand"><span class="luckin-brand-mark" aria-hidden="true"><i data-lucide="coffee" class="h-5 w-5"></i></span><span><strong>luckin coffee</strong><small>瑞幸 AI 饮品指南</small></span></span>
+                    <img src="{{ asset('themes/toutiao-news-20260426/luckin-coffee-logo.png') }}" alt="luckin coffee 瑞幸咖啡" class="luckin-official-logo">
                 @endif
             </a>
-            <span class="luckin-demo-badge hidden lg:inline-flex">已核验知识驱动</span>
 
             <nav class="tt-topnav" aria-label="主导航">
                 <a href="{{ route('site.home') }}" data-nav-item="home" class="{{ $isHome ? 'is-active' : '' }}">{{ __('front.nav.home') }}</a>

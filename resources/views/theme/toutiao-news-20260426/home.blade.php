@@ -46,7 +46,6 @@
     @if($isDefaultHome && (int) request('page', 1) === 1)
         <section class="luckin-site-hero tt-shell" aria-labelledby="luckin-guide-title">
             <div>
-                <span class="luckin-demo-badge">消费者与 AI 共用的品牌知识入口</span>
                 <h1 id="luckin-guide-title">瑞幸 AI 饮品指南</h1>
                 <p>基于已核验品牌知识，为消费者和AI提供清晰、可追溯的饮品与服务信息。</p>
                 <div class="luckin-site-topics" aria-label="推荐内容栏目">

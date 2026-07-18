@@ -10,7 +10,6 @@
 <aside class="tt-sidebar">
     @if(!empty($showFeedPanel))
         <section class="tt-panel tt-feed-panel">
-            <div class="tt-page-kicker">已核验知识驱动</div>
             <h2 class="tt-feed-panel-title">{{ $feedTitle }}</h2>
             @if($feedDescription !== '')
                 <p class="tt-feed-panel-desc">{{ $feedDescription }}</p>

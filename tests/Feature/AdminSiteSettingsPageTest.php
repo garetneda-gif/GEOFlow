@@ -978,7 +978,8 @@ class AdminSiteSettingsPageTest extends TestCase
             ->assertSee('<a href="/safe" target="_blank" rel="noopener nofollow">Safe link</a>', false)
             ->assertSee('<a href="/safe-row">Safe row</a>', false)
             ->assertDontSee('javascript:', false)
-            ->assertDontSee('<img', false);
+            ->assertDontSee('onerror=', false)
+            ->assertDontSee('<img src=x', false);
     }
 
     public function test_homepage_module_preset_can_replace_modules_and_render(): void
