@@ -99,4 +99,4 @@
 - 固定域名根路径返回 307 并进入 `/geo_admin`；真实管理员会话最终打开 `/geo_admin/dashboard`。
 - 1600×900 桌面视口截图确认官方 Logo 与“首页”等导航标题视觉对齐，元素中心偏移为 -2px。
 - 完整 PHPUnit 974 项、7875 个断言通过；Vite 7.3.2 生产构建、变更范围 Pint 与 `git diff --check` 通过。
-- 下一步：精确暂存本次部署与页头文件，提交后立即推送功能分支。
+- 部署与页头改动已以 `c098504` 提交，并推送至 `origin/feat/luckin-geoflow-theme`。
