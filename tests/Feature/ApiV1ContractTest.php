@@ -457,4 +457,42 @@ class ApiV1ContractTest extends TestCase
             'id' => (int) $knowledgeBase->id,
         ]);
     }
+
+    public function test_material_api_cannot_mutate_or_delete_luckin_mcp_snapshot(): void
+    {
+        $admin = $this->createActiveAdmin('luckin_api_guard', 'p');
+        $bearer = $this->createBearerToken($admin, ['materials:write']);
+        $knowledgeBase = KnowledgeBase::query()->create([
+            'name' => '瑞幸官方快照',
+            'description' => '受保护的官方数据',
+            'content' => '原始官方内容',
+            'file_type' => 'markdown',
+            'character_count' => 8,
+            'word_count' => 8,
+            'source_type' => KnowledgeBase::LUCKIN_MCP_SOURCE_TYPE,
+            'source_url' => KnowledgeBase::LUCKIN_MCP_SOURCE_URL,
+            'review_status' => 'reviewed',
+        ]);
+
+        $this->withHeader('Authorization', 'Bearer '.$bearer['plain'])
+            ->patchJson('/api/v1/materials/knowledge-bases/'.(int) $knowledgeBase->id, [
+                'content' => '被 API 篡改的内容',
+            ])
+            ->assertStatus(403)
+            ->assertJsonPath('success', false)
+            ->assertJsonPath('error.code', 'official_snapshot_immutable');
+
+        $this->withHeader('Authorization', 'Bearer '.$bearer['plain'])
+            ->deleteJson('/api/v1/materials/knowledge-bases/'.(int) $knowledgeBase->id)
+            ->assertStatus(403)
+            ->assertJsonPath('success', false)
+            ->assertJsonPath('error.code', 'official_snapshot_immutable');
+
+        $this->assertDatabaseHas('knowledge_bases', [
+            'id' => (int) $knowledgeBase->id,
+            'content' => '原始官方内容',
+            'source_type' => KnowledgeBase::LUCKIN_MCP_SOURCE_TYPE,
+            'source_url' => KnowledgeBase::LUCKIN_MCP_SOURCE_URL,
+        ]);
+    }
 }

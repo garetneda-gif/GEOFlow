@@ -140,6 +140,7 @@ class MaterialLibraryService
     {
         $type = $this->normalizeType($type);
         $row = $this->findMaterial($type, $id);
+        $this->guardOfficialKnowledgeSnapshot($type, $row);
 
         DB::transaction(function () use ($type, $row, $data): void {
             match ($type) {
@@ -163,6 +164,7 @@ class MaterialLibraryService
     {
         $type = $this->normalizeType($type);
         $row = $this->findMaterial($type, $id);
+        $this->guardOfficialKnowledgeSnapshot($type, $row);
         $imageFilePaths = [];
 
         DB::transaction(function () use ($type, $row, $id, &$imageFilePaths): void {
@@ -723,6 +725,28 @@ class MaterialLibraryService
         if ($contentChanged) {
             $this->chunkSyncService->sync((int) $row->id, (string) $payload['content']);
         }
+    }
+
+    private function guardOfficialKnowledgeSnapshot(string $type, Model $row): void
+    {
+        if ($type !== 'knowledge-bases' || ! $row instanceof KnowledgeBase) {
+            return;
+        }
+
+        $isOfficialSnapshot = KnowledgeBase::query()
+            ->whereKey($row->getKey())
+            ->where('source_type', KnowledgeBase::LUCKIN_MCP_SOURCE_TYPE)
+            ->where('source_url', KnowledgeBase::LUCKIN_MCP_SOURCE_URL)
+            ->exists();
+        if (! $isOfficialSnapshot) {
+            return;
+        }
+
+        throw new ApiException(
+            'official_snapshot_immutable',
+            '瑞幸官方 MCP 快照不可通过通用素材 API 修改或删除',
+            403,
+        );
     }
 
     /**

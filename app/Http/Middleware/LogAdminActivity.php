@@ -34,12 +34,16 @@ class LogAdminActivity
             return $response;
         }
 
-        $action = (string) ($request->input('action') ?: 'submit');
+        $redactInput = (bool) $request->route('activity_input_redacted');
+        $action = $redactInput ? 'submit' : (string) ($request->input('action') ?: 'submit');
         $routeName = (string) ($request->route()?->getName() ?? '');
         // 组合路由名 + action，便于后续按模块和操作类型筛选审计日志。
         $fullAction = $routeName !== '' ? $routeName.':'.$action : $action;
 
-        AdminActivityLogger::logFromRequest($request, $admin, $fullAction, $request->except(['password', 'package_password', 'current_password', 'new_password', 'confirm_password']));
+        $details = $redactInput
+            ? ['request' => '[redacted]']
+            : $request->except(['password', 'package_password', 'current_password', 'new_password', 'confirm_password']);
+        AdminActivityLogger::logFromRequest($request, $admin, $fullAction, $details);
 
         return $response;
     }

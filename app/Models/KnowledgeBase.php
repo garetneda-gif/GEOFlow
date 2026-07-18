@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class KnowledgeBase extends Model
 {
+    public const LUCKIN_MCP_SOURCE_TYPE = 'luckin_mcp';
+
+    public const LUCKIN_MCP_SOURCE_URL = 'https://open.lkcoffee.com/mcp';
+
+    public const REVIEWED_STATUSES = ['reviewed', 'approved', 'verified'];
+
     protected $table = 'knowledge_bases';
 
     protected $fillable = [
@@ -57,5 +64,33 @@ class KnowledgeBase extends Model
             ->withTimestamps()
             ->orderByPivot('sort_order')
             ->orderBy('tasks.id');
+    }
+
+    public function isUsableForGeneration(): bool
+    {
+        if (! $this->isLuckinMcpSource()) {
+            return true;
+        }
+
+        return in_array(strtolower(trim((string) $this->review_status)), self::REVIEWED_STATUSES, true);
+    }
+
+    public function isLuckinMcpSource(): bool
+    {
+        return (string) $this->source_type === self::LUCKIN_MCP_SOURCE_TYPE
+            && (string) $this->source_url === self::LUCKIN_MCP_SOURCE_URL;
+    }
+
+    public function scopeUsableForGeneration(Builder $query): Builder
+    {
+        return $query->where(function (Builder $outer): void {
+            $outer->where(function (Builder $nonLuckin): void {
+                $nonLuckin
+                    ->where('source_type', '!=', self::LUCKIN_MCP_SOURCE_TYPE)
+                    ->orWhereNull('source_type')
+                    ->orWhere('source_url', '!=', self::LUCKIN_MCP_SOURCE_URL)
+                    ->orWhereNull('source_url');
+            })->orWhereIn('review_status', self::REVIEWED_STATUSES);
+        });
     }
 }

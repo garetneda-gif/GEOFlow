@@ -21,6 +21,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 use Throwable;
 
@@ -120,9 +121,20 @@ class TaskController extends Controller
     /**
      * 任务创建页（先接入可用创建链路，后续继续做 1:1 细节对齐）。
      */
-    public function create(): View
+    public function create(Request $request): View
     {
         $formOptions = $this->loadTaskFormOptions();
+        $taskForm = null;
+        $requestedKnowledgeBaseId = $request->query('knowledge_base_id');
+        if (is_string($requestedKnowledgeBaseId) && preg_match('/^[1-9][0-9]*$/', $requestedKnowledgeBaseId) === 1) {
+            $knowledgeBaseId = (int) $requestedKnowledgeBaseId;
+            if (KnowledgeBase::query()->usableForGeneration()->whereKey($knowledgeBaseId)->exists()) {
+                $taskForm = [
+                    'knowledge_base_id' => (string) $knowledgeBaseId,
+                    'knowledge_base_ids' => [$knowledgeBaseId],
+                ];
+            }
+        }
 
         // 创建页选项与 tasks.php 数据口径一致（库/模型/作者/分类）。
         return view('admin.tasks.form', [
@@ -133,7 +145,7 @@ class TaskController extends Controller
             'hasCategories' => ! empty($formOptions['categories']),
             'categoryCreateUrl' => route('admin.categories.create'),
             'isEdit' => false,
-            'taskForm' => null,
+            'taskForm' => $taskForm,
             'taskId' => null,
         ]);
     }
@@ -456,6 +468,7 @@ class TaskController extends Controller
 
         $knowledgeBases = KnowledgeBase::query()
             ->select(['id', 'name'])
+            ->usableForGeneration()
             ->orderBy('name')
             ->get()
             ->map(static fn (KnowledgeBase $row): array => ['id' => (int) $row->id, 'name' => (string) $row->name])
@@ -523,7 +536,7 @@ class TaskController extends Controller
      */
     private function validateTaskForm(Request $request): array
     {
-        return $request->validate([
+        $payload = $request->validate([
             'task_name' => ['required', 'string', 'max:200'],
             'title_library_id' => ['required', 'integer', 'min:1'],
             'prompt_id' => ['required', 'integer', 'min:1'],
@@ -546,6 +559,18 @@ class TaskController extends Controller
             'distribution_channel_ids' => ['nullable', 'array'],
             'distribution_channel_ids.*' => ['integer', 'min:1'],
         ]);
+
+        $knowledgeBaseIds = $this->selectedKnowledgeBaseIds($payload);
+        if ($knowledgeBaseIds !== []
+            && KnowledgeBase::query()->whereIn('id', $knowledgeBaseIds)->get()->contains(
+                static fn (KnowledgeBase $knowledgeBase): bool => ! $knowledgeBase->isUsableForGeneration()
+            )) {
+            throw ValidationException::withMessages([
+                'knowledge_base_ids' => __('luckin_mcp.errors.knowledge_unavailable'),
+            ]);
+        }
+
+        return $payload;
     }
 
     /**

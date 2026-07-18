@@ -7,13 +7,6 @@
         $luckinMcpStatus = in_array($luckinMcpState['status'] ?? null, ['connected', 'partial', 'authorization_required', 'pending', 'error', 'disabled'], true)
             ? $luckinMcpState['status']
             : 'error';
-        $luckinMcpCapabilities = is_array($luckinMcpState['capabilities'] ?? null) ? $luckinMcpState['capabilities'] : [];
-        $luckinMcpTools = [
-            'queryShopList' => __('admin.dashboard.luckin_mcp.capability_shop'),
-            'searchProductForMcp' => __('admin.dashboard.luckin_mcp.capability_search'),
-            'switchProduct' => __('admin.dashboard.luckin_mcp.capability_switch'),
-            'queryProductDetailInfo' => __('admin.dashboard.luckin_mcp.capability_detail'),
-        ];
         $statusStyles = [
             'ready' => 'bg-emerald-100 text-emerald-700',
             'running' => 'bg-blue-100 text-blue-700',
@@ -276,46 +269,6 @@
             ],
         ];
 
-        $recommendations = [
-            [
-                'title' => __('admin.dashboard.automation.rec_distribution_title'),
-                'desc' => __('admin.dashboard.automation.rec_distribution_desc'),
-                'count' => $distributionFailed,
-                'icon' => 'triangle-alert',
-                'style' => 'border-red-200 bg-red-50',
-                'badge' => 'error',
-                'href' => route('admin.distribution.jobs'),
-                'button' => __('admin.dashboard.navigation.distribution_jobs_title'),
-                'buttonStyle' => 'border-orange-200 bg-orange-50 text-orange-700 hover:bg-orange-100',
-            ],
-            [
-                'title' => __('admin.dashboard.automation.rec_chunks_title'),
-                'desc' => __('admin.dashboard.automation.rec_chunks_desc'),
-                'count' => $unvectorizedChunks,
-                'icon' => 'database-zap',
-                'style' => 'border-amber-200 bg-amber-50',
-                'badge' => 'warning',
-                'href' => route('admin.knowledge-bases.index'),
-                'button' => __('admin.dashboard.automation.action_refresh_chunks'),
-                'buttonStyle' => 'border-gray-300 bg-white text-gray-700 hover:bg-gray-50',
-            ],
-            [
-                'title' => __('admin.dashboard.automation.rec_review_title'),
-                'desc' => __('admin.dashboard.automation.rec_review_desc'),
-                'count' => $pendingReview,
-                'icon' => 'badge-check',
-                'style' => 'border-blue-200 bg-blue-50',
-                'badge' => 'running',
-                'href' => route('admin.articles.index'),
-                'button' => __('admin.dashboard.automation.action_review'),
-                'buttonStyle' => 'border-blue-600 bg-blue-600 text-white hover:bg-blue-700',
-            ],
-        ];
-        $activeRecommendations = array_values(array_filter(
-            $recommendations,
-            static fn (array $recommendation): bool => (int) $recommendation['count'] > 0
-        ));
-
         $healthCards = [
             [
                 'title' => __('admin.dashboard.automation.health_task_title'),
@@ -391,14 +344,6 @@
                 $flowNodes,
                 static fn (array $item): bool => $item['title'] !== __('admin.dashboard.automation.node_authority_distribution_title'),
             ));
-            $recommendations = array_values(array_filter(
-                $recommendations,
-                static fn (array $item): bool => $item['href'] !== route('admin.distribution.jobs'),
-            ));
-            $activeRecommendations = array_values(array_filter(
-                $recommendations,
-                static fn (array $recommendation): bool => (int) $recommendation['count'] > 0,
-            ));
             $healthCards = array_values(array_filter(
                 $healthCards,
                 static fn (array $item): bool => $item['title'] !== __('admin.dashboard.automation.health_distribution_title'),
@@ -454,68 +399,21 @@
             </div>
         </section>
 
-        <section class="luckin-mcp-panel mb-8" data-status="{{ $luckinMcpStatus }}" aria-labelledby="luckin-mcp-title">
-            <div class="luckin-mcp-panel-header">
-                <div class="luckin-mcp-brand-mark">
-                    <img src="{{ asset('images/luckin-coffee-logo.png') }}" alt="luckin coffee 瑞幸咖啡" width="360" height="100">
+        <section class="luckin-mcp-source-strip mb-8" data-status="{{ $luckinMcpStatus }}" aria-labelledby="luckin-mcp-source-title">
+            <img src="{{ asset('images/luckin-coffee-logo.png') }}" alt="luckin coffee 瑞幸咖啡" width="360" height="100">
+            <div class="min-w-0 flex-1">
+                <div class="flex flex-wrap items-center gap-2">
+                    <h2 id="luckin-mcp-source-title">{{ __('luckin_mcp.heading') }}</h2>
+                    <span class="luckin-mcp-source-status"><span aria-hidden="true"></span>{{ __('luckin_mcp.status.'.$luckinMcpStatus) }}</span>
                 </div>
-                <div class="luckin-mcp-heading">
-                    <p class="luckin-mcp-eyebrow">{{ __('admin.dashboard.luckin_mcp.eyebrow') }}</p>
-                    <h2 id="luckin-mcp-title">{{ __('admin.dashboard.luckin_mcp.title') }}</h2>
-                    <p>{{ __('admin.dashboard.luckin_mcp.desc') }}</p>
-                </div>
-                <span class="luckin-mcp-status">
-                    <span aria-hidden="true"></span>
-                    {{ __('admin.dashboard.luckin_mcp.status_'.$luckinMcpStatus) }}
-                </span>
+                <p>{{ __('luckin_mcp.subtitle') }}</p>
             </div>
-
-            <div class="luckin-mcp-panel-body">
-                <div class="luckin-mcp-capabilities" role="list">
-                    @foreach ($luckinMcpTools as $toolName => $toolLabel)
-                        @php($toolAvailable = ($luckinMcpCapabilities[$toolName] ?? false) === true)
-                        <div class="luckin-mcp-capability" role="listitem" data-available="{{ $toolAvailable ? 'true' : 'false' }}">
-                            <span class="luckin-mcp-capability-icon" aria-hidden="true">
-                                <i data-lucide="{{ $toolAvailable ? 'check' : 'minus' }}"></i>
-                            </span>
-                            <span>
-                                <strong>{{ $toolLabel }}</strong>
-                                <small>{{ $toolAvailable ? __('admin.dashboard.luckin_mcp.capability_available') : __('admin.dashboard.luckin_mcp.capability_unavailable') }}</small>
-                            </span>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div class="luckin-mcp-notice">
-                    <div class="luckin-mcp-notice-icon" aria-hidden="true"><i data-lucide="plug-zap"></i></div>
-                    <div>
-                        @if ($luckinMcpStatus === 'connected')
-                            <p>{{ __('admin.dashboard.luckin_mcp.handshake_success') }}</p>
-                        @elseif ($luckinMcpStatus === 'partial')
-                            <p>{{ __('admin.dashboard.luckin_mcp.partial_notice') }}</p>
-                        @else
-                            <p>{{ __('admin.dashboard.luckin_mcp.'.$luckinMcpStatus.'_notice') }}</p>
-                        @endif
-                        <p class="luckin-mcp-scope">{{ __('admin.dashboard.luckin_mcp.scope') }}</p>
-                        <p class="luckin-mcp-price-note">{{ __('admin.dashboard.luckin_mcp.price_note') }}</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="luckin-mcp-panel-footer">
-                <div>
-                    @if (($luckinMcpState['protocol_version'] ?? '') !== '')
-                        <span>{{ __('admin.dashboard.luckin_mcp.protocol', ['version' => $luckinMcpState['protocol_version']]) }}</span>
-                    @endif
-                    @if (($luckinMcpState['checked_at'] ?? '') !== '')
-                        <span>{{ __('admin.dashboard.luckin_mcp.checked_at', ['time' => $luckinMcpState['checked_at']]) }}</span>
-                    @endif
-                </div>
-                <a href="https://open.lkcoffee.com/mcp" target="_blank" rel="noopener noreferrer">
-                    {{ __('admin.dashboard.luckin_mcp.official_docs') }}
-                    <i data-lucide="external-link" aria-hidden="true"></i>
+            @if ($canManageProtectedWorkflows)
+                <a href="{{ route('admin.knowledge-bases.luckin-mcp.index') }}">
+                    {{ __('luckin_mcp.query_action') }}
+                    <i data-lucide="arrow-right" aria-hidden="true"></i>
                 </a>
-            </div>
+            @endif
         </section>
 
         <section class="mb-8 overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-gray-200">
@@ -630,7 +528,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 gap-5 p-5 2xl:grid-cols-[minmax(0,1fr)_360px]">
+            <div class="p-5">
                 <div class="min-w-0">
                     <div class="mb-5 flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
                         <div>
@@ -683,36 +581,6 @@
                     </div>
                 </div>
 
-                <aside class="flex flex-col gap-3">
-                    <div>
-                        <h3 class="text-base font-semibold text-gray-900">{{ __('admin.dashboard.automation.recommendations_title') }}</h3>
-                        <p class="mt-1 text-sm leading-6 text-gray-500">{{ __('admin.dashboard.automation.recommendations_desc') }}</p>
-                    </div>
-                    @forelse ($activeRecommendations as $recommendation)
-                        @php($badgeClass = $statusStyles[$recommendation['badge']] ?? $statusStyles['warning'])
-                        <div class="rounded-lg border p-4 {{ $recommendation['style'] }}">
-                            <div class="flex items-start justify-between gap-3">
-                                <div class="flex min-w-0 items-center gap-2">
-                                    <i data-lucide="{{ $recommendation['icon'] }}" class="h-4 w-4 shrink-0 text-gray-700"></i>
-                                    <h3 class="truncate text-sm font-semibold text-gray-900">{{ $recommendation['title'] }}</h3>
-                                </div>
-                                <span class="inline-flex shrink-0 items-center rounded-full px-2.5 py-1 text-xs font-semibold {{ $badgeClass }}">{{ $recommendation['count'] }}</span>
-                            </div>
-                            <p class="mt-2 text-sm leading-6 text-gray-600">{{ $recommendation['desc'] }}</p>
-                            <a href="{{ $recommendation['href'] }}" class="mt-3 inline-flex h-9 items-center rounded-lg border px-3 text-sm font-semibold {{ $recommendation['buttonStyle'] }}">
-                                {{ $recommendation['button'] }}
-                            </a>
-                        </div>
-                    @empty
-                        <div class="rounded-lg border border-emerald-200 bg-emerald-50 p-4">
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="circle-check" class="h-4 w-4 text-emerald-700"></i>
-                                <h3 class="text-sm font-semibold text-emerald-900">{{ __('admin.dashboard.automation.basic_ready') }}</h3>
-                            </div>
-                            <p class="mt-2 text-sm leading-6 text-emerald-800">{{ __('admin.dashboard.automation.recommendations_empty') }}</p>
-                        </div>
-                    @endforelse
-                </aside>
             </div>
         </section>
 

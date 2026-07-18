@@ -13,6 +13,12 @@
                 </div>
             </div>
             <div class="flex items-center gap-3">
+                @if (auth('admin')->user()?->canManageProtectedWorkflows())
+                    <a href="{{ route('admin.knowledge-bases.luckin-mcp.index') }}" class="inline-flex items-center px-4 py-2 border border-blue-200 text-sm font-medium rounded-md text-blue-700 bg-blue-50 hover:bg-blue-100">
+                        <i data-lucide="database-zap" class="w-4 h-4 mr-2"></i>
+                        {{ __('luckin_mcp.heading') }}
+                    </a>
+                @endif
                 <a href="{{ route('admin.knowledge-bases.create') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                     <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
                     {{ __('admin.knowledge_bases.create_first') }}

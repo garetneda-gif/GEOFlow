@@ -38,8 +38,8 @@ class AdminDashboardQuickStartTest extends TestCase
             ->assertSee(__('admin.dashboard.navigation.multi_site_title'))
             ->assertSee(__('admin.dashboard.automation.title'))
             ->assertSee(__('admin.dashboard.automation.flow_title'))
-            ->assertSee(__('admin.dashboard.automation.recommendations_title'))
-            ->assertSee(__('admin.dashboard.automation.recommendations_empty'))
+            ->assertDontSee(__('admin.dashboard.automation.recommendations_title'))
+            ->assertDontSee(__('admin.dashboard.automation.recommendations_empty'))
             ->assertDontSee('内容工程演示层')
             ->assertDontSee('工程')
             ->assertDontSee('�')
@@ -309,8 +309,11 @@ class AdminDashboardQuickStartTest extends TestCase
         $this->assertStringContainsString('luckin-admin-footer', $zhHtml);
         $this->assertStringContainsString('images/luckin-coffee-footer-logo.png', $zhHtml);
         $this->assertStringContainsString(__('admin.footer.help_docs_link'), $zhHtml);
-        $this->assertStringContainsString('https://github.com/yaojingang/GEOFlow/wiki', $zhHtml);
-        $this->assertStringNotContainsString('https://github.com/yaojingang/GEOFlow/wiki/Home-English', $zhHtml);
+        $this->assertStringContainsString('https://github.com/garetneda-gif/GEOFlow', $zhHtml);
+        $this->assertStringContainsString('https://github.com/garetneda-gif/GEOFlow/tree/main/docs', $zhHtml);
+        preg_match('/<footer class="luckin-admin-footer[^>]*>.*?<\/footer>/s', $zhHtml, $footerMatches);
+        $this->assertArrayHasKey(0, $footerMatches);
+        $this->assertStringNotContainsString('https://github.com/yaojingang/GEOFlow', $footerMatches[0]);
         $this->assertStringContainsString('data-open-admin-welcome', $zhHtml);
 
         session(['locale' => 'en']);
@@ -321,7 +324,7 @@ class AdminDashboardQuickStartTest extends TestCase
             ->getContent();
 
         $this->assertStringContainsString('Help docs', $enHtml);
-        $this->assertStringContainsString('https://github.com/yaojingang/GEOFlow/wiki/Home-English', $enHtml);
+        $this->assertStringContainsString('https://github.com/garetneda-gif/GEOFlow/blob/main/docs/readme/README_en.md', $enHtml);
 
         $this->get('/')
             ->assertOk()

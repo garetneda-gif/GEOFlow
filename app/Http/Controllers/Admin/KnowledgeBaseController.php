@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin;
 use App\Models\AiModel;
 use App\Models\KnowledgeBase;
 use App\Models\KnowledgeChunk;
@@ -17,8 +18,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 /**
@@ -64,6 +65,7 @@ class KnowledgeBaseController extends Controller
     public function detail(int $knowledgeBaseId): View|RedirectResponse
     {
         $knowledgeBase = KnowledgeBase::query()->whereKey($knowledgeBaseId)->firstOrFail();
+        $this->authorizeLuckinMcpResource($knowledgeBase);
 
         return view('admin.knowledge-bases.detail', [
             'pageTitle' => __('admin.knowledge_detail.page_title'),
@@ -82,6 +84,7 @@ class KnowledgeBaseController extends Controller
     public function updateFromDetail(Request $request, int $knowledgeBaseId): RedirectResponse
     {
         $knowledgeBase = KnowledgeBase::query()->whereKey($knowledgeBaseId)->firstOrFail();
+        $this->rejectLuckinMcpMutation($knowledgeBase);
 
         $payload = $request->validate([
             'name' => ['required', 'string', 'max:100'],
@@ -134,6 +137,7 @@ class KnowledgeBaseController extends Controller
     public function edit(int $knowledgeBaseId): View|RedirectResponse
     {
         $knowledgeBase = KnowledgeBase::query()->whereKey($knowledgeBaseId)->firstOrFail();
+        $this->rejectLuckinMcpMutation($knowledgeBase);
 
         return view('admin.knowledge-bases.form', [
             'pageTitle' => __('admin.knowledge_bases.page_title'),
@@ -164,6 +168,7 @@ class KnowledgeBaseController extends Controller
     public function update(Request $request, int $knowledgeBaseId): RedirectResponse
     {
         $knowledgeBase = KnowledgeBase::query()->whereKey($knowledgeBaseId)->firstOrFail();
+        $this->rejectLuckinMcpMutation($knowledgeBase);
 
         $payload = $this->validateKnowledgeForm($request);
         $content = trim((string) $payload['content']);
@@ -192,6 +197,7 @@ class KnowledgeBaseController extends Controller
     public function destroy(int $knowledgeBaseId): RedirectResponse
     {
         $knowledgeBase = KnowledgeBase::query()->whereKey($knowledgeBaseId)->firstOrFail();
+        $this->authorizeLuckinMcpResource($knowledgeBase);
 
         $taskCount = $this->knowledgeBaseTaskCount($knowledgeBaseId);
         if ($taskCount > 0) {
@@ -208,6 +214,7 @@ class KnowledgeBaseController extends Controller
     public function refreshChunks(Request $request, int $knowledgeBaseId): RedirectResponse
     {
         $knowledgeBase = KnowledgeBase::query()->whereKey($knowledgeBaseId)->firstOrFail();
+        $this->authorizeLuckinMcpResource($knowledgeBase);
         $content = trim((string) ($knowledgeBase->content ?? ''));
         $redirect = $this->knowledgeChunkRefreshRedirect($request);
 
@@ -254,6 +261,26 @@ class KnowledgeBaseController extends Controller
         }
 
         return redirect()->route('admin.knowledge-bases.index');
+    }
+
+    private function authorizeLuckinMcpResource(KnowledgeBase $knowledgeBase): void
+    {
+        if (! $knowledgeBase->isLuckinMcpSource()) {
+            return;
+        }
+
+        $admin = request()->user('admin');
+        abort_unless($admin instanceof Admin && $admin->isSuperAdmin(), 403);
+    }
+
+    private function rejectLuckinMcpMutation(KnowledgeBase $knowledgeBase): void
+    {
+        if (! $knowledgeBase->isLuckinMcpSource()) {
+            return;
+        }
+
+        $this->authorizeLuckinMcpResource($knowledgeBase);
+        abort(403, 'Official MCP snapshots are immutable.');
     }
 
     /**

@@ -488,6 +488,8 @@ class TaskLifecycleService
                             ->orWhere('model_type', 'chat');
                     })
                     ->exists();
+            } elseif ($field === 'knowledge_base_id') {
+                $exists = KnowledgeBase::query()->usableForGeneration()->whereKey($id)->exists();
             } else {
                 $exists = $modelClass::query()->whereKey($id)->exists();
             }
@@ -710,6 +712,7 @@ class TaskLifecycleService
 
         $existingIds = KnowledgeBase::query()
             ->whereIn('id', $ids->all())
+            ->usableForGeneration()
             ->pluck('id')
             ->map(static fn ($id): int => (int) $id)
             ->all();

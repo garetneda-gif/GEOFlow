@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\KnowledgeBaseController;
 use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\LeadFormController;
 use App\Http\Controllers\Admin\LegacyController;
+use App\Http\Controllers\Admin\LuckinMcpKnowledgeController;
 use App\Http\Controllers\Admin\MaterialsController;
 use App\Http\Controllers\Admin\SecuritySettingsController;
 use App\Http\Controllers\Admin\SiteSettingsController;
@@ -248,6 +249,17 @@ Route::prefix($adminPrefix)->name('admin.')->middleware(['admin.locale'])->group
             Route::get('/', [KnowledgeBaseController::class, 'index'])->name('index');
             Route::get('create', [KnowledgeBaseController::class, 'create'])->name('create');
             Route::post('create', [KnowledgeBaseController::class, 'store'])->name('store');
+            Route::middleware('admin.super')->prefix('luckin-mcp')->name('luckin-mcp.')->group(function () {
+                Route::get('/', [LuckinMcpKnowledgeController::class, 'index'])->name('index');
+                Route::post('query', [LuckinMcpKnowledgeController::class, 'query'])
+                    ->middleware('throttle:20,1')
+                    ->defaults('activity_input_redacted', true)
+                    ->name('query');
+                Route::post('import', [LuckinMcpKnowledgeController::class, 'import'])
+                    ->middleware('throttle:10,1')
+                    ->defaults('activity_input_redacted', true)
+                    ->name('import');
+            });
             Route::get('{knowledgeBaseId}/edit', [KnowledgeBaseController::class, 'edit'])->name('edit');
             Route::get('{knowledgeBaseId}/detail', [KnowledgeBaseController::class, 'detail'])->name('detail');
             Route::post('upload', [KnowledgeBaseController::class, 'uploadFile'])->name('upload');

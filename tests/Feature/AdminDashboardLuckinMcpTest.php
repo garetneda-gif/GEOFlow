@@ -32,11 +32,10 @@ class AdminDashboardLuckinMcpTest extends TestCase
 
         $response
             ->assertOk()
-            ->assertSee('luckin-mcp-panel', false)
-            ->assertSee(__('admin.dashboard.luckin_mcp.title'))
-            ->assertSee(__('admin.dashboard.luckin_mcp.authorization_required_notice'))
-            ->assertSee(__('admin.dashboard.luckin_mcp.scope'))
-            ->assertSee('https://open.lkcoffee.com/mcp', false)
+            ->assertSee('luckin-mcp-source-strip', false)
+            ->assertSee(__('luckin_mcp.heading'))
+            ->assertSee(__('luckin_mcp.status.authorization_required'))
+            ->assertSee(route('admin.knowledge-bases.luckin-mcp.index'), false)
             ->assertSee('作者：任济坤')
             ->assertSee('微信：rjk-2006')
             ->assertDontSee('test-token-never-render');
@@ -47,8 +46,8 @@ class AdminDashboardLuckinMcpTest extends TestCase
     {
         $this->get('/')
             ->assertOk()
-            ->assertDontSee('luckin-mcp-panel', false)
-            ->assertDontSee(__('admin.dashboard.luckin_mcp.title'));
+            ->assertDontSee('luckin-mcp-source-strip', false)
+            ->assertDontSee(route('admin.knowledge-bases.luckin-mcp.index'), false);
     }
 
     public function test_dashboard_with_configured_token_and_empty_cache_still_makes_no_external_request(): void
@@ -68,7 +67,7 @@ class AdminDashboardLuckinMcpTest extends TestCase
         $this->actingAs($admin, 'admin')
             ->get(route('admin.dashboard'))
             ->assertOk()
-            ->assertSee(__('admin.dashboard.luckin_mcp.pending_notice'))
+            ->assertSee(__('luckin_mcp.status.pending'))
             ->assertDontSee('configured-but-not-probed');
 
         Http::assertNothingSent();
