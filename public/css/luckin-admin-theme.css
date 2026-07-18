@@ -107,15 +107,21 @@ body.luckin-admin-theme .luckin-dashboard-hero {
     align-items: stretch;
     overflow: hidden;
     border: 0;
-    border-radius: 18px;
+    border-radius: 0;
     background-color: #172991;
     background-image:
-        linear-gradient(90deg, rgba(31, 16, 12, 0.96) 0%, rgba(52, 28, 22, 0.88) 40%, rgba(23, 41, 145, 0.2) 68%, rgba(23, 41, 145, 0.08) 100%),
-        var(--luckin-dashboard-hero-image, none);
-    background-position: center;
-    background-size: cover;
-    box-shadow: 0 14px 32px rgba(15, 31, 122, 0.14);
+        radial-gradient(circle at 82% 18%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 18%, transparent 42%),
+        linear-gradient(118deg, #08104f 0%, #172991 48%, #3156d4 100%);
+    box-shadow: none;
     isolation: isolate;
+}
+
+body.luckin-admin-theme .luckin-dashboard-hero::before {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(118deg, transparent 0%, transparent 58%, rgba(255, 255, 255, 0.1) 58.2%, rgba(255, 255, 255, 0.03) 72%, transparent 72.2%);
+    content: "";
+    pointer-events: none;
 }
 
 body.luckin-admin-theme .luckin-dashboard-hero-content {
@@ -371,9 +377,8 @@ body.luckin-admin-theme .luckin-admin-footer-divider {
     body.luckin-admin-theme .luckin-dashboard-hero {
         min-height: 320px;
         background-image:
-            linear-gradient(90deg, rgba(31, 16, 12, 0.96) 0%, rgba(38, 21, 16, 0.9) 56%, rgba(23, 41, 145, 0.54) 100%),
-            var(--luckin-dashboard-hero-image, none);
-        background-position: 68% center;
+            radial-gradient(circle at 88% 12%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.06) 22%, transparent 48%),
+            linear-gradient(145deg, #08104f 0%, #172991 58%, #3156d4 100%);
     }
 
     body.luckin-admin-theme .luckin-dashboard-hero-content {

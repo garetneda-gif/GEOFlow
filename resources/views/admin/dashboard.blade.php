@@ -380,7 +380,7 @@
     @endphp
 
     <div class="luckin-dashboard px-4 sm:px-0">
-        <section class="luckin-dashboard-hero mb-8" style="--luckin-dashboard-hero-image: url('{{ asset('images/luckin-dashboard-coffee-banner.jpg') }}')">
+        <section class="luckin-dashboard-hero mb-8">
             <div class="luckin-dashboard-hero-content">
                 <div>
                     <h1 class="text-3xl font-bold text-white">{{ __('admin.dashboard.navigation.heading') }}</h1>

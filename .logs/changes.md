@@ -118,3 +118,9 @@
 - `resources/views/admin/materials/index.blade.php` 将知识资产中枢的橙色边框、浅底、按钮、进度条与流程图标统一替换为瑞幸蓝色体系。
 - `public/css/luckin-admin-theme.css` 补齐浅蓝按钮悬停态，复用 `#172991`、`#eef1ff` 与 `#cbd3ff` 品牌变量；业务风险和健康状态色保持不变。
 - `tests/Feature/AdminMaterialsPagesTest.php` 增加知识中枢品牌类回归断言。
+
+## 2026-07-18 16:21 — 首页横幅改为平面瑞幸蓝渐变
+
+- `public/css/luckin-admin-theme.css` 移除首页横幅的 18px 圆角、悬浮阴影和咖啡图背景，改为瑞幸深蓝至亮蓝的双层渐变。
+- `resources/views/admin/dashboard.blade.php` 停止渲染旧横幅图变量，保留原有标题、说明和操作入口。
+- `tests/Feature/AdminDashboardQuickStartTest.php` 增加无卡片边界、渐变背景和旧横幅不再渲染的回归断言。
