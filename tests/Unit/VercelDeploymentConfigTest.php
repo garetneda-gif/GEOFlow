@@ -36,6 +36,13 @@ class VercelDeploymentConfigTest extends TestCase
         $this->assertStringContainsString('$middleware->trustProxies', $bootstrap);
     }
 
+    public function test_production_nginx_redirects_the_root_to_the_admin_console(): void
+    {
+        $nginx = (string) file_get_contents(dirname(__DIR__, 2).'/docker/nginx/default.conf');
+
+        $this->assertStringContainsString("location = / {\n        return 307 /geo_admin;\n    }", $nginx);
+    }
+
     public function test_supabase_transaction_pooler_disables_named_prepared_statements_without_emulation(): void
     {
         $originalPort = getenv('DB_PORT');
