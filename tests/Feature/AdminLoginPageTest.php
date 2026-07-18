@@ -16,6 +16,7 @@ class AdminLoginPageTest extends TestCase
             ->assertOk()
             ->assertSee('css/luckin-admin-theme.css?v=', false)
             ->assertSee('images/luckin-coffee-logo.png', false)
+            ->assertSee('images/luckin-admin-login-bg.webp', false)
             ->assertSee('luckin-admin-theme luckin-admin-login', false)
             ->assertSee('action="'.route('admin.login.attempt').'"', false)
             ->assertSee('name="username"', false)
@@ -24,6 +25,8 @@ class AdminLoginPageTest extends TestCase
             ->assertSee(__('admin.login.brand_username_hint', ['username' => 'luckin_admin']))
             ->assertDontSee('data-brand-admin-password', false)
             ->assertDontSee('luckin-login-story', false);
+
+        $this->assertFileExists(public_path('images/luckin-admin-login-bg.webp'));
     }
 
     public function test_login_page_can_show_verified_demo_password_when_explicitly_enabled(): void
@@ -46,8 +49,9 @@ class AdminLoginPageTest extends TestCase
 
         $this->get(route('admin.login'))
             ->assertOk()
-            ->assertSee('data-brand-admin-password', false)
-            ->assertSee('demo-secret-123');
+            ->assertSee('placeholder="demo-secret-123"', false)
+            ->assertSee('placeholder:text-gray-400', false)
+            ->assertDontSee('data-brand-admin-password', false);
     }
 
     public function test_login_page_hides_demo_password_when_configured_value_is_stale(): void
@@ -70,6 +74,7 @@ class AdminLoginPageTest extends TestCase
         $this->get(route('admin.login'))
             ->assertOk()
             ->assertDontSee('data-brand-admin-password', false)
+            ->assertSee('placeholder="'.__('admin.login.password_placeholder').'"', false)
             ->assertDontSee('stale-secret');
     }
 

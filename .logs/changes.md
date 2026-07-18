@@ -162,6 +162,12 @@
 - `public/images/luckin-products/catalog-hero.png` 使用用户提供的 2112×474 瑞幸咖啡横幅视觉资产，替换原蓝色几何背景。
 - `public/css/luckin-product-catalog.css` 增加左侧可读性遮罩，并删除已不再使用的统计条样式与响应式规则。
 
+## 2026-07-18 22:22 — 登录页密码占位提示与生成式背景
+
+- `resources/views/admin/auth/login.blade.php` 删除密码框下方的独立演示密码行，将经服务端校验的演示密码改为输入框内灰色占位提示。
+- `public/images/luckin-admin-login-bg.webp` 使用 ImageGen 生成无文字、无伪 Logo 的瑞幸蓝登录背景，并压缩为约 41 KB WebP；真实品牌 Logo 继续使用项目既有资产。
+- `AdminLoginPageTest` 覆盖背景资产、演示密码占位、灰色样式及配置过期时的默认占位回退。
+
 ## 2026-07-18 20:59 — 登录页增加可选演示密码
 
 - `AdminAuthController` 只在显式开关开启、账号启用且环境密码通过数据库哈希校验时向登录页提供密码。

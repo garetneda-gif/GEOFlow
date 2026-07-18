@@ -9,9 +9,11 @@
     <link rel="stylesheet" href="{{ asset('css/luckin-admin-theme.css') }}?v={{ filemtime(public_path('css/luckin-admin-theme.css')) }}">
     <style>
         body {
-            background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 32%),
-                radial-gradient(circle at bottom right, rgba(229, 231, 235, 0.72), rgba(229, 231, 235, 0) 30%),
-                linear-gradient(180deg, #f5f5f7 0%, #e5e7eb 100%);
+            background-color: #eef3fb;
+            background-image: url("{{ asset('images/luckin-admin-login-bg.webp') }}?v={{ filemtime(public_path('images/luckin-admin-login-bg.webp')) }}");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
             min-height: 100vh;
         }
         .login-form {
@@ -104,15 +106,8 @@
             <div>
                 <label for="password" class="block text-sm font-medium text-gray-700 mb-2">{{ __('admin.login.password') }}</label>
                 <input type="password" id="password" name="password" required
-                       class="block w-full px-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                       placeholder="{{ __('admin.login.password_placeholder') }}" autocomplete="current-password">
-                @if (!empty($brandAdminPassword))
-                    <p data-brand-admin-password class="mt-2 flex items-center gap-1.5 text-xs font-medium text-blue-700">
-                        <i data-lucide="key-round" class="h-3.5 w-3.5"></i>
-                        <span>{{ __('admin.login.first_login_password') }}：</span>
-                        <code class="rounded bg-blue-50 px-1.5 py-0.5 font-mono text-blue-900">{{ $brandAdminPassword }}</code>
-                    </p>
-                @endif
+                       class="block w-full px-3 py-3 border border-gray-300 rounded-lg placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                       placeholder="{{ !empty($brandAdminPassword) ? $brandAdminPassword : __('admin.login.password_placeholder') }}" autocomplete="current-password">
             </div>
             <input type="hidden" name="remember" value="0">
             <label class="flex items-center justify-between rounded-lg border border-gray-200 bg-white/70 px-3 py-3 text-sm text-gray-600">
