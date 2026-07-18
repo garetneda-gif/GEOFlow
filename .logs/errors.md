@@ -150,3 +150,9 @@
 - 现象：`vercel.json` 的高层 `redirects` 声明部署成功，但生产根路径仍返回旧公开首页。
 - 根因：当前社区 PHP Builder 与自定义 `routes` 组合下，根路径未进入高层重定向。
 - 处理：将 `^/$` 的 307 响应放到 `routes` 首项，再处理静态资源与 Laravel 入口；`curl` 与真实浏览器均确认根地址进入后台。
+
+## 2026-07-18 15:35 — 旧 Vercel 部署间歇性返回 500
+
+- 现象：旧部署在 `/geo_admin/dashboard`、`/geo_admin/analytics` 与 `/geo_admin/tasks` 均记录 500，并非任务管理页单点故障。
+- 根因：Vercel 保存的错误消息从 Laravel 调用栈中段开始，异常首行已被平台截断，现有日志无法可靠还原具体异常；禁止据此猜测修改业务代码。
+- 处理：重新部署相同应用运行时后，用生产管理员会话连续打开并刷新任务页，页面与控制台均正常；新部署 `dpl_qqtjEdTSd1L2qggotDczLTzizoSa` 未记录新的 500。

@@ -96,3 +96,8 @@
 - `vercel.json` 根路径首先 307 跳转 `/geo_admin`，保证固定域名不再展示废弃公开前台。
 - 后台桌面导航标题使用统一的 `luckin-admin-nav-link` 并上移 2px，与官方组合 Logo 完成光学对齐。
 - 新增部署配置和页头标记回归断言；公开前台视图未改动。
+
+## 2026-07-18 15:35 — 页脚入口改为轻量文字链接
+
+- `public/css/luckin-admin-theme.css` 将页脚四个入口由两列卡片改为右对齐、自动换行的文字链接，移除边框、圆角与底色。
+- `tests/Feature/AdminDashboardQuickStartTest.php` 增加页脚链接无卡片样式回归，防止品牌包装再次退回按钮卡片。

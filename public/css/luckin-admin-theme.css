@@ -283,34 +283,32 @@ body.luckin-admin-theme .luckin-admin-footer-bottom {
 }
 
 body.luckin-admin-theme .luckin-admin-footer-links {
-    display: grid;
-    width: min(100%, 460px);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    display: flex;
+    width: min(100%, 520px);
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px 28px;
 }
 
 body.luckin-admin-theme .luckin-admin-footer-links a,
 body.luckin-admin-theme .luckin-admin-footer-links button {
     display: inline-flex;
-    min-height: 42px;
     align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.24);
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.08);
-    padding: 9px 14px;
+    border: 0;
+    background: transparent;
+    padding: 2px 0;
     color: #fff;
     font-size: 0.875rem;
     font-weight: 600;
-    text-align: center;
-    transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+    transition: color 160ms ease, opacity 160ms ease;
 }
 
 body.luckin-admin-theme .luckin-admin-footer-links a:hover,
 body.luckin-admin-theme .luckin-admin-footer-links button:hover {
-    border-color: #fff;
-    background: #fff;
-    color: var(--luckin-blue);
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 4px;
 }
 
 body.luckin-admin-theme .luckin-admin-footer a:focus-visible,
@@ -423,11 +421,6 @@ body.luckin-admin-theme .luckin-admin-footer-divider {
 
     body.luckin-admin-theme .luckin-admin-footer-links {
         width: 100%;
-    }
-}
-
-@media (max-width: 479px) {
-    body.luckin-admin-theme .luckin-admin-footer-links {
-        grid-template-columns: 1fr;
+        justify-content: center;
     }
 }

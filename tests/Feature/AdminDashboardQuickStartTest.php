@@ -303,6 +303,7 @@ class AdminDashboardQuickStartTest extends TestCase
             ->getContent();
 
         $footerLogoPath = public_path('images/luckin-coffee-footer-logo.png');
+        $themeCss = (string) file_get_contents(public_path('css/luckin-admin-theme.css'));
 
         $this->assertFileExists($footerLogoPath);
         $this->assertSame(
@@ -315,6 +316,15 @@ class AdminDashboardQuickStartTest extends TestCase
         $this->assertStringContainsString(__('admin.footer.help_docs_link'), $zhHtml);
         $this->assertStringContainsString('https://github.com/garetneda-gif/GEOFlow', $zhHtml);
         $this->assertStringContainsString('https://github.com/garetneda-gif/GEOFlow/tree/main/docs', $zhHtml);
+        preg_match(
+            '/body\.luckin-admin-theme \.luckin-admin-footer-links a,\s*body\.luckin-admin-theme \.luckin-admin-footer-links button\s*\{([^}]*)\}/s',
+            $themeCss,
+            $footerLinkStyleMatches
+        );
+        $this->assertArrayHasKey(1, $footerLinkStyleMatches);
+        $this->assertStringContainsString('border: 0;', $footerLinkStyleMatches[1]);
+        $this->assertStringContainsString('background: transparent;', $footerLinkStyleMatches[1]);
+        $this->assertStringNotContainsString('border-radius:', $footerLinkStyleMatches[1]);
         preg_match('/<footer class="luckin-admin-footer[^>]*>.*?<\/footer>/s', $zhHtml, $footerMatches);
         $this->assertArrayHasKey(0, $footerMatches);
         $this->assertStringNotContainsString('https://github.com/yaojingang/GEOFlow', $footerMatches[0]);

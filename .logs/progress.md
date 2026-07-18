@@ -100,3 +100,10 @@
 - 1600×900 桌面视口截图确认官方 Logo 与“首页”等导航标题视觉对齐，元素中心偏移为 -2px。
 - 完整 PHPUnit 974 项、7875 个断言通过；Vite 7.3.2 生产构建、变更范围 Pint 与 `git diff --check` 通过。
 - 部署与页头改动已以 `c098504` 提交，并推送至 `origin/feat/luckin-geoflow-theme`。
+
+## 2026-07-18 15:35 — 任务页恢复且页脚文字化验收通过
+
+- 生产 `/geo_admin/tasks` 连续打开、刷新均显示任务管理界面，控制台错误为 0；新部署近 30 分钟无 500 日志。
+- 线上计算样式确认页脚入口为 flex 文字链接：透明背景、无边框、无圆角；四个链接均保留。
+- 完整 PHPUnit 974 项、7879 个断言通过；Vite 7.3.2 生产构建、变更范围 Pint 与 `git diff --check` 通过。
+- Vercel 生产部署 `dpl_qqtjEdTSd1L2qggotDczLTzizoSa` 已别名到 `https://luckin-geoflow.vercel.app`。
