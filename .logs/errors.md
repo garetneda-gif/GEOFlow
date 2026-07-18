@@ -81,3 +81,9 @@
 - 现象：定向 `pint --test` 仅报告 `tests/Feature/AdminTasksPageTest.php` 需整文件格式化。
 - 根因：该旧文件存在与当前 Pint 规则不一致的历史写法，本次仅新增两条断言。
 - 处理：不批量改写旧文件；将表单绑定回归移入独立测试，避免扩大无关 diff。
+
+## 2026-07-18 10:14 — 符号链接工作区导致自动 LSP 路径告警
+
+- 现象：`apply_patch` 已成功落盘，但自动 LSP 诊断提示 `repo/...` 不在请求工作目录。
+- 根因：工作区通过 `repo` 符号链接指向 `/Users/jikunren/Projects/瑞幸营销`，诊断器按真实路径判断边界。
+- 处理：用 `git diff --check`、Pint、Blade 缓存和测试验证实际改动；没有代码诊断错误。

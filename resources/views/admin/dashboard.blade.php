@@ -423,23 +423,25 @@
         ];
     @endphp
 
-    <div class="px-4 sm:px-0">
-        <div class="mb-8 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-900">{{ __('admin.dashboard.navigation.heading') }}</h1>
-                <p class="mt-1 text-sm leading-6 text-gray-600">{{ __('admin.dashboard.navigation.subtitle') }}</p>
+    <div class="luckin-dashboard px-4 sm:px-0">
+        <section class="luckin-dashboard-hero mb-8" style="--luckin-dashboard-hero-image: url('{{ asset('images/luckin-dashboard-coffee-banner.jpg') }}')">
+            <div class="luckin-dashboard-hero-content">
+                <div>
+                    <h1 class="text-3xl font-bold text-white">{{ __('admin.dashboard.navigation.heading') }}</h1>
+                    <p class="mt-2 max-w-3xl text-sm leading-6 text-white/80">{{ __('admin.dashboard.navigation.subtitle') }}</p>
+                </div>
+                <div class="luckin-dashboard-hero-actions flex flex-wrap gap-2">
+                    <a href="{{ route('admin.dashboard') }}" class="luckin-dashboard-hero-secondary inline-flex h-10 items-center rounded-lg border px-4 text-sm font-semibold shadow-sm">
+                        <i data-lucide="refresh-cw" class="mr-2 h-4 w-4"></i>
+                        {{ __('admin.dashboard.refresh') }}
+                    </a>
+                    <a href="{{ route('admin.tasks.create') }}" class="luckin-dashboard-hero-primary inline-flex h-10 items-center rounded-lg px-4 text-sm font-semibold shadow-sm">
+                        <i data-lucide="plus" class="mr-2 h-4 w-4"></i>
+                        {{ __('admin.dashboard.quick_start.task_button') }}
+                    </a>
+                </div>
             </div>
-            <div class="flex flex-wrap gap-2">
-                <a href="{{ route('admin.dashboard') }}" class="inline-flex h-10 items-center rounded-lg border border-gray-300 bg-white px-4 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50">
-                    <i data-lucide="refresh-cw" class="mr-2 h-4 w-4"></i>
-                    {{ __('admin.dashboard.refresh') }}
-                </a>
-                <a href="{{ route('admin.tasks.create') }}" class="inline-flex h-10 items-center rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">
-                    <i data-lucide="plus" class="mr-2 h-4 w-4"></i>
-                    {{ __('admin.dashboard.quick_start.task_button') }}
-                </a>
-            </div>
-        </div>
+        </section>
 
         <section class="mb-8 overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-gray-200">
             <div class="flex flex-col gap-4 border-b border-gray-100 px-6 py-5 lg:flex-row lg:items-start lg:justify-between">

@@ -29,7 +29,9 @@ class AdminDashboardQuickStartTest extends TestCase
             ->assertOk()
             ->assertSee('css/luckin-admin-theme.css', false)
             ->assertSee('images/luckin-coffee-logo.png', false)
+            ->assertSee('images/luckin-dashboard-coffee-banner.jpg', false)
             ->assertSee('luckin-admin-theme bg-gray-50', false)
+            ->assertSee('luckin-dashboard-hero', false)
             ->assertDontSee('luckin-sidebar', false)
             ->assertDontSee('luckin-topbar', false)
             ->assertSee(__('admin.dashboard.navigation.single_site_title'))
@@ -133,6 +135,21 @@ class AdminDashboardQuickStartTest extends TestCase
         $this->assertStringNotContainsString(__('admin.dashboard.automation.metric_materials', ['count' => 449]), $html);
         $this->assertStringNotContainsString(__('admin.dashboard.automation.metric_vectorized', ['done' => 584, 'total' => 612]), $html);
         $this->assertStringNotContainsString(__('admin.dashboard.automation.metric_ai_today', ['count' => 74]), $html);
+    }
+
+    public function test_dashboard_uses_official_banner_only_in_admin_surface(): void
+    {
+        $bannerPath = public_path('images/luckin-dashboard-coffee-banner.jpg');
+
+        $this->assertFileExists($bannerPath);
+        $this->assertSame(
+            '494c72e273297020a9e27f7bcde63bbee48441ad455d54d3012b20aa358ff8f7',
+            hash_file('sha256', $bannerPath)
+        );
+
+        $this->get('/')
+            ->assertOk()
+            ->assertDontSee('images/luckin-dashboard-coffee-banner.jpg', false);
     }
 
     public function test_dashboard_description_copy_does_not_end_with_sentence_periods(): void
