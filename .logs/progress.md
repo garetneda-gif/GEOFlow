@@ -160,3 +160,11 @@
 - 公网根路径 307 到 `/geo_admin`，登录页 200；真实浏览器已登录并通过 Dashboard、增长中心、任务、内容资产与瑞幸 MCP 工作台验收。
 - MCP 工作台显示管理员独立 API Key 输入、保存检测与官方获取链接；Reverb WebSocket 返回 101，任务健康检查和广播鉴权返回 200。
 - 部署源码为 `242edf6`；未知 API 路径已从错误 500 修正为带 `X-Request-Id` 的统一 JSON 404。
+
+## 2026-07-18 20:47 — 咖啡背景与网站设置品牌化完成生产验收
+
+- 提交 `b699286` 已推送到 `feat/luckin-geoflow-theme`；合并瑞幸 MCP 与根路径修复后，PHPUnit 990 项、7992 个断言、Pint、Vite 7.3.2 构建及 `git diff --check` 全部通过。
+- Dashboard 使用官网咖啡原图和自上而下透明度渐变，计算样式为圆角 `0px`、阴影 `none`；网站设置页使用同一原图和平面遮罩，标题白色可读。
+- 生产页确认 `luckin_admin` 登录提示与页头欢迎文案生效，Dashboard 和网站设置页均无 500，Chrome 控制台 error 为 0。
+- 最终部署 `dpl_6ZzArf6dLbY5cdhnXoLJAo51TKzy` 状态为 Ready，已别名到 `https://luckin-geoflow.vercel.app`；官方原图 SHA-256 为 `494c72e273297020a9e27f7bcde63bbee48441ad455d54d3012b20aa358ff8f7`。
+- 一次性维护入口已从最终代码移除并实测 404，两个临时 Vercel 部署均已删除。
