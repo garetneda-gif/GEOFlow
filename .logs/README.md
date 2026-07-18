@@ -22,3 +22,10 @@
 - Supabase 使用 6543 transaction pooler；应用保留 PDO 原生参数绑定，但禁用命名 prepared statements。
 - Vercel stderr 默认保留异常首行并省略超长堆栈，避免平台截断真正根因。
 - Vercel 官方不保证 `.vercel.app` 在中国大陆可用；面向大陆稳定交付需要自有域名，严格保障需另设境内或更可靠线路的部署。
+
+## 2026-07-18 20:26 — 腾讯云生产部署快照
+
+- 大陆直连地址：`http://152.136.214.154`，根路径 307 跳转 `/geo_admin`；服务器目录 `/opt/luckin-geoflow`。
+- 运行栈：Ubuntu 24.04、Docker Compose、Nginx、PHP 8.4 FPM、PostgreSQL/pgvector、Redis、队列、Scheduler 与 Reverb。
+- 仅公开 22/80；PostgreSQL、Redis 不映射主机端口，Reverb 仅绑定 `127.0.0.1:18081` 并由 Nginx 反代。
+- 生产环境在 `/opt/luckin-geoflow/.env.prod`；管理员凭据副本位于本机 `~/Downloads/luckin-geoflow-server-credentials.txt`，均为 0600，不进入仓库或日志。

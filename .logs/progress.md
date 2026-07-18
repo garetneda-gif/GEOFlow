@@ -153,3 +153,10 @@
 - MCP 工作台与 Dashboard 均使用官网“幸运在握”视觉背景，旧区域 Logo 消失；桌面和移动端均无横向溢出。
 - “保存并检测”按钮与“获取 API Key”链接中心线偏差为 0px；两段冗余说明文字已删除。
 - 完整 PHPUnit 986 项、7968 个断言及 Vite 生产构建通过；最终部署 `dpl_GxFzJwY3LeTg4MZCYp1y7Ja5GUo3` 为 Ready，已别名到 `https://luckin-geoflow.vercel.app`。
+
+## 2026-07-18 20:26 — 腾讯云生产后台部署并验收通过
+
+- `152.136.214.154` 已运行 7 个常驻容器；应用、Web、PostgreSQL、Redis 健康，初始化容器迁移与安装均以 0 退出，安全审计为 0 findings。
+- 公网根路径 307 到 `/geo_admin`，登录页 200；真实浏览器已登录并通过 Dashboard、增长中心、任务、内容资产与瑞幸 MCP 工作台验收。
+- MCP 工作台显示管理员独立 API Key 输入、保存检测与官方获取链接；Reverb WebSocket 返回 101，任务健康检查和广播鉴权返回 200。
+- 部署源码为 `242edf6`；未知 API 路径已从错误 500 修正为带 `X-Request-Id` 的统一 JSON 404。

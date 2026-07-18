@@ -142,3 +142,10 @@
 - `config/geoflow.php` 与 `SiteSettingsController` 提供瑞幸名称、描述、关键词和版权默认值；`config/luckin.php` 提供 `luckin_admin` 品牌别名。
 - `config/geoflow.php` 将瑞幸文案放入原有站点配置回退链，显式 `SITE_*` 环境配置和数据库设置仍优先；Logo 字段继续留空，由前台主题使用自身官方资产。
 - `luckin_admin` 设为默认管理员的保留登录别名，管理员创建和改名不可占用；历史同名账号也不会截获该别名。
+
+## 2026-07-18 20:26 — 增加腾讯云生产入口与 API 404 契约
+
+- `docker/nginx/default.conf` 将生产根路径 307 跳转到 `/geo_admin`，避免独立服务器继续展示废弃前台。
+- `bootstrap/app.php` 为未知 API 路径返回统一 JSON 404，不再把 `NotFoundHttpException` 记录成内部 500。
+- `tests/Unit/VercelDeploymentConfigTest.php` 与 `tests/Feature/ApiV1ContractTest.php` 覆盖生产入口及未知 API 响应。
+- 腾讯云生产环境同步到 `242edf6`，完成迁移、首次安装、容器自启、端口收口和真实浏览器验收。
