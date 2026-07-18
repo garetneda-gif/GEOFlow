@@ -87,3 +87,12 @@
 - 现象：`apply_patch` 已成功落盘，但自动 LSP 诊断提示 `repo/...` 不在请求工作目录。
 - 根因：工作区通过 `repo` 符号链接指向 `/Users/jikunren/Projects/瑞幸营销`，诊断器按真实路径判断边界。
 - 处理：用 `git diff --check`、Pint、Blade 缓存和测试验证实际改动；没有代码诊断错误。
+## 2026-07-18 08:32 — 瑞幸 MCP 定向测试首次失败
+- `tests/Feature/AdminDashboardLuckinMcpTest.php` 的授权提示键未与 `authorization_required` 状态名对齐，已统一为 `authorization_required_notice`。
+- `tests/Unit/LuckinMcpClientTest.php` 原先用换行构造非法会话头，被 PSR-7 先拒绝；改用可传输但业务规则禁止的内嵌制表符覆盖客户端校验。
+
+## 2026-07-18 08:36 — MCP 分页断言类型错误
+- 首次 `tools/list` 的空参数按协议使用 `stdClass`，测试回调误按数组取值；增加数组类型判断后只匹配带游标的第二页请求。
+
+## 2026-07-18 08:39 — 全量测试发现葡语语言包缺键
+- `AdminPtBrLocaleCoverageTest` 检测到新增页脚和 MCP 首页文案未显式覆盖 `pt_BR`；已补齐葡语作者、微信与全部 MCP 状态文案。

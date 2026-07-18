@@ -1,6 +1,5 @@
 @php
     $projectGithubUrl = 'https://github.com/yaojingang/GEOFlow';
-    $xProfileUrl = 'https://x.com/yaojingang';
     $appVersion = (string) config('geoflow.app_version', '2.0');
     $changelogUrl = app()->getLocale() === 'en'
         ? 'https://github.com/yaojingang/GEOFlow/blob/main/docs/CHANGELOG_en.md'
@@ -48,7 +47,7 @@
         <div class="luckin-admin-footer-bottom">
             <span>{{ __('admin.footer.author') }}</span>
             <span class="luckin-admin-footer-divider" aria-hidden="true"></span>
-            <a href="{{ $xProfileUrl }}" target="_blank" rel="noopener noreferrer">{{ __('admin.footer.author_x_profile') }}</a>
+            <span>{{ __('admin.footer.wechat') }}</span>
         </div>
     </div>
 </footer>

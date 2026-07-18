@@ -21,6 +21,7 @@ use App\Models\TaskRun;
 use App\Models\Title;
 use App\Models\TitleLibrary;
 use App\Models\UrlImportJob;
+use App\Services\GeoFlow\LuckinMcpClient;
 use App\Support\AdminWeb;
 use App\Support\Analytics\TrafficClassifier;
 use Illuminate\Support\Carbon;
@@ -33,7 +34,7 @@ use Illuminate\View\View;
  */
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index(LuckinMcpClient $luckinMcp): View
     {
         $canManageProtectedWorkflows = auth('admin')->user()?->canManageProtectedWorkflows() === true;
 
@@ -49,6 +50,7 @@ class DashboardController extends Controller
             'canManageProtectedWorkflows' => $canManageProtectedWorkflows,
             'distributionHealth' => $canManageProtectedWorkflows ? $this->buildDistributionHealth() : [],
             'urlImportHealth' => $canManageProtectedWorkflows ? $this->buildUrlImportHealth() : [],
+            'luckinMcpState' => $luckinMcp->cachedState(),
         ]);
     }
 

@@ -93,6 +93,14 @@ return [
     'outbound_ai_max_bytes' => max(1, (int) env('GEOFLOW_OUTBOUND_AI_MAX_BYTES', 8 * 1024 * 1024)),
     'outbound_import_max_bytes' => max(1, (int) env('GEOFLOW_OUTBOUND_IMPORT_MAX_BYTES', 5 * 1024 * 1024)),
     'outbound_metadata_max_bytes' => max(1, (int) env('GEOFLOW_OUTBOUND_METADATA_MAX_BYTES', 1024 * 1024)),
+    'luckin_mcp' => [
+        'enabled' => filter_var(env('LUCKIN_MCP_ENABLED', true), FILTER_VALIDATE_BOOLEAN),
+        'token' => trim((string) env('LUCKIN_MCP_TOKEN', '')),
+        'timeout_seconds' => max(1, min(15, (int) env('LUCKIN_MCP_TIMEOUT_SECONDS', 5))),
+        'connect_timeout_seconds' => max(1, min(10, (int) env('LUCKIN_MCP_CONNECT_TIMEOUT_SECONDS', 3))),
+        'max_response_bytes' => max(1024, min(2 * 1024 * 1024, (int) env('LUCKIN_MCP_MAX_RESPONSE_BYTES', 1024 * 1024))),
+        'state_ttl_seconds' => max(360, min(86400, (int) env('LUCKIN_MCP_STATE_TTL_SECONDS', 900))),
+    ],
     // 为 true 时记录知识库「查询向量」是否由默认 embedding 接口生成（便于对照 bak 验证；默认关闭）
     'debug_knowledge_query_embedding' => filter_var(env('GEOFLOW_DEBUG_KNOWLEDGE_QUERY_EMBEDDING', false), FILTER_VALIDATE_BOOLEAN),
     // 语义切片规划 prompt 最大字符数；超过后直接走结构化规则回退，避免长知识库拖慢或超上下文。

@@ -3,6 +3,17 @@
 @section('content')
     @php
         $canManageProtectedWorkflows = $canManageProtectedWorkflows ?? false;
+        $luckinMcpState = is_array($luckinMcpState ?? null) ? $luckinMcpState : [];
+        $luckinMcpStatus = in_array($luckinMcpState['status'] ?? null, ['connected', 'partial', 'authorization_required', 'pending', 'error', 'disabled'], true)
+            ? $luckinMcpState['status']
+            : 'error';
+        $luckinMcpCapabilities = is_array($luckinMcpState['capabilities'] ?? null) ? $luckinMcpState['capabilities'] : [];
+        $luckinMcpTools = [
+            'queryShopList' => __('admin.dashboard.luckin_mcp.capability_shop'),
+            'searchProductForMcp' => __('admin.dashboard.luckin_mcp.capability_search'),
+            'switchProduct' => __('admin.dashboard.luckin_mcp.capability_switch'),
+            'queryProductDetailInfo' => __('admin.dashboard.luckin_mcp.capability_detail'),
+        ];
         $statusStyles = [
             'ready' => 'bg-emerald-100 text-emerald-700',
             'running' => 'bg-blue-100 text-blue-700',
@@ -440,6 +451,70 @@
                         {{ __('admin.dashboard.quick_start.task_button') }}
                     </a>
                 </div>
+            </div>
+        </section>
+
+        <section class="luckin-mcp-panel mb-8" data-status="{{ $luckinMcpStatus }}" aria-labelledby="luckin-mcp-title">
+            <div class="luckin-mcp-panel-header">
+                <div class="luckin-mcp-brand-mark">
+                    <img src="{{ asset('images/luckin-coffee-logo.png') }}" alt="luckin coffee 瑞幸咖啡" width="360" height="100">
+                </div>
+                <div class="luckin-mcp-heading">
+                    <p class="luckin-mcp-eyebrow">{{ __('admin.dashboard.luckin_mcp.eyebrow') }}</p>
+                    <h2 id="luckin-mcp-title">{{ __('admin.dashboard.luckin_mcp.title') }}</h2>
+                    <p>{{ __('admin.dashboard.luckin_mcp.desc') }}</p>
+                </div>
+                <span class="luckin-mcp-status">
+                    <span aria-hidden="true"></span>
+                    {{ __('admin.dashboard.luckin_mcp.status_'.$luckinMcpStatus) }}
+                </span>
+            </div>
+
+            <div class="luckin-mcp-panel-body">
+                <div class="luckin-mcp-capabilities" role="list">
+                    @foreach ($luckinMcpTools as $toolName => $toolLabel)
+                        @php($toolAvailable = ($luckinMcpCapabilities[$toolName] ?? false) === true)
+                        <div class="luckin-mcp-capability" role="listitem" data-available="{{ $toolAvailable ? 'true' : 'false' }}">
+                            <span class="luckin-mcp-capability-icon" aria-hidden="true">
+                                <i data-lucide="{{ $toolAvailable ? 'check' : 'minus' }}"></i>
+                            </span>
+                            <span>
+                                <strong>{{ $toolLabel }}</strong>
+                                <small>{{ $toolAvailable ? __('admin.dashboard.luckin_mcp.capability_available') : __('admin.dashboard.luckin_mcp.capability_unavailable') }}</small>
+                            </span>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="luckin-mcp-notice">
+                    <div class="luckin-mcp-notice-icon" aria-hidden="true"><i data-lucide="plug-zap"></i></div>
+                    <div>
+                        @if ($luckinMcpStatus === 'connected')
+                            <p>{{ __('admin.dashboard.luckin_mcp.handshake_success') }}</p>
+                        @elseif ($luckinMcpStatus === 'partial')
+                            <p>{{ __('admin.dashboard.luckin_mcp.partial_notice') }}</p>
+                        @else
+                            <p>{{ __('admin.dashboard.luckin_mcp.'.$luckinMcpStatus.'_notice') }}</p>
+                        @endif
+                        <p class="luckin-mcp-scope">{{ __('admin.dashboard.luckin_mcp.scope') }}</p>
+                        <p class="luckin-mcp-price-note">{{ __('admin.dashboard.luckin_mcp.price_note') }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="luckin-mcp-panel-footer">
+                <div>
+                    @if (($luckinMcpState['protocol_version'] ?? '') !== '')
+                        <span>{{ __('admin.dashboard.luckin_mcp.protocol', ['version' => $luckinMcpState['protocol_version']]) }}</span>
+                    @endif
+                    @if (($luckinMcpState['checked_at'] ?? '') !== '')
+                        <span>{{ __('admin.dashboard.luckin_mcp.checked_at', ['time' => $luckinMcpState['checked_at']]) }}</span>
+                    @endif
+                </div>
+                <a href="https://open.lkcoffee.com/mcp" target="_blank" rel="noopener noreferrer">
+                    {{ __('admin.dashboard.luckin_mcp.official_docs') }}
+                    <i data-lucide="external-link" aria-hidden="true"></i>
+                </a>
             </div>
         </section>
 
