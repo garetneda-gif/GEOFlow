@@ -8,3 +8,11 @@
 - 启动入口：`php artisan serve --host=127.0.0.1 --port=18080`；前台 `/`，后台 `/geo_admin/login`。
 - 外部依赖按 `composer.json` / `package.json` 安装；凭据只保存在本机 `.env`，不进入仓库。
 - 瑞幸官方数据入口：`/geo_admin/knowledge-bases/luckin-mcp`；凭据为服务端 `LUCKIN_MCP_TOKEN`，只开放门店与商品四项工具。
+
+## 2026-07-18 14:52 — 生产部署快照
+
+- 生产地址：`https://luckin-geoflow.vercel.app`；Vercel 项目 `jikunrens-projects/luckin-geoflow`。
+- PHP 使用 `vercel-php@0.7.4` 社区运行时；前端构建输出到 `public/`，Laravel 入口为 `api/index.php`。
+- 生产数据库：Supabase 项目 `avpjgysjustocrqtzgus`，东京区 PostgreSQL，业务表位于专用 schema `luckin_geoflow`。
+- Vercel 只承载请求与静态资源；队列使用同步模式，本地上传目录在 Serverless 环境不保证持久化。
+- 生产凭据仅在 Supabase/Vercel 环境变量中保存，不进入仓库或 `.logs/`。

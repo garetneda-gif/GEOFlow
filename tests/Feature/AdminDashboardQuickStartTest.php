@@ -268,6 +268,9 @@ class AdminDashboardQuickStartTest extends TestCase
         $firstHtml = $firstResponse->getContent();
         $this->assertStringContainsString('data-open-admin-welcome', $firstHtml);
         $this->assertStringContainsString('"shouldAutoOpen":true', $firstHtml);
+        $this->assertStringContainsString('https:\/\/github.com\/garetneda-gif\/GEOFlow', $firstHtml);
+        $this->assertStringContainsString('https:\/\/github.com\/garetneda-gif', $firstHtml);
+        $this->assertStringNotContainsString('https:\/\/x.com\/yaojingang', $firstHtml);
         $this->assertSame(
             'intro:'.config('geoflow.welcome_intro_version'),
             (string) $admin->fresh()?->welcome_seen_version
@@ -308,6 +311,7 @@ class AdminDashboardQuickStartTest extends TestCase
         );
         $this->assertStringContainsString('luckin-admin-footer', $zhHtml);
         $this->assertStringContainsString('images/luckin-coffee-footer-logo.png', $zhHtml);
+        $this->assertStringContainsString('luckin-admin-nav-link', $zhHtml);
         $this->assertStringContainsString(__('admin.footer.help_docs_link'), $zhHtml);
         $this->assertStringContainsString('https://github.com/garetneda-gif/GEOFlow', $zhHtml);
         $this->assertStringContainsString('https://github.com/garetneda-gif/GEOFlow/tree/main/docs', $zhHtml);

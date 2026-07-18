@@ -1,0 +1,13 @@
+.git
+.env
+.env.*
+!.env.example
+.logs
+.phpunit.cache
+docker
+docker-data
+docs
+node_modules
+storage/logs
+tests
+vendor

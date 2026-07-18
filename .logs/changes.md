@@ -83,3 +83,16 @@
 - `MaterialLibraryService` 在修改或删除前以主键和官方来源字段识别瑞幸 MCP 快照，统一返回 403。
 - 新增 API PATCH/DELETE 不可变回归，验证拒绝后正文、来源和记录仍完整。
 - 最终完整回归 972 项、7860 个断言，Vite 7.3.2 生产构建、变更范围 Pint 与 `git diff --check` 均通过。
+
+## 2026-07-18 14:52 — 增加 Vercel 与 Supabase 生产部署
+
+- 新增 `api/index.php`、`vercel.json` 与 `.vercelignore`，在 Vercel PHP 8.3 运行时复用现有 Laravel 前端控制器和 `public/` 静态资源。
+- PostgreSQL 配置支持自定义 schema、SSL 与 PDO prepared statement 策略；Vercel 通过可信代理头生成 HTTPS 链接。
+- Supabase 完成 47 个迁移、首次安装种子和管理员初始化；生产队列使用同步模式，避免依赖常驻 Worker。
+- 首次访问弹窗的作者、仓库和更新日志链接同步切换到 `garetneda-gif/GEOFlow` fork。
+
+## 2026-07-18 15:10 — 生产入口收口到后台并校准页头
+
+- `vercel.json` 根路径首先 307 跳转 `/geo_admin`，保证固定域名不再展示废弃公开前台。
+- 后台桌面导航标题使用统一的 `luckin-admin-nav-link` 并上移 2px，与官方组合 Logo 完成光学对齐。
+- 新增部署配置和页头标记回归断言；公开前台视图未改动。

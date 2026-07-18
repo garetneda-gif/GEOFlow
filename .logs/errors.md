@@ -1,5 +1,17 @@
 # 错误记录
 
+## 2026-07-18 14:36 — Vercel 首次构建误判 Vite 输出目录
+
+- 现象：Vite 7.3.2 构建成功后，Vercel 因未找到默认 `dist` 目录中止。
+- 根因：项目被自动识别为 Vite，但 Laravel Vite 插件把产物写入 `public/build`。
+- 处理：在 `vercel.json` 显式设置 `outputDirectory: public`，保留 PHP Function 入口与静态资产路由。
+
+## 2026-07-18 14:26 — Supabase 首次迁移落到 public schema
+
+- 现象：专用角色创建 `migrations` 表时返回 `permission denied for schema public`。
+- 根因：`config/database.php` 把 PostgreSQL `search_path` 固定为 `public`，覆盖了角色默认的专用 schema。
+- 处理：增加 `DB_SCHEMA` 环境配置，迁移随后全部 47 个版本执行完成。
+
 ## 2026-07-18 12:18 — 官方快照 API 保护首次回归未拦截
 
 - 现象：新增 API 回归期待 403，首次实际返回 200。
@@ -120,3 +132,21 @@
 - 现象：页脚链接回归测试仍命中 Dashboard 其他上游文档链接，导致 1 项失败。
 - 根因：断言检查整页 HTML，而用户要求只替换页脚四个入口。
 - 处理：将负向断言限定到 `<footer>` 范围，保留其他 GEOFlow 上游资源链接不变。
+
+## 2026-07-18 14:39 — Vercel 首页 PostgreSQL 布尔查询失败
+
+- 现象：生产 `/` 返回 500，后台登录页与 `/up` 正常；异常为 PostgreSQL `boolean = integer`。
+- 根因：`PDO::ATTR_EMULATE_PREPARES=true` 把 Laravel 布尔绑定改写为 SQL 整数 `1`。
+- 处理：生产恢复 PDO 原生参数绑定，直接以 6543 连接池实测首页与后台查询均成功。
+
+## 2026-07-18 14:42 — Vercel 代理协议未被 Laravel 信任
+
+- 现象：HTTPS 页面生成的资源与表单地址仍为 `http://`，存在浏览器混合内容风险。
+- 根因：Vercel 终止 TLS 后通过转发头传递协议，应用未配置可信代理。
+- 处理：增加条件式 `TRUSTED_PROXIES` 支持，生产设为 `*`；复验首页和登录页仅生成 HTTPS 地址。
+
+## 2026-07-18 15:10 — Vercel 高层 redirects 未覆盖社区 PHP 路由
+
+- 现象：`vercel.json` 的高层 `redirects` 声明部署成功，但生产根路径仍返回旧公开首页。
+- 根因：当前社区 PHP Builder 与自定义 `routes` 组合下，根路径未进入高层重定向。
+- 处理：将 `^/$` 的 307 响应放到 `routes` 首项，再处理静态资源与 Laravel 入口；`curl` 与真实浏览器均确认根地址进入后台。
