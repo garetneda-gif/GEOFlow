@@ -35,25 +35,23 @@
 
 .luckin-product-library__back {
     display: inline-flex;
-    width: 42px;
+    width: 28px;
     height: 42px;
-    flex: 0 0 42px;
+    flex: 0 0 28px;
     align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 999px;
-    color: #fff;
-    transition: background-color 160ms ease, border-color 160ms ease;
+    justify-content: flex-start;
+    color: rgba(255, 255, 255, 0.78);
+    transition: color 160ms ease, transform 160ms ease;
 }
 
 .luckin-product-library__back:hover {
-    border-color: rgba(255, 255, 255, 0.75);
-    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transform: translateX(-3px);
 }
 
 .luckin-product-library__back svg {
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
 }
 
 .luckin-product-library__eyebrow {
@@ -269,20 +267,19 @@
 
 .luckin-product-item__heading > a {
     display: inline-flex;
-    width: 30px;
-    height: 30px;
-    flex: 0 0 30px;
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
     align-items: center;
     justify-content: center;
-    border: 1px solid #d7dce6;
-    border-radius: 999px;
-    color: #7c8595;
-    transition: border-color 160ms ease, color 160ms ease;
+    color: var(--catalog-blue);
+    opacity: 0.56;
+    transition: opacity 160ms ease, transform 160ms ease;
 }
 
 .luckin-product-item__heading > a:hover {
-    border-color: var(--catalog-blue);
-    color: var(--catalog-blue);
+    opacity: 1;
+    transform: translate(2px, -2px);
 }
 
 .luckin-product-item__heading svg {
@@ -431,12 +428,6 @@
     .luckin-product-library__title-row {
         gap: 14px;
         padding: 28px 18px 26px;
-    }
-
-    .luckin-product-library__back {
-        width: 36px;
-        height: 36px;
-        flex-basis: 36px;
     }
 
     .luckin-product-library__lead {
