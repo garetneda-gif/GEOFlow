@@ -330,3 +330,15 @@
 - 现象：`/codex:review` 兼容命令启动后返回 400，提示 `gpt-5.6-sol` 需要更新版本的 Codex。
 - 根因：当前本机 Codex CLI 版本低于审计服务所需版本，审计线程未产出 review 结果。
 - 处理：不改动用户全局工具链；本次改以人工逐文件 diff、安全边界检查、目标测试、全量测试及真实浏览器验收完成提交前质量门禁。
+
+## 2026-07-18 21:49 — 腾讯云首次重建未指定生产 Compose 文件
+
+- 现象：首次执行 `docker compose ... build app web` 返回 `no such service: web`，未开始构建也未影响现有容器。
+- 根因：命令默认读取开发 Compose 文件，生产服务定义实际位于 `docker-compose.prod.yml`。
+- 处理：补上 `-f docker-compose.prod.yml` 后完成 app/web 构建及五个应用容器滚动重建；全部容器恢复健康。
+
+## 2026-07-18 21:51 — 容器重建窗口出现短暂 Reverb 502
+
+- 现象：Web 容器先于 Reverb 完成就绪，既有浏览器在约 1 秒窗口内产生 4 条 upstream connection refused。
+- 根因：五个无状态应用容器同时强制重建，Nginx 已接收旧页面的 WebSocket 自动重连，但 Reverb 尚在监听。
+- 处理：重建完成后 WebSocket 握手复测返回 101 与 `pusher:connection_established`，容器和静态资源均健康，无持续错误。

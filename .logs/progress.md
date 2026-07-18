@@ -175,6 +175,13 @@
 - 桌面 1200×900 与手机 390×844 真实浏览器验收无横向溢出，页面控制台 0 error；唯一 Tailwind Play CDN warning 为既有全局布局提示。
 - 新增测试 4 项、118 个断言通过；同步上游后全量 PHPUnit 997 项、8129 个断言、Pint、Vite 7.3.2 构建与 `git diff --check` 通过。
 
+## 2026-07-18 21:53 — 产品视觉库双生产环境上线
+
+- 提交 `7d49558` 已推送到 `feat/luckin-product-gallery` 与 `feat/luckin-geoflow-theme`；Vercel 部署 `dpl_Cvex46TXUNm3NeGkbatQzirtduFR` 为 Ready 并已别名到正式域名。
+- Vercel 登录后页面实测 33 款产品、33 张 480×480 本地官方图全部加载，桌面无横向溢出；静态图片返回 200。
+- 腾讯云 `/opt/luckin-geoflow` 快进到 `7d49558`，app/web 新镜像与队列、调度、Reverb 容器完成重建；7 个常驻容器运行，app/web/PostgreSQL/Redis 健康。
+- 国内入口产品图返回 200、受保护页面正确跳转登录；Reverb 握手返回 101，重建窗口的瞬时重连错误未持续。
+
 ## 2026-07-18 21:19 — 腾讯云登录页演示密码提示上线
 
 - 核实 `luckin_admin` 别名映射正常、管理员启用且环境密码与数据库哈希一致；原登录失败来自访问者不知道部署时生成的随机密码。
