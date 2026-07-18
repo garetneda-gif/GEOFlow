@@ -3,12 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录 — 瑞幸 GEO 智能内容运营中台</title>
+    <title>{{ __('admin.login.title') }} — {{ $adminSiteName }}</title>
     <script src="{{ asset('js/tailwindcss.play-cdn.js') }}"></script>
     <script src="{{ asset('js/lucide.min.js') }}"></script>
-    <link rel="stylesheet" href="{{ asset('css/luckin-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/luckin-admin-theme.css') }}">
+    <style>
+        body {
+            background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0) 32%),
+                radial-gradient(circle at bottom right, rgba(229, 231, 235, 0.72), rgba(229, 231, 235, 0) 30%),
+                linear-gradient(180deg, #f5f5f7 0%, #e5e7eb 100%);
+            min-height: 100vh;
+        }
+        .login-form {
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(209, 213, 219, 0.9);
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+        }
+        .initial-admin-hint {
+            background: linear-gradient(180deg, rgba(239, 246, 255, 0.96) 0%, rgba(255, 255, 255, 0.9) 100%);
+        }
+    </style>
 </head>
-<body class="luckin-login">
+<body class="luckin-admin-theme luckin-admin-login overflow-hidden">
 <div class="fixed right-4 top-4 z-50">
     <select onchange="window.location.href=this.value" class="rounded-md border border-gray-300 bg-white px-2 py-1 text-xs text-gray-600 shadow-sm">
         @foreach (\App\Support\AdminWeb::supportedLocales() as $localeCode => $localeLabel)
@@ -18,33 +35,12 @@
         @endforeach
     </select>
 </div>
-<div class="luckin-login-shell">
-    <section class="luckin-login-story" aria-label="产品介绍">
-        <div>
-            <div class="luckin-login-wordmark">
-                <span class="luckin-brand-mark" aria-hidden="true"><i data-lucide="coffee" class="h-6 w-6"></i></span>
-                <span>luckin coffee 瑞幸咖啡</span>
-            </div>
-            <div class="flex flex-wrap items-center gap-2">
-                <span class="luckin-demo-badge">概念验证 Demo</span>
-                <span class="text-xs font-semibold text-blue-700">从用户点击到 Agent 调用</span>
-            </div>
-            <h1>瑞幸 GEO 智能内容运营中台</h1>
-            <p>统一管理品牌知识、AI内容任务、审核发布与Agent可见度。</p>
-        </div>
-        <div class="luckin-login-flow" aria-label="运营流程">
-            <span>可信知识</span><i data-lucide="arrow-right"></i><span>内容生产</span><i data-lucide="arrow-right"></i><span>Agent 可见度</span>
-        </div>
-    </section>
-    <section class="luckin-login-panel">
+<div class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md px-4">
     <div class="rounded-2xl p-8 login-form">
         <div class="text-center mb-8">
-            <div class="login-badge w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i data-lucide="sparkles" class="w-8 h-8 text-white"></i>
-            </div>
-            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-700 mb-2">瑞幸咖啡 · 品牌运营空间</p>
-            <h2 class="text-2xl font-bold text-gray-900 mb-2">登录品牌运营空间</h2>
-            <p class="text-gray-600">使用现有管理员账号继续</p>
+            <img src="{{ asset('images/luckin-coffee-logo.png') }}" alt="luckin coffee 瑞幸咖啡" class="luckin-login-logo mx-auto mb-6">
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">{{ __('admin.login.title') }}</h1>
+            <p class="text-gray-600">{{ __('admin.login.subtitle', ['site_name' => $adminSiteName]) }}</p>
         </div>
         @if (session('message'))
             <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg text-green-700 text-sm">
@@ -123,8 +119,6 @@
     <div class="text-center mt-6">
         <a href="{{ url('/') }}" class="text-gray-600 hover:text-gray-900 text-sm">{{ __('admin.login.back_home') }}</a>
     </div>
-    <p class="mt-4 text-center text-xs text-gray-500">GEOFlow 技术底座 · 演示环境</p>
-    </section>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

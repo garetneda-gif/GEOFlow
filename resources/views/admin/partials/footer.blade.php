@@ -25,9 +25,8 @@
         'authEndpoint' => \App\Support\AdminWeb::appPath('/broadcasting/auth'),
     ];
 @endphp
-<footer class="luckin-footer bg-white border-t border-gray-200 mt-12">
+<footer class="bg-white border-t border-gray-200 mt-12">
     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <p class="mb-3 text-center text-xs text-gray-500">概念验证 Demo · 本演示项目基于 GEOFlow 开源项目进行界面与场景适配，不代表瑞幸正式生产系统或经营数据。</p>
         <div class="flex flex-col md:flex-row md:flex-wrap justify-center items-center gap-3 md:gap-4 text-sm text-gray-500 text-center">
             <span>{{ __('admin.footer.copyright') }}</span>
             <span>|</span>

@@ -3,12 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Admin;
-use App\Models\Article;
-use App\Models\Author;
-use App\Models\Category;
-use App\Models\KnowledgeBase;
-use App\Models\Task;
-use App\Models\TaskRun;
 use App\Support\AdminWeb;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -33,6 +27,11 @@ class AdminDashboardQuickStartTest extends TestCase
 
         $response
             ->assertOk()
+            ->assertSee('css/luckin-admin-theme.css', false)
+            ->assertSee('images/luckin-coffee-logo.png', false)
+            ->assertSee('luckin-admin-theme bg-gray-50', false)
+            ->assertDontSee('luckin-sidebar', false)
+            ->assertDontSee('luckin-topbar', false)
             ->assertSee(__('admin.dashboard.navigation.single_site_title'))
             ->assertSee(__('admin.dashboard.navigation.multi_site_title'))
             ->assertSee(__('admin.dashboard.automation.title'))
@@ -134,89 +133,6 @@ class AdminDashboardQuickStartTest extends TestCase
         $this->assertStringNotContainsString(__('admin.dashboard.automation.metric_materials', ['count' => 449]), $html);
         $this->assertStringNotContainsString(__('admin.dashboard.automation.metric_vectorized', ['done' => 584, 'total' => 612]), $html);
         $this->assertStringNotContainsString(__('admin.dashboard.automation.metric_ai_today', ['count' => 74]), $html);
-    }
-
-    public function test_dashboard_shows_luckin_demo_story_and_real_recent_task_fields(): void
-    {
-        $admin = Admin::query()->create([
-            'username' => 'luckin_dashboard_admin',
-            'password' => 'secret-123',
-            'email' => 'luckin-dashboard@example.com',
-            'display_name' => 'Luckin Dashboard Admin',
-            'role' => 'super_admin',
-            'status' => 'active',
-        ]);
-        $knowledgeBase = KnowledgeBase::query()->create([
-            'name' => '晚间非咖场景知识',
-            'content' => '演示知识',
-        ]);
-        $task = Task::query()->create([
-            'name' => '晚间非咖 GEO 任务',
-            'knowledge_base_id' => $knowledgeBase->id,
-            'status' => 'active',
-        ]);
-
-        $this->actingAs($admin, 'admin')
-            ->get(route('admin.dashboard'))
-            ->assertOk()
-            ->assertSee('让瑞幸在用户不打开 App 时，仍能被 AI 准确理解与调用')
-            ->assertSee('演示数据 · 仅用于概念验证')
-            ->assertSee('演示数据 · 固定概念样例')
-            ->assertSeeInOrder(['任务名称', '业务场景', '使用知识库', '当前状态', '内容数量', '更新时间', '操作'])
-            ->assertSee($task->name)
-            ->assertSee($knowledgeBase->name)
-            ->assertSee('运行中')
-            ->assertSee(route('admin.tasks.edit', ['taskId' => $task->id]), false)
-            ->assertDontSee('RECENT TASKS')
-            ->assertDontSee('KNOWLEDGE GAPS');
-    }
-
-    public function test_dashboard_shows_real_recommendations_for_failed_run_and_pending_review(): void
-    {
-        $admin = Admin::query()->create([
-            'username' => 'dashboard_recommendation_admin',
-            'password' => 'secret-123',
-            'email' => 'dashboard-recommendation@example.com',
-            'display_name' => 'Dashboard Recommendation Admin',
-            'role' => 'super_admin',
-            'status' => 'active',
-        ]);
-        $task = Task::query()->create([
-            'name' => '待排查任务',
-            'status' => 'active',
-        ]);
-        TaskRun::query()->create([
-            'task_id' => $task->id,
-            'status' => 'failed',
-            'error_message' => 'QA failure',
-        ]);
-        $category = Category::query()->create([
-            'name' => '审核分类',
-            'slug' => 'dashboard-review-category',
-        ]);
-        $author = Author::query()->create([
-            'name' => '审核作者',
-        ]);
-        Article::query()->create([
-            'title' => '待审核文章',
-            'slug' => 'dashboard-pending-review',
-            'content' => '待审核正文',
-            'category_id' => $category->id,
-            'author_id' => $author->id,
-            'status' => 'draft',
-            'review_status' => 'pending',
-        ]);
-
-        $this->actingAs($admin, 'admin')
-            ->get(route('admin.dashboard'))
-            ->assertOk()
-            ->assertSee(__('admin.dashboard.todo_failed_jobs'))
-            ->assertSee(__('admin.dashboard.automation.rec_review_title'))
-            ->assertSee(route('admin.tasks.health'), false)
-            ->assertSee(route('admin.articles.index', ['review_status' => 'pending']), false)
-            ->assertDontSee(__('admin.dashboard.automation.recommendations_empty'))
-            ->assertSee('id="mobile-menu" class="hidden lg:hidden"', false)
-            ->assertSee('class="luckin-mobile-menu-trigger lg:hidden fixed top-3 left-4 z-50"', false);
     }
 
     public function test_dashboard_description_copy_does_not_end_with_sentence_periods(): void

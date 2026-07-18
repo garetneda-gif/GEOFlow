@@ -24,46 +24,6 @@
             </div>
         </div>
 
-        @php
-            $luckinKnowledgeExamples = [
-                ['非咖饮品选择原则', '商品知识', '非咖选择', '已核验', '内部资料', '2026-07-17', '否'],
-                ['晚间饮品需求说明', '场景知识', '晚间点单', '待补充', '场景研究', '2026-07-17', '否'],
-                ['低甜需求识别规则', '场景知识', '偏好识别', '待审核', '运营规则', '2026-07-16', '否'],
-                ['咖啡与非咖混合点单场景', '场景知识', '多人点单', '已核验', '场景研究', '2026-07-16', '否'],
-                ['办公室多人预算点单', '场景知识', '团队点单', '待补充', '场景研究', '2026-07-15', '是'],
-                ['优惠券使用范围核验原则', '服务知识', '优惠与会员', '需实时查询', '交易系统', '2026-07-17', '是'],
-                ['门店可售状态实时查询说明', '履约知识', '门店履约', '需实时查询', '门店系统', '2026-07-17', '是'],
-                ['商品价格以交易系统实时结果为准', '治理规则', '全场景', '已核验', '交易系统', '2026-07-17', '是'],
-            ];
-        @endphp
-        <section class="luckin-card mb-8 overflow-hidden" aria-labelledby="luckin-knowledge-demo-title">
-            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-200 px-5 py-4">
-                <div>
-                    <div class="flex items-center gap-2">
-                        <h2 id="luckin-knowledge-demo-title" class="text-lg font-semibold text-gray-900">商品与场景知识示例</h2>
-                        <span class="luckin-demo-badge">演示数据</span>
-                    </div>
-                    <p class="mt-1 text-sm text-gray-600">仅展示知识治理字段与实时查询边界，不包含虚构配方、价格、库存或优惠承诺。</p>
-                </div>
-                <a href="{{ route('admin.knowledge-bases.create') }}" class="luckin-button luckin-button-primary"><i data-lucide="plus" class="h-4 w-4"></i>导入品牌知识</a>
-            </div>
-            <div class="luckin-table-wrap">
-                <table class="luckin-table min-w-full text-left text-sm">
-                    <thead><tr><th>知识名称</th><th>知识类型</th><th>适用场景</th><th>核验状态</th><th>来源状态</th><th>更新时间</th><th>实时查询</th></tr></thead>
-                    <tbody>
-                        @foreach($luckinKnowledgeExamples as $knowledge)
-                            <tr>
-                                <td class="font-medium text-gray-900">{{ $knowledge[0] }}</td>
-                                <td>{{ $knowledge[1] }}</td><td>{{ $knowledge[2] }}</td>
-                                <td><span class="{{ $knowledge[3] === '已核验' ? 'text-emerald-700' : ($knowledge[3] === '需实时查询' ? 'text-blue-700' : 'text-amber-700') }} font-medium">{{ $knowledge[3] }}</span></td>
-                                <td>{{ $knowledge[4] }}</td><td>{{ $knowledge[5] }}</td><td>{{ $knowledge[6] }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div class="bg-white overflow-hidden shadow rounded-lg">
                 <div class="p-5">
