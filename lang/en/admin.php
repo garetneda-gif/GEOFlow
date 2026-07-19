@@ -1287,6 +1287,13 @@ return [
         'subtitle' => ':site Overview',
         'last_updated' => 'Last updated: :time',
         'refresh' => 'Refresh',
+        'product_archive' => [
+            'eyebrow' => 'OFFICIAL PRODUCT ARCHIVE',
+            'title' => 'Luckin Official Product Visual Library',
+            'desc' => 'Browse official product imagery, categories, and descriptions directly when planning topics, producing content, or validating knowledge',
+            'meta' => '33 official products · 6 categories · read-only visual snapshot',
+            'action' => 'Open product library',
+        ],
         'total_articles' => 'Total Articles',
         'today_added' => 'Added today: :count',
         'published' => 'Published',

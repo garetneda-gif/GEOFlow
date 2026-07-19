@@ -4722,6 +4722,13 @@ return array_replace_recursive($base, [
         ],
     ],
     'dashboard' => [
+        'product_archive' => [
+            'eyebrow' => 'OFFICIAL PRODUCT ARCHIVE',
+            'title' => 'Biblioteca Visual Oficial de Produtos Luckin',
+            'desc' => 'Consulte imagens, categorias e descrições oficiais ao planejar temas, produzir conteúdo ou validar conhecimento',
+            'meta' => '33 produtos oficiais · 6 categorias · captura visual somente leitura',
+            'action' => 'Abrir biblioteca de produtos',
+        ],
         'content_engineering' => [
             'title' => 'Camada de Demonstração do Fluxo de Conteúdo',
             'desc' => 'Esta camada traduz módulos administrativos para linguagem de fluxo: definir perguntas, organizar conhecimento verificável, produzir conteúdo estruturado e calibrar por distribuição e observação',

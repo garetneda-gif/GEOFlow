@@ -1287,6 +1287,13 @@ return [
         'subtitle' => ':site 数据概览',
         'last_updated' => '最后更新: :time',
         'refresh' => '刷新',
+        'product_archive' => [
+            'eyebrow' => 'OFFICIAL PRODUCT ARCHIVE',
+            'title' => '瑞幸官网产品视觉库',
+            'desc' => '把官网产品图、分类与产品说明集中到知识库，供选题、内容生产和知识核验时直接浏览',
+            'meta' => '33 款官网产品 · 6 个产品分类 · 只读视觉快照',
+            'action' => '进入产品视觉库',
+        ],
         'total_articles' => '总文章数',
         'today_added' => '今日新增: :count',
         'published' => '已发布',

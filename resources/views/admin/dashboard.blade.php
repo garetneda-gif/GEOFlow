@@ -399,6 +399,24 @@
             </div>
         </section>
 
+        <a
+            href="{{ route('admin.knowledge-bases.luckin-products.index') }}"
+            class="luckin-product-archive-entry mb-8"
+            style="--luckin-product-archive-image: url('{{ asset('images/luckin-products/catalog-hero.png') }}')"
+            aria-labelledby="luckin-product-archive-title"
+        >
+            <span class="luckin-product-archive-content">
+                <span class="luckin-product-archive-eyebrow">{{ __('admin.dashboard.product_archive.eyebrow') }}</span>
+                <strong id="luckin-product-archive-title">{{ __('admin.dashboard.product_archive.title') }}</strong>
+                <span class="luckin-product-archive-desc">{{ __('admin.dashboard.product_archive.desc') }}</span>
+                <span class="luckin-product-archive-meta">{{ __('admin.dashboard.product_archive.meta') }}</span>
+            </span>
+            <span class="luckin-product-archive-action">
+                {{ __('admin.dashboard.product_archive.action') }}
+                <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+            </span>
+        </a>
+
         <section class="luckin-mcp-source-strip mb-8" data-status="{{ $luckinMcpStatus }}" aria-labelledby="luckin-mcp-source-title">
             <div class="luckin-mcp-brand-visual luckin-mcp-brand-visual-dashboard" role="img" aria-label="luckin coffee 幸运在握"></div>
             <div class="min-w-0 flex-1">

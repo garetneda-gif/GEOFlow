@@ -78,6 +78,11 @@ class AdminDashboardQuickStartTest extends TestCase
             ->assertSee('images/luckin-dashboard-coffee-banner.jpg', false)
             ->assertSee('luckin-admin-theme bg-gray-50', false)
             ->assertSee('luckin-dashboard-hero', false)
+            ->assertSee('luckin-product-archive-entry', false)
+            ->assertSee('images/luckin-products/catalog-hero.png', false)
+            ->assertSee(__('admin.dashboard.product_archive.title'))
+            ->assertSee(__('admin.dashboard.product_archive.action'))
+            ->assertSee(route('admin.knowledge-bases.luckin-products.index'), false)
             ->assertDontSee('luckin-sidebar', false)
             ->assertDontSee('luckin-topbar', false)
             ->assertSee(__('admin.dashboard.navigation.single_site_title'))
@@ -200,6 +205,27 @@ class AdminDashboardQuickStartTest extends TestCase
         $this->assertStringContainsString('rgba(8, 16, 79, 0.94) 0%', $heroStyleMatches[1]);
         $this->assertStringContainsString('rgba(13, 28, 101, 0.42) 100%', $heroStyleMatches[1]);
         $this->assertStringContainsString('var(--luckin-dashboard-hero-image)', $heroStyleMatches[1]);
+    }
+
+    public function test_dashboard_product_archive_entry_is_editorial_not_a_card(): void
+    {
+        $themeCss = (string) file_get_contents(public_path('css/luckin-admin-theme.css'));
+
+        preg_match(
+            '/body\.luckin-admin-theme \.luckin-product-archive-entry\s*\{([^}]*)\}/s',
+            $themeCss,
+            $entryStyleMatches
+        );
+
+        $this->assertArrayHasKey(1, $entryStyleMatches);
+        $this->assertStringContainsString('border: 0;', $entryStyleMatches[1]);
+        $this->assertStringContainsString('border-radius: 0;', $entryStyleMatches[1]);
+        $this->assertStringContainsString('box-shadow: none;', $entryStyleMatches[1]);
+        $this->assertStringContainsString('var(--luckin-product-archive-image)', $entryStyleMatches[1]);
+        $this->assertMatchesRegularExpression(
+            '/@media \(max-width: 767px\).*?\.luckin-product-archive-entry\s*\{[^}]*grid-template-columns:\s*1fr;/s',
+            $themeCss
+        );
     }
 
     public function test_dashboard_description_copy_does_not_end_with_sentence_periods(): void
